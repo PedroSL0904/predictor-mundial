@@ -40,7 +40,7 @@ def backtest_strategy(
     year: int,
     timeline: dict[str, dict[str, float]],
     strategy: str = "elo_weighted",
-    min_weighted_matches: float = 5.0,
+    min_weighted_matches: float | None = None,
     verbose: bool = True,
 ) -> dict:
     """Corre el backtest de un Mundial con la estrategia dada.
@@ -49,11 +49,21 @@ def backtest_strategy(
     - "baseline": attack/defense con promedio crudo de goles
     - "elo_weighted": attack/defense con ponderación por Elo del rival
     """
+    from src.config import get_settings
+    settings = get_settings()
+    if min_weighted_matches is None:
+        min_weighted_matches = settings.min_weighted_matches
+
     wc = get_world_cup_matches(df, year)
     if wc.empty:
         return {"year": year, "strategy": strategy, "n": 0}
 
-    model = PoissonGoalModel()
+    model = PoissonGoalModel(
+        draw_penalty_threshold=settings.draw_penalty_threshold,
+        draw_penalty_strength=settings.draw_penalty_strength,
+        elo_gap_inflation=settings.elo_gap_inflation,
+        draw_boost=settings.draw_boost,
+    )
     predictions = []
     outcomes = []
     predicted_scores = []
@@ -82,9 +92,9 @@ def backtest_strategy(
             strengths = compute_weighted_strengths(
                 train,
                 elo_lookup=elo_lookup,
-                elo_sigma=200.0,
-                recency_half_life_days=730.0,
-                shrinkage_matches=10,
+                elo_sigma=settings.elo_sigma,
+                recency_half_life_days=settings.recency_half_life_days,
+                shrinkage_matches=settings.shrinkage_matches,
                 min_weighted_matches=min_weighted_matches,
             )
             h = strengths[strengths["team"] == home_norm]

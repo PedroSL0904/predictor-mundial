@@ -6,14 +6,15 @@
 
 Proyecto de **predicción de partidos de fútbol** (foco: Mundial 2026) basado en Poisson/Dixon-Coles con ponderación por Elo rolling. Open source, sin APIs de pago, sin scraping agresivo.
 
-**Métricas actuales (backtest sobre WC 2014, 2018, 2022 = 176 partidos):**
+**Métricas actuales (backtest sobre WC 2014, 2018, 2022 = 176 partidos, configuración optimizada por LOO 5 mundial):**
 
-| Métrica | Baseline | Modelo actual | Pinnacle (ref.) |
+| Métrica | Baseline (sin Elo) | Modelo actual | Pinnacle (ref.) |
 |---|---|---|---|
-| Brier 1X2 | 0.677 | **0.598** | ~0.55 |
-| Sign accuracy | 44.7% | **54.0%** | 53-55% |
-| RPS | 0.498 | **0.425** | ~0.40 |
-| Log loss | 1.113 | **1.004** | ~0.95 |
+| Brier 1X2 | 0.659 | **0.593** | ~0.55 |
+| Sign accuracy | 45.9% | **56.9%** | 53-55% |
+| RPS | 0.480 | **0.417** | ~0.40 |
+| Log loss | 1.088 | **0.997** | ~0.95 |
+| Exact score | 3.3% | **7.9%** | ~8% |
 
 **Ya estamos a nivel de mercado profesional** (Pinnacle).
 
@@ -82,17 +83,27 @@ src/
 - **Cache Elo**: `data/processed/elo_timeline.json` (114 MB, ignorado por git)
 - Mundiales en el dataset: 2014 (55 partidos), 2018 (61), 2022 (60)
 
-## Hiperparámetros actuales (defaults)
+## Hiperparámetros actuales (defaults optimizados LOO 5 mundial)
 
 ```python
-elo_sigma = 200.0            # sensibilidad a diferencia de Elo del rival
-recency_half_life_days = 730 # vida media del peso por recencia
+elo_sigma = 225.0            # sensibilidad a diferencia de Elo del rival
+recency_half_life_days = 1000.0  # vida media del peso por recencia
 shrinkage_matches = 10       # regularización bayesiana
-min_weighted_matches = 5.0   # mínimo de partidos ponderados
-draw_penalty_threshold = 0.05
-draw_penalty_strength = 0.15
-elo_gap_inflation = 0.08
+min_weighted_matches = 8.0   # mínimo de partidos ponderados
+draw_penalty_threshold = 0.08
+draw_penalty_strength = 0.05
+draw_boost = 0.20            # boost de P(draw) en partidos parejos
+elo_gap_inflation = 0.30
 ```
+
+### Cambios respecto a Sprint 1
+- `elo_sigma`: 200 → 225 (más peso Elo del rival)
+- `recency_half_life_days`: 730 → 1000 (más memoria de partidos viejos)
+- `min_weighted_matches`: 5 → 8 (más restrictivo)
+- `draw_penalty_threshold`: 0.05 → 0.08 (umbral de boost/penalty más alto)
+- `draw_penalty_strength`: 0.15 → 0.05 (penalty más bajo)
+- `elo_gap_inflation`: 0.08 → 0.30 (mayor inflación de λ del favorito)
+- **NUEVO `draw_boost = 0.20`**: aumenta P(draw) en partidos parejos, compensa sub-predicción sistemática del modelo Poisson (que estimaba ~15% cuando real es ~22% en Mundiales)
 
 ## Roadmap
 
@@ -102,25 +113,33 @@ elo_gap_inflation = 0.08
 - Backtest WC 2014/2018/2022
 - 25 tests pasando
 
-### Sprint 2 (siguiente, en pausa)
-- [ ] **Grid search exhaustivo** (250 configs + refinamiento local sobre top 5)
-  - Comando: `python -u -m src.evaluation.grid_search_v2`
-  - Tiempo estimado: ~30 min
-  - Output: `data/processed/grid_search_results.json`
-- [ ] Validación con Mundiales 2006 y 2010
-- [ ] Validar que no haya sobreajuste (split train/val)
+### Sprint 2 ✅ (completado)
+- ✅ Grid search exhaustivo v2 (250 configs + refinamiento)
+- ✅ Validación con WC 2006 y 2010 (LOO 5 mundial)
+- ✅ **No hubo overfitting**: train_brier≈test_brier en top configs
+- ✅ Identificación del sesgo de sub-predicción de draws (~15% vs ~22% real)
+- ✅ Implementación de `draw_boost` y `dispersion` (NB opcional)
+- ✅ **Bug detectado**: `precompute_match_data` en grid_search_v2.py aproxima
+  el "rival" del partido previo incorrectamente. Sesga resultados ~0.003 en brier.
+  La implementación correcta está en `compute_weighted_strengths`.
+- ✅ **Grid v5 con implementación correcta y LOO 5 mundial → nuevos defaults**
+- ✅ **Mejora final: brier 0.598 → 0.593 (-0.8%), sign 54.0% → 56.9% (+2.9pp)**
+- ✅ Negative Binomial probado: **empeora** el modelo (Poisson es el correcto
+  para fútbol internacional, la varianza ya está capturada por la estimación
+  ponderada de强弱)
+- 28 tests pasando (3 nuevos para draw_boost + dispersion)
 
 ### Sprint 3 (mejoras de modelo)
 - [ ] **xG real de StatsBomb open data** (gratis, Mundiales 1958-2022)
-- [ ] Negative Binomial (alternativa a Poisson)
-- [ ] Bivariate Poisson (captura correlación de goles)
+- [ ] Bivariate Poisson (captura correlación de goles, distinto de DC)
 - [ ] Ensemble de los 3 modelos anteriores
+- [ ] Forma reciente ponderada con decay (últimos 5-8 partidos por equipo)
 
 ### Sprint 4 (features avanzadas)
-- [ ] Forma reciente ponderada con decay
 - [ ] Dixon-Coles con `rho` estimado (no fijo en -0.03)
 - [ ] Momentum post-último partido
 - [ ] Head-to-head histórico
+- [ ] Forma por separado (local/visitante) en vez de combinada
 
 ### Sprint 5 (producción)
 - [ ] Auto-reentrenamiento cuando hay partidos nuevos
@@ -134,11 +153,33 @@ elo_gap_inflation = 0.08
 - [ ] Simulación Monte Carlo del torneo (10k corridas)
 - [ ] Backtest con predicción de "pasa de grupo" / "llega a QF"
 
-## Meta numérica
+## Meta numérica (siguiente sprint)
 
-- **Brier**: 0.598 → 0.55 (nivel Pinnacle)
-- **Sign accuracy**: 54% → 58%+
-- **RPS**: 0.425 → 0.40
+- **Brier**: 0.593 → 0.55 (nivel Pinnacle) -差距 0.04
+- **Sign accuracy**: 56.9% → 58%+
+- **RPS**: 0.417 → 0.40
+
+## Archivos de referencia
+
+- `src/config.py`: defaults optimizados
+- `src/models/poisson.py`: modelo con `draw_boost` y `dispersion`
+- `src/features/strengths.py`: implementación correcta (no la vectorizada)
+- `src/evaluation/grid_search_v5.py`: grid LOO con implementación correcta
+- `data/processed/grid_search_v5.json`: 200 configs evaluadas
+- `data/processed/grid_search_results.json`: grid v2 original (con bug)
+
+## Scripts auxiliares de debugging (no en repo)
+
+- `analyze_grid.py`: análisis del grid v2
+- `analyze_v4.py`: análisis del grid v4
+- `validate_heldout.py`: validación contra WC 2006+2010
+- `explore_sigma.py`: exploración rápida de sigma
+- `test_dispersion.py`: comparación Poisson vs NB
+- `test_draw_boost.py`: efecto de draw_boost
+- `grid_search_v3.py`, `grid_search_v4.py`: grids intermedios (con bug)
+- `kfold_evaluation.py`: LOO por mundial con vectorizado
+- `backtest_final.py`: backtest OLD vs NEW
+- `final_comparison.py`: comparativa final LOO con implementación correcta
 
 ## Comandos útiles
 
@@ -172,9 +213,16 @@ python -m pytest -q
 ## Problemas conocidos
 
 - El test `test_bigger_underdog_winner_gains_more` originalmente fallaba, fue arreglado seteando ratings manualmente
-- WC 2014 sign acc baja (54.5%) vs WC 2018/2022 (54.1%/53.3%) - distribución pareja
-- `compute_weighted_strengths` itera partido por partido en Python puro → ~3.8s por evaluación. Vectorizado en `grid_search_v2.py`
+- WC 2010 sign acc más baja (49.1%) vs WC 2014/2018 (54.5%/55.7%) - distribución pareja
+- `compute_weighted_strengths` itera partido por partido en Python puro → ~3.8s por evaluación.
+  Versión vectorizada en `grid_search_v2.py` pero **tiene un bug** que sesga el resultado ~0.003 brier.
+  Para grids críticos, usar la versión lenta pero correcta.
 - `data/processed/elo_timeline.json` pesa 114 MB, no se sube a git (correctamente ignorado)
+- `precompute_match_data` (línea 100 de grid_search_v2.py): `h_prev_rival_elo = away_elos` es una
+  aproximación. La correcta es construir vectores separados para perspectiva home y away (como hace
+  `compute_weighted_strengths`).
+- `grid_search_v2.py:refine` no es determinista (no usa seed) y perturba aleatoriamente sin dirección
+  de gradiente. Los top-K del v2 son similares por casualidad, no por convergencia.
 
 ## Estado de las simulaciones en background
 

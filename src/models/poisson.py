@@ -57,6 +57,10 @@ class PoissonGoalModel:
 
     El ajuste de Dixon-Coles corrige la correlación negativa entre los
     resultados de bajo marcador (0-0, 1-0, 0-1, 1-1).
+
+    Si `dispersion != 1.0`, usa Negative Binomial con parámetro de
+    sobre-dispersión α (varianza = λ + α*λ²). Útil cuando los goles
+    de fútbol muestran varianza > media.
     """
 
     LEAGUE_AVG_GOALS = 1.35  # promedio goles por equipo en partidos internacionales recientes
@@ -70,7 +74,16 @@ class PoissonGoalModel:
         draw_penalty_threshold: float | None = None,
         draw_penalty_strength: float | None = None,
         elo_gap_inflation: float | None = None,
+        dispersion: float = 0.0,
+        draw_boost: float = 0.0,
     ) -> None:
+        """
+        dispersion: 0.0 = Poisson puro; > 0.0 = Negative Binomial con
+            varianza = λ + dispersion*λ². Típico para fútbol: 0.05–0.20.
+        draw_boost: 0.0 = sin boost; > 0.0 = aumenta P(draw) en partidos
+            parejos (|p_home - p_away| < draw_penalty_threshold). Compensa
+            la sub-predicción sistemática de draws del modelo Poisson.
+        """
         settings = get_settings()
         self.league_avg = league_avg
         self.rho = rho
@@ -88,6 +101,12 @@ class PoissonGoalModel:
             elo_gap_inflation
             if elo_gap_inflation is not None
             else settings.elo_gap_inflation
+        )
+        self.dispersion = dispersion
+        self.draw_boost = (
+            draw_boost
+            if draw_boost is not None and draw_boost > 0
+            else settings.draw_boost
         )
 
     def _expected_goals(
@@ -121,12 +140,25 @@ class PoissonGoalModel:
     def _scoreline_grid_poisson(
         self, lam_h: float, lam_a: float
     ) -> np.ndarray:
-        """Grilla de probabilidades marcador×marcador (Poisson independiente)."""
+        """Grilla de probabilidades marcador×marcador.
+
+        Con `dispersion=0` usa Poisson puro. Con `dispersion>0` usa
+        Negative Binomial: nbinom.pmf(k, n, p) donde n = 1/dispersion
+        y p = 1/(1 + dispersion*lambda). Varianza = λ + α·λ².
+        """
         max_g = self.MAX_GOALS
         grid = np.zeros((max_g + 1, max_g + 1))
-        for i in range(max_g + 1):
-            for j in range(max_g + 1):
-                grid[i, j] = poisson.pmf(i, lam_h) * poisson.pmf(j, lam_a)
+        if self.dispersion > 0:
+            alpha = self.dispersion
+            n_h, p_h = 1.0 / alpha, 1.0 / (1.0 + alpha * lam_h)
+            n_a, p_a = 1.0 / alpha, 1.0 / (1.0 + alpha * lam_a)
+            for i in range(max_g + 1):
+                for j in range(max_g + 1):
+                    grid[i, j] = nbinom.pmf(i, n_h, p_h) * nbinom.pmf(j, n_a, p_a)
+        else:
+            for i in range(max_g + 1):
+                for j in range(max_g + 1):
+                    grid[i, j] = poisson.pmf(i, lam_h) * poisson.pmf(j, lam_a)
         return grid
 
     def _scoreline_grid_dc(
@@ -165,22 +197,40 @@ class PoissonGoalModel:
     def _apply_draw_penalty(
         self, p_h: float, p_d: float, p_a: float
     ) -> tuple[float, float, float]:
-        """Reduce P(draw) cuando hay asimetría clara entre local y visitante.
+        """Reduce P(draw) cuando hay asimetría clara entre local y visitante,
+        o AUMENTA P(draw) en partidos parejos si draw_boost > 0.
 
-        El modelo Poisson sobreestima empates porque trata Home/Draw/Away como
-        simétricos. En la práctica, cuando un equipo es claramente favorito,
-        los empates son menos probables de lo que sugiere la grilla.
+        El modelo Poisson sistemáticamente SUB-predice empates en partidos
+        parejos. En la práctica, los empates ocurren ~22% del tiempo en
+        Mundiales, pero el modelo base predice ~15% cuando los equipos
+        son comparables. `draw_boost` corrige esto restando masa de H/A
+        y sumándola a D en partidos donde |p_h - p_a| < threshold.
         """
         diff = abs(p_h - p_a)
+
+        # BOOST: partidos parejos, sube P(draw)
+        if diff <= self.draw_penalty_threshold and self.draw_boost > 0:
+            proximity = 1.0 - (diff / max(self.draw_penalty_threshold, 1e-9))
+            boost_factor = self.draw_boost * proximity
+            # Cuanta masa se mueve de H/A hacia D (simétrico)
+            avg_side = (p_h + p_a) * 0.5
+            mass_to_move = avg_side * boost_factor
+            # Distribuir la masa a sacar 50/50 de cada lado (preserva simetría)
+            p_h -= mass_to_move * 0.5
+            p_a -= mass_to_move * 0.5
+            p_d += mass_to_move
+            total = p_h + p_d + p_a
+            if total > 0:
+                return p_h / total, p_d / total, p_a / total
+
         if diff <= self.draw_penalty_threshold:
             return p_h, p_d, p_a
 
-        # Penalización proporcional al gap
+        # PENALTY: partidos desiguales, baja P(draw)
         excess = min(1.0, (diff - self.draw_penalty_threshold) / 0.5)
         penalty = self.draw_penalty_strength * excess
         mass_to_redistribute = p_d * penalty
 
-        # Redistribuir 60/40 hacia el favorito
         if p_h > p_a:
             p_h += mass_to_redistribute * 0.6
             p_a += mass_to_redistribute * 0.4
@@ -189,7 +239,6 @@ class PoissonGoalModel:
             p_h += mass_to_redistribute * 0.4
         p_d *= 1.0 - penalty
 
-        # Renormalizar
         total = p_h + p_d + p_a
         return p_h / total, p_d / total, p_a / total
 

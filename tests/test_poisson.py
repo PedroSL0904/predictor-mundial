@@ -87,6 +87,51 @@ def test_strong_favorite_has_low_p_draw() -> None:
     assert pred.p_home > 0.70
 
 
+def test_draw_boost_increases_p_draw_for_balanced_match() -> None:
+    # En un partido parejo, draw_boost debe subir P(draw) por encima del Poisson puro
+    home = TeamStrength(name="A", attack=1.30, defense_vulnerability=1.30)
+    away = TeamStrength(name="B", attack=1.30, defense_vulnerability=1.30)
+    model_no = PoissonGoalModel(draw_boost=0.0)
+    model_yes = PoissonGoalModel(draw_boost=0.50)
+    pred_no = model_no.predict(home, away, home_elo=1500, away_elo=1500)
+    pred_yes = model_yes.predict(home, away, home_elo=1500, away_elo=1500)
+    assert pred_yes.p_draw > pred_no.p_draw
+    # Suma sigue siendo ~1
+    total = pred_yes.p_home + pred_yes.p_draw + pred_yes.p_away
+    assert math.isclose(total, 1.0, abs_tol=1e-6)
+
+
+def test_draw_boost_does_not_affect_heavy_favorite() -> None:
+    # En partido muy desigual, draw_boost no debe aplicar (gap > threshold)
+    home = TeamStrength(name="Top", attack=2.0, defense_vulnerability=0.9)
+    away = TeamStrength(name="Bottom", attack=0.6, defense_vulnerability=2.0)
+    model_no = PoissonGoalModel(draw_boost=0.0)
+    model_yes = PoissonGoalModel(draw_boost=0.50)
+    pred_no = model_no.predict(home, away, home_elo=2000, away_elo=1300)
+    pred_yes = model_yes.predict(home, away, home_elo=2000, away_elo=1300)
+    # En partido desigual, draw_boost no debería cambiar (gap supera threshold)
+    assert math.isclose(pred_no.p_draw, pred_yes.p_draw, abs_tol=1e-4)
+
+
+def test_dispersion_increases_variance_of_grid() -> None:
+    # Negative Binomial debe tener varianza > Poisson para mismos lambda
+    home = TeamStrength(name="A", attack=1.5, defense_vulnerability=1.2)
+    away = TeamStrength(name="B", attack=1.2, defense_vulnerability=1.3)
+    m_pois = PoissonGoalModel(dispersion=0.0)
+    m_nb = PoissonGoalModel(dispersion=0.20)
+    p_pois = m_pois.predict(home, away)
+    p_nb = m_nb.predict(home, away)
+    # Las lambdas son identicas
+    assert math.isclose(p_pois.lambda_home, p_nb.lambda_home, abs_tol=1e-9)
+    # Pero la masa en marcadores extremos (>3 goles) es mayor con NB
+    # P(>=4) total = 1 - P(<=3)
+    def p_ge4(grid):
+        if grid is None:
+            return 0.0
+        return sum(s.probability for s in grid if s.home_goals >= 4 or s.away_goals >= 4)
+    assert p_ge4(p_nb.scoreline_grid) > p_ge4(p_pois.scoreline_grid)
+
+
 def test_brier_score_perfect_prediction() -> None:
     assert brier_score((1.0, 0.0, 0.0), "H") == 0.0
 

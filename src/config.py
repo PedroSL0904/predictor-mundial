@@ -34,9 +34,19 @@ class Settings(BaseSettings):
     elo_home_advantage: float = 100.0
 
     # Anti-sesgo
-    draw_penalty_threshold: float = 0.05
-    draw_penalty_strength: float = 0.15
-    elo_gap_inflation: float = 0.08
+    draw_penalty_threshold: float = 0.08
+    draw_penalty_strength: float = 0.05
+    draw_boost: float = 0.20
+    elo_gap_inflation: float = 0.30
+
+    # Strengths
+    elo_sigma: float = 225.0
+    recency_half_life_days: float = 1000.0
+    shrinkage_matches: int = 10
+    min_weighted_matches: float = 8.0
+
+    # Modelo
+    dispersion: float = 0.0
 
     # Simulación
     n_simulations: int = 10_000
