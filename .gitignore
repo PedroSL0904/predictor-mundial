@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Datos grandes (datasets cacheados)
+data/raw/
+data/processed/*.json
+data/processed/*.csv
+data/processed/*.parquet
+
+# Logs y temporales
+*.log
+*.out
+*.err
+*.tmp
+*.bak
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Configuración local (API keys, etc.)
+.env
+.env.local
+*.pem
+secrets.yaml
+
+# Outputs
+output/
+predictions/
+*.pkl
+*.joblib
