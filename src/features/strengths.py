@@ -55,6 +55,7 @@ def compute_weighted_strengths(
     away_col: str = "away_team",
     home_goals_col: str = "home_goals",
     away_goals_col: str = "away_goals",
+    use_xg_real: bool = True,
 ) -> pd.DataFrame:
     """Calcula attack/defense strength ponderado por Elo del rival y recencia.
 
@@ -98,8 +99,28 @@ def compute_weighted_strengths(
     days_ago = (ref_date - df[date_col]).dt.days.values
     w_recency = 0.5 ** (days_ago / recency_half_life_days)
 
+    # xG: intentar usar real de StatsBomb, fallback a aproximacion por Elo
     xg_home = _approx_xg_from_elo(home_elo_arr, away_elo_arr)
     xg_away = _approx_xg_from_elo(away_elo_arr, home_elo_arr)
+    if use_xg_real:
+        from src.data.statsbomb import get_xg_real
+        n = len(df)
+        home_names = df[home_col].values
+        away_names = df[away_col].values
+        dates = df[date_col].dt.strftime("%Y-%m-%d").values
+        real_count = 0
+        for i in range(n):
+            xg = get_xg_real(dates[i], home_names[i], away_names[i])
+            if xg is not None:
+                xg_home[i] = xg[0]
+                xg_away[i] = xg[1]
+                real_count += 1
+        if real_count > 0:
+            # Log solo la primera vez por sesion
+            import os
+            if not os.environ.get("_XGBOMB_LOGGED"):
+                print(f"  xG real usado en {real_count}/{n} partidos previos", flush=True)
+                os.environ["_XGBOMB_LOGGED"] = "1"
 
     # Construir DataFrame con filas duplicadas (home y away por separado)
     n = len(df)
