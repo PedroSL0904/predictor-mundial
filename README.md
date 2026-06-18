@@ -14,6 +14,17 @@ Construir el mejor modelo predictivo open-source para partidos de fútbol de sel
 | Sign accuracy | 44.7% | **54.0%** | 53-55% |
 | RPS | 0.498 | **0.425** | ~0.40 |
 
+## Predicciones del Mundial 2026
+
+Ver [WC2026_README.md](WC2026_README.md) para las predicciones actualizadas partido a partido (se re-generan ejecutando `python src/cli/wc2026_readme.py`).
+
+Comparación con Oloraculo (sistema de referencia, basado en Poisson + Dixon-Coles) en 23 partidos de grupo del WC 2026 ya jugados:
+
+| Sistema | Brier | Log loss | Sign accuracy | Aciertos |
+|---|---|---|---|---|
+| Oloraculo | 0.6138 | 1.0088 | 52.2% | 12/23 |
+| **Predictor-Mundial** | **0.5960** | **0.9877** | **56.5%** | **13/23** |
+
 ## Arquitectura
 
 ```
