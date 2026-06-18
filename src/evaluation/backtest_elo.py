@@ -23,6 +23,10 @@ from src.evaluation.backtest import (
     outcome_from_score,
 )
 from src.evaluation.metrics import summarize
+from src.features.recent_form import (
+    blend_recent_with_historical,
+    compute_recent_form,
+)
 from src.features.strengths import compute_weighted_strengths
 from src.models import PoissonGoalModel, TeamStrength
 
@@ -41,6 +45,11 @@ def backtest_strategy(
     timeline: dict[str, dict[str, float]],
     strategy: str = "elo_weighted",
     min_weighted_matches: float | None = None,
+    recent_form_n_matches: int | None = None,
+    recent_form_weight: float | None = None,
+    draw_boost: float | None = None,
+    draw_penalty_threshold: float | None = None,
+    dispersion: float | None = None,
     verbose: bool = True,
 ) -> dict:
     """Corre el backtest de un Mundial con la estrategia dada.
@@ -48,21 +57,39 @@ def backtest_strategy(
     Strategies:
     - "baseline": attack/defense con promedio crudo de goles
     - "elo_weighted": attack/defense con ponderación por Elo del rival
+
+    Si `recent_form_n_matches > 0` y `recent_form_weight > 0`, mezcla los
+    strengths históricos con `compute_recent_form` (últimos N partidos)
+    via `blend_recent_with_historical`. `recent_form_weight=0` desactiva
+    el blend.
     """
     from src.config import get_settings
     settings = get_settings()
     if min_weighted_matches is None:
         min_weighted_matches = settings.min_weighted_matches
+    if recent_form_n_matches is None:
+        recent_form_n_matches = settings.recent_form_n_matches
+    if recent_form_weight is None:
+        recent_form_weight = settings.recent_form_weight
 
     wc = get_world_cup_matches(df, year)
     if wc.empty:
         return {"year": year, "strategy": strategy, "n": 0}
 
     model = PoissonGoalModel(
-        draw_penalty_threshold=settings.draw_penalty_threshold,
+        draw_penalty_threshold=(
+            draw_penalty_threshold
+            if draw_penalty_threshold is not None
+            else settings.draw_penalty_threshold
+        ),
         draw_penalty_strength=settings.draw_penalty_strength,
         elo_gap_inflation=settings.elo_gap_inflation,
-        draw_boost=settings.draw_boost,
+        dispersion=(dispersion if dispersion is not None else 0.0),
+        draw_boost=(
+            draw_boost
+            if draw_boost is not None
+            else settings.draw_boost
+        ),
     )
     predictions = []
     outcomes = []
@@ -85,8 +112,6 @@ def backtest_strategy(
 
         if strategy == "baseline":
             strengths = compute_strengths_from_results(train, min_matches=5)
-            h = strengths[strengths["team"] == home_norm]
-            a = strengths[strengths["team"] == away_norm]
         elif strategy == "elo_weighted":
             elo_lookup = get_elo_at(timeline, match_date)
             strengths = compute_weighted_strengths(
@@ -97,10 +122,23 @@ def backtest_strategy(
                 shrinkage_matches=settings.shrinkage_matches,
                 min_weighted_matches=min_weighted_matches,
             )
-            h = strengths[strengths["team"] == home_norm]
-            a = strengths[strengths["team"] == away_norm]
         else:
             raise ValueError(f"Unknown strategy: {strategy}")
+
+        # Blend opcional con forma reciente
+        if recent_form_n_matches > 0 and recent_form_weight > 0:
+            recent = compute_recent_form(
+                train,
+                as_of=match_date,
+                n_matches=recent_form_n_matches,
+                min_matches=min(3, recent_form_n_matches),
+            )
+            strengths = blend_recent_with_historical(
+                strengths, recent, weight_recent=recent_form_weight,
+            )
+
+        h = strengths[strengths["team"] == home_norm]
+        a = strengths[strengths["team"] == away_norm]
 
         if h.empty or a.empty:
             skipped += 1

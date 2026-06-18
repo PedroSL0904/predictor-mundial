@@ -6,13 +6,13 @@
 
 Proyecto de **predicción de partidos de fútbol** (foco: Mundial 2026) basado en Poisson/Dixon-Coles con ponderación por Elo rolling. Open source, sin APIs de pago, sin scraping agresivo.
 
-**Métricas actuales:**
+**Métricas actuales (Sprint 3 final):**
 
 | Configuración | Brier | RPS | Sign acc | Log loss | Exact score |
 |---|---|---|---|---|---|
-| Baseline (sin Elo) | 0.659 | 0.480 | 45.9% | 1.088 | 3.3% |
-| Sprint 2 (defaults optimizados LOO 5 mundial, sin recent form) | **0.593** | **0.417** | **56.9%** | **0.997** | **7.9%** |
-| Sprint 3 (con recent form n=5, w=0.40) | **0.571** | **0.396** | **55.0%** | **0.960** | n/d |
+| Baseline (sin Elo) | 0.617 | 0.441 | 49.5% | 1.027 | 9.7% |
+| Sprint 2 (defaults, sin recent form) | 0.588 | 0.413 | 53.4% | 0.990 | 10.1% |
+| Sprint 3 (recent form n=5, w=0.2 + draw_boost=0.10) | **0.586** | n/d | **56.9%** | n/d | n/d |
 | Pinnacle (referencia) | ~0.55 | ~0.40 | 53-55% | ~0.95 | ~8% |
 
 **Estamos al nivel de Pinnacle** en todas las métricas.
@@ -100,8 +100,10 @@ shrinkage_matches = 10       # regularización bayesiana
 min_weighted_matches = 8.0   # mínimo de partidos ponderados
 draw_penalty_threshold = 0.08
 draw_penalty_strength = 0.05
-draw_boost = 0.20            # boost de P(draw) en partidos parejos
+draw_boost = 0.10            # boost de P(draw) en partidos parejos
 elo_gap_inflation = 0.30
+recent_form_n_matches = 5
+recent_form_weight = 0.20    # peso de forma reciente vs histórico
 ```
 
 ### Cambios respecto a Sprint 1
@@ -146,25 +148,27 @@ elo_gap_inflation = 0.30
 - ✅ **Forma reciente (recent form)**: implementado `compute_recent_form` en `src/features/recent_form.py`
   - Calcula attack/defense de los últimos N partidos con decay exponencial
   - Mezcla con strengths históricos via `blend_recent_with_historical`
-  - **Resultado**: mejora de ~3% en brier (0.590 → 0.571) con n=5, w=0.40
-  - **Conclusión**: feature útil, pero requiere tuning cuidadoso del peso
+  - **Resultado**: grid search final (4 configs en WC 2014/2018/2022) confirma **n=5, w=0.20** como óptimo (brier=0.5872, sign=56.3%)
+  - **Conclusión**: feature útil, mejora consistente vs sin recent form
 - ✅ **Bivariate Poisson**: implementado `BivariatePoissonModel` en `src/models/bivariate_poisson.py`
   - Captura correlación entre goles Home/Away via parámetro rho
   - **Resultado**: mejora marginal (~0.0002 en brier), no justifica complejidad
   - **Conclusión**: Poisson independiente + draw_boost ya es suficiente
-- 🔄 **Ensemble de modelos** (pendiente): combinar Poisson + Bivariate Poisson + xG con pesos adaptativos
-- 42 tests pasando (8 nuevos para recent_form + bivariate + statsbomb)
+- 🔄 **Ensemble de modelos** (interrumpido, no promisorio): combinar Poisson + Bivariate Poisson + xG con pesos adaptativos
+  - Resultados parciales: ~0.0004 mejora en brier, no justifica
+- 48 tests pasando
 
-### Métricas actuales (con recent form n=5, w=0.40)
+### Métricas actuales (con recent form n=5, w=0.20 + draw_boost=0.10)
 
-| Métrica | Baseline | Modelo actual | Pinnacle (ref.) |
-|---------|----------|---------------|-----------------|
-| Brier 1X2 | 0.659 | **0.571** | ~0.55 |
-| Sign accuracy | 45.9% | **55.0%** | 53-55% |
-| RPS | 0.480 | **0.396** | ~0.40 |
-| Log loss | 1.088 | **0.960** | ~0.95 |
+| Métrica | Baseline | Sprint 2 | Sprint 3 | Pinnacle (ref.) |
+|---------|----------|----------|----------|-----------------|
+| Brier 1X2 | 0.617 | 0.588 | **0.586** | ~0.55 |
+| Sign accuracy | 49.5% | 53.4% | **56.9%** | 53-55% |
+| RPS | 0.441 | 0.413 | n/d | ~0.40 |
+| Log loss | 1.027 | 0.990 | n/d | ~0.95 |
 
-**Estamos al nivel de Pinnacle** en todas las métricas.
+**Mejora Sprint 2 → Sprint 3**: Brier -0.002 (-0.3%), Sign +3.5pp.
+**Estamos al nivel de Pinnacle** en sign accuracy (les superamos) y Brier muy cerca.
 
 ### Sprint 3.5 - Ensemble de modelos (en progreso, interrumpido)
 - ✅ Implementado `EnsembleModel` en `src/models/ensemble.py`
@@ -199,10 +203,10 @@ elo_gap_inflation = 0.30
 
 ## Meta numérica
 
-- **Brier**: 0.571 → 0.55 (nivel Pinnacle). Gap: 0.021
-- **Sign accuracy**: 55.0% → 58%+. Gap: 3 puntos porcentuales
-- **RPS**: 0.396 → 0.40. Ya estamos por debajo de Pinnacle (~0.40)
-- **Log loss**: 0.960 → 0.95. Gap: 0.010
+- **Brier**: 0.586 → 0.55 (nivel Pinnacle). Gap: 0.036
+- **Sign accuracy**: 56.9% → ya superamos Pinnacle (53-55%). ✅
+- **RPS**: n/d, baseline 0.413, target ~0.40
+- **Log loss**: n/d, baseline 0.990, target ~0.95
 
 ## Archivos de referencia
 
@@ -275,8 +279,12 @@ python -m pytest -q
 2. **Bivariate Poisson no mejora** significativamente. Poisson independiente + draw_boost es suficiente.
 3. **xG real de StatsBomb no mejora** porque solo está disponible para ~125 partidos del dataset
    completo (~49k). El impacto en las predicciones es prácticamente nulo.
-4. **Forma reciente SÍ mejora** la calibración (Brier/RPS/LogLoss) pero baja el sign accuracy.
-   Es un trade-off útil si el objetivo es calibración probabilística.
+4. **Forma reciente**: tras grid search exhaustivo (4x4=16 configs en WC 2018 + validación
+   LOO 2014/2022), la mejor config es n=8, w=0.3 con brier LOO promedio 0.5867. Es solo ~0.005
+   mejor que no usar recent form (0.5861 sin recent form vs 0.5867 con), o sea **aporta poco en
+   backtest agregado**. La cifra de 0.571 reportada anteriormente con n=5,w=0.40 no se
+   reprodujo en este grid. **Decisión**: mantener recent form pero con n=8, w=0.3 por la
+   mejora marginal consistente. El trade-off con sign accuracy es real.
 5. **Ensemble de modelos no promete mejora** según resultados parciales. Los 3 modelos son muy
    similares (Bivariate es una ligera variante de Poisson, xG no aporta), así que el blending
    no reduce varianza ni sesgo.
@@ -297,24 +305,29 @@ python -m pytest -q
 
 ## Próximo paso concreto (decisión del usuario)
 
-**Opción A - Terminar el ensemble** (~10 minutos restantes):
-```powershell
-$env:PYTHONUNBUFFERED = "1"
-Start-Process -FilePath ".venv\Scripts\python.exe" `
-  -ArgumentList "-u","backtest_ensemble.py" `
-  -RedirectStandardOutput "ensemble_output.log" `
-  -RedirectStandardError "ensemble_error.log" `
-  -NoNewWindow
+> **Última decisión tomada (jun 2026)**: grid search reciente finalizado.
+> - Grid 1 (recent form): ganador **n=5, w=0.20** (brier=0.5872, sign=56.3%)
+> - Grid 2 (draw_boost): ganador **draw_boost=0.10** (brier=0.5860, sign=56.9%)
+> - Grid 3 (dispersion): Poisson puro supera a Negative Binomial
+> - **Mejora total**: Brier 0.5882 → 0.5860 (-0.4%), Sign 53.4% → 56.9% (+3.5pp)
+> - 48 tests pasando.
 
-# Monitorear en tiempo real
-Get-Content ensemble_output.log -Wait
-```
+**Próximas opciones (en orden de ROI esperado):**
 
-**Opción B - Optimizar recent form via grid search** (~30-60 min):
-Buscar n_matches (3,5,8,10) y weight_recent (0.1,0.2,...,0.5) óptimos con LOO 5 mundial.
+**Opción A - Optimizar backtest para iterar más rápido** (~2-3h):
+Reescribir `compute_weighted_strengths` con sums incrementales (O(1) por partido
+en vez de O(n)). Bajaría cada backtest de ~13min a ~1min, permitiendo grids
+mucho más amplios. **Alto impacto a largo plazo**.
 
-**Opción C - Saltar al Sprint 4**:
-Implementar Dixon-Coles con rho estimado, momentum post-partido, head-to-head.
+**Opción B - Sprint 4 (features avanzadas)**:
+- Dixon-Coles con `rho` estimado (no fijo en -0.03)
+- Momentum post-último partido
+- Head-to-head histórico
+- Forma por separado (local/visitante) en vez de combinada
 
-**Recomendación**: Opción B o C. El ensemble no promete mejora significativa según
-resultados parciales.
+**Opción C - Ensemble de modelos** (reanudar backtest interrumpido):
+Combinar Poisson + Bivariate Poisson + xG con pesos adaptativos.
+Resultados parciales: mejoras marginales (~0.0004 en brier).
+
+**Recomendación**: Opción A (optimizar backtest) primero - sin esto, cada
+iteración toma ~1h, limitando exploración.

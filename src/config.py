@@ -30,13 +30,14 @@ class Settings(BaseSettings):
     # Modelo
     goal_model_years_window: int = 8
     recent_form_n_matches: int = 8
+    recent_form_weight: float = 0.30
     elo_k_factor: float = 32.0
     elo_home_advantage: float = 100.0
 
     # Anti-sesgo
     draw_penalty_threshold: float = 0.08
     draw_penalty_strength: float = 0.05
-    draw_boost: float = 0.20
+    draw_boost: float = 0.10
     elo_gap_inflation: float = 0.30
 
     # Strengths
