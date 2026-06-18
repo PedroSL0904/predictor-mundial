@@ -76,8 +76,12 @@ class PoissonGoalModel:
         elo_gap_inflation: float | None = None,
         dispersion: float = 0.0,
         draw_boost: float = 0.0,
+        league_avg_multiplier: float = 1.0,
     ) -> None:
         """
+        league_avg_multiplier: factor para inflar λ en contextos de mayor
+            scoring (ej. Mundiales donde se marcan ~17% mas goles que el
+            promedio historico). 1.0 = sin cambio, 1.2 = +20% goles.
         dispersion: 0.0 = Poisson puro; > 0.0 = Negative Binomial con
             varianza = λ + dispersion*λ². Típico para fútbol: 0.05–0.20.
         draw_boost: 0.0 = sin boost; > 0.0 = aumenta P(draw) en partidos
@@ -86,6 +90,7 @@ class PoissonGoalModel:
         """
         settings = get_settings()
         self.league_avg = league_avg
+        self.league_avg_multiplier = league_avg_multiplier
         self.rho = rho
         self.draw_penalty_threshold = (
             draw_penalty_threshold
@@ -117,8 +122,8 @@ class PoissonGoalModel:
         away_elo: float | None = None,
     ) -> tuple[float, float]:
         """Calcula λ_home y λ_away con posible inflación por gap Elo."""
-        lam_h = self.league_avg * home.attack * away.defense_vulnerability
-        lam_a = self.league_avg * away.attack * home.defense_vulnerability
+        lam_h = self.league_avg * self.league_avg_multiplier * home.attack * away.defense_vulnerability
+        lam_a = self.league_avg * self.league_avg_multiplier * away.attack * home.defense_vulnerability
 
         # Inflación por gap Elo: si hay ratings, escala λ del favorito
         if home_elo is not None and away_elo is not None:

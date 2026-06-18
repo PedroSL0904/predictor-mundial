@@ -1,13 +1,16 @@
 """Fixture del WC 2026: 12 grupos, 72 partidos de fase de grupos.
 
-Extraido del README de Oloraculo (que tiene los 72 partidos con
-predicciones y resultados parciales). Los grupos se infieren del README.
+Lee los partidos directamente del CSV (que tiene los 72 partidos con
+fechas reales). Los grupos se mantienen hardcoded ya que no estan
+en el CSV. Para partidos pendientes (sin resultado), se infiere
+el grupo y se usa la fecha del CSV.
 """
 from __future__ import annotations
 
 import pandas as pd
+from pathlib import Path
 
-# 12 grupos, cada uno con 4 equipos y 6 partidos
+# 12 grupos, cada uno con 4 equipos
 GROUPS = {
     "A": ["Mexico", "South Africa", "South Korea", "Czechia"],
     "B": ["Canada", "Qatar", "Bosnia and Herzegovina", "Switzerland"],
@@ -23,93 +26,67 @@ GROUPS = {
     "L": ["England", "Croatia", "Ghana", "Panama"],
 }
 
+# Mapeo nombre Oloraculo -> nombre exacto en martj42_results.csv
+OLO_TO_MARTJ = {
+    "South Korea": "South Korea",
+    "Czechia": "Czech Republic",
+    "Congo DR": "DR Congo",
+    "Curacao": "Curaçao",
+    "Cape Verde": "Cape Verde",
+    "Ivory Coast": "Ivory Coast",
+}
 
-def generate_group_fixtures() -> pd.DataFrame:
-    """Genera los 72 partidos de grupo con fechas estimadas.
 
-    Fechas: el WC 2026 comenzo el 11 de junio. Partidos de grupo son
-    del 11 al 27 de junio. Tomamos las fechas del CSV cuando estan
-    disponibles, y estimamos las faltantes en orden.
+def generate_group_fixtures(csv_path: Path | None = None) -> pd.DataFrame:
+    """Genera los 72 partidos de grupo desde el CSV de martj42.
+
+    El CSV tiene los 72 partidos del WC 2026 con fechas reales y
+    resultados parciales. Mapeamos los equipos a sus grupos y nombres
+    Oloraculo.
     """
-    import pandas as pd
-    from pathlib import Path
-    csv_path = Path(r"C:\dev\predictor-mundial\data\raw\martj42_results.csv")
+    if csv_path is None:
+        csv_path = Path(r"C:\dev\predictor-mundial\data\raw\martj42_results.csv")
+
     df = pd.read_csv(csv_path)
-    wc = df[(df["date"] >= "2026-06-01") & (df["tournament"] == "FIFA World Cup")]
-    wc = wc[wc["home_score"].notna() & wc["away_score"].notna()]
+    wc = df[(df["date"] >= "2026-06-01") & (df["tournament"] == "FIFA World Cup")].copy()
+    wc = wc.sort_values("date").reset_index(drop=True)
 
-    martj_to_olo = {
-        "South Korea": "South Korea",
-        "South Africa": "South Africa",
-        "Czech Republic": "Czechia",
-        "Bosnia and Herzegovina": "Bosnia and Herzegovina",
-        "Cape Verde": "Cape Verde",
-        "Saudi Arabia": "Saudi Arabia",
-        "DR Congo": "Congo DR",
-        "Ivory Coast": "Ivory Coast",
-        "United States": "United States",
-        "Scotland": "Scotland",
-        "England": "England",
-        "Curaçao": "Curacao",
-    }
-    olo_to_martj = {v: k for k, v in martj_to_olo.items()}
-
-    # Fechas estimadas para partidos pendientes (WC 2026, fase de grupos)
-    # Matchday 1: 11-13 jun. Matchday 2: 17-19 jun. Matchday 3: 23-27 jun.
-    # Distribuir los 12 grupos entre los dias disponibles
-    ESTIMATED_DATES = {
-        0: ["2026-06-11", "2026-06-12"],  # matchday 1
-        2: ["2026-06-17", "2026-06-18", "2026-06-19"],  # matchday 2
-        4: ["2026-06-23", "2026-06-25", "2026-06-27"],  # matchday 3
-    }
+    # Crear reverse map: martj_name -> olo_name
+    martj_to_olo = {v: k for k, v in OLO_TO_MARTJ.items()}
+    # Y group lookup
+    team_to_group = {}
+    team_to_olo = {}
+    for group, teams in GROUPS.items():
+        for t in teams:
+            team_to_group[t] = group
+            team_to_olo[t] = t
 
     fixtures = []
-    group_idx = 0
-    for group, teams in GROUPS.items():
-        # 6 partidos: 3 fechas (matchdays)
-        pairs = [
-            (0, 1), (2, 3),  # matchday 1 (par 0,1)
-            (0, 2), (3, 1),  # matchday 2 (par 2,3)
-            (0, 3), (1, 2),  # matchday 3 (par 4,5)
-        ]
-        for pair_idx, (h_idx, a_idx) in enumerate(pairs):
-            home_olo = teams[h_idx]
-            away_olo = teams[a_idx]
-            home_martj = olo_to_martj.get(home_olo, home_olo)
-            away_martj = olo_to_martj.get(away_olo, away_olo)
+    for _, row in wc.iterrows():
+        home_martj = row["home_team"]
+        away_martj = row["away_team"]
+        # Mapear a olo
+        home_olo = martj_to_olo.get(home_martj, home_martj)
+        away_olo = martj_to_olo.get(away_martj, away_martj)
+        # Buscar grupo
+        group = team_to_group.get(home_olo) or team_to_group.get(home_martj)
+        if not group:
+            # No es un partido de grupo (puede ser eliminatoria), skip
+            continue
 
-            # Buscar fecha en CSV (partido ya jugado)
-            match_row = wc[
-                (wc["home_team"] == home_martj) & (wc["away_team"] == away_martj)
-            ]
-            if not match_row.empty:
-                date = str(match_row["date"].iloc[0])[:10]
-                home_score = int(match_row["home_score"].iloc[0])
-                away_score = int(match_row["away_score"].iloc[0])
-                played = True
-            else:
-                # Estimar fecha segun matchday y grupo
-                md = pair_idx // 2  # 0, 1, 2
-                dates_for_md = ESTIMATED_DATES.get(md * 2, ["2026-06-20"])
-                # Distribuir grupos entre fechas
-                date_idx = group_idx % len(dates_for_md)
-                date = dates_for_md[date_idx]
-                home_score = None
-                away_score = None
-                played = False
-
-            fixtures.append({
-                "group": group,
-                "home": home_olo,
-                "away": away_olo,
-                "home_martj": home_martj,
-                "away_martj": away_martj,
-                "date": date,
-                "home_score": home_score,
-                "away_score": away_score,
-                "played": played,
-            })
-        group_idx += 1
+        date = str(row["date"])[:10]
+        played = pd.notna(row["home_score"]) and pd.notna(row["away_score"])
+        fixtures.append({
+            "group": group,
+            "home": home_olo,
+            "away": away_olo,
+            "home_martj": home_martj,
+            "away_martj": away_martj,
+            "date": date,
+            "home_score": int(row["home_score"]) if played else None,
+            "away_score": int(row["away_score"]) if played else None,
+            "played": played,
+        })
 
     return pd.DataFrame(fixtures)
 
@@ -122,7 +99,3 @@ if __name__ == "__main__":
     print()
     print("Ejemplo grupo A:")
     print(fx[fx.group == "A"][["date", "home", "away", "home_score", "away_score", "played"]].to_string(index=False))
-    print()
-    print("Fechas pendientes (estimadas):")
-    pending = fx[~fx.played]
-    print(pending[["group", "home", "away"]].head(10).to_string(index=False))

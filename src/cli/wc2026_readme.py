@@ -103,6 +103,9 @@ def predict_match(
         draw_penalty_strength=settings.draw_penalty_strength,
         elo_gap_inflation=settings.elo_gap_inflation,
         draw_boost=settings.draw_boost,
+        # Mundial 2026 tiene ~17% mas goles que el promedio historico
+        # (3.12 vs 2.67 goles/partido en WC 2014-2022). Inflamos λ un 18%.
+        league_avg_multiplier=1.18,
     )
     pred = model.predict(home, away, home_elo=home_elo, away_elo=away_elo)
 
