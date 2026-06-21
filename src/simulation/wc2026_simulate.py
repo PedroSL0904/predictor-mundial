@@ -10,7 +10,6 @@ Tiempo objetivo: <30s para 1000 simulaciones.
 """
 from __future__ import annotations
 
-import sys
 import time
 from collections import Counter
 from dataclasses import dataclass
@@ -19,14 +18,12 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
-
 from src.config import get_settings
 from src.data.elo import ORIGINAL_ELO
-from src.data.elo_timeline import precompute_and_cache
+from src.data.elo_timeline import get_elo_at, precompute_and_cache
 from src.data.historical import load_martj42_csv
+from src.data.team_names import OLO_TO_MARTJ
 from src.data.wc2026_fixture import GROUPS, generate_group_fixtures
-from src.evaluation.backtest_elo import get_elo_at
 from src.features.recent_form import blend_recent_with_historical, compute_recent_form
 from src.features.strengths_cache import StrengthsCache
 from src.models import PoissonGoalModel, TeamStrength
@@ -39,17 +36,6 @@ from src.simulation.wc2026_bracket import (
     SlotKind,
     assign_third_place_slots,
 )
-
-
-# Mapeo Oloraculo -> martj
-OLO_TO_MARTJ = {
-    "South Korea": "South Korea",
-    "Czechia": "Czech Republic",
-    "Congo DR": "DR Congo",
-    "Curacao": "Curaçao",
-    "Cape Verde": "Cape Verde",
-    "Ivory Coast": "Ivory Coast",
-}
 
 
 def _olo_to_martj(name: str) -> str:
@@ -395,7 +381,7 @@ def main():
         df, timeline, StrengthsCache(df, timeline),
         calibrator=calibrator,
     )
-    print(f"  Cache de predicciones listo")
+    print("  Cache de predicciones listo")
 
     fixtures = generate_group_fixtures()
     print(f"Fixture: {len(fixtures)} ({fixtures['played'].sum()} FT)")
@@ -405,11 +391,11 @@ def main():
 
     stats = result["stats"]
     print(f"\nCompletado en {result['elapsed']:.1f}s")
-    print(f"\nTop 20 equipos por probabilidad de campeon:\n")
+    print("\nTop 20 equipos por probabilidad de campeon:\n")
     print(stats.head(20).to_string(index=False))
 
     stats.to_csv(r"C:\dev\predictor-mundial\wc2026_tournament_probs.csv", index=False)
-    print(f"\nGuardado en wc2026_tournament_probs.csv")
+    print("\nGuardado en wc2026_tournament_probs.csv")
 
 
 if __name__ == "__main__":

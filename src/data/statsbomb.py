@@ -54,15 +54,25 @@ def get_xg_real_lookup() -> dict[tuple[str, str, str], tuple[float, float]]:
 
     Las claves usan nombres normalizados a martj42 para que el backtest
     pueda cruzar con el dataset principal.
+
+    Cacheado: el dict procesado se cachea con lru_cache para evitar
+    reconstruir ~125 entries en cada llamada (costo: ~50-100ms).
     """
     raw = _load_xg_raw()
-    out = {}
-    for mid, m in raw.items():
-        date_iso = m["date"]
-        h = _normalize_team(m["home_team"])
-        a = _normalize_team(m["away_team"])
-        out[(date_iso, h, a)] = (m["home_xg"], m["away_xg"])
-    return out
+    return {
+        (m["date"], _normalize_team(m["home_team"]), _normalize_team(m["away_team"])):
+        (m["home_xg"], m["away_xg"])
+        for m in raw.values()
+    }
+
+
+# Alias interno con cache para evitar reconstruir el dict
+_cached_xg_lookup = lru_cache(maxsize=1)(get_xg_real_lookup)
+
+
+def get_xg_real_lookup_cached() -> dict[tuple[str, str, str], tuple[float, float]]:
+    """Versión cacheada de get_xg_real_lookup(). Usar en código hot-path."""
+    return _cached_xg_lookup()
 
 
 def has_xg_real(date_iso: str, home_team: str, away_team: str) -> bool:

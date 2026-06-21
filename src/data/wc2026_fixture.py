@@ -7,8 +7,11 @@ el grupo y se usa la fecha del CSV.
 """
 from __future__ import annotations
 
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
+
+from src.data.team_names import OLO_TO_MARTJ
 
 # 12 grupos, cada uno con 4 equipos
 GROUPS = {
@@ -24,16 +27,6 @@ GROUPS = {
     "J": ["Argentina", "Algeria", "Austria", "Jordan"],
     "K": ["Portugal", "Congo DR", "Uzbekistan", "Colombia"],
     "L": ["England", "Croatia", "Ghana", "Panama"],
-}
-
-# Mapeo nombre Oloraculo -> nombre exacto en martj42_results.csv
-OLO_TO_MARTJ = {
-    "South Korea": "South Korea",
-    "Czechia": "Czech Republic",
-    "Congo DR": "DR Congo",
-    "Curacao": "Curaçao",
-    "Cape Verde": "Cape Verde",
-    "Ivory Coast": "Ivory Coast",
 }
 
 

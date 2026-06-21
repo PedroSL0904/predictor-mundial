@@ -46,7 +46,7 @@ def test_cache_parity(cache_setup):
     df, timeline = cache_setup
     cache = StrengthsCache(df, timeline)
 
-    from src.evaluation.backtest_elo import get_elo_at
+    from src.data.elo_timeline import get_elo_at
 
     max_att = 0.0
     max_def = 0.0
@@ -83,8 +83,8 @@ def test_cache_speedup(cache_setup):
     df, timeline = cache_setup
     cache = StrengthsCache(df, timeline)
 
-    from src.evaluation.backtest_elo import get_elo_at
-    from src.evaluation.backtest import get_world_cup_matches
+    from src.data.elo_timeline import get_elo_at
+    from src.evaluation.backtest_cached import get_world_cup_matches
 
     # Sub-muestra: 5 partidos del WC 2018 (suficiente para medir speedup)
     wc = get_world_cup_matches(df, 2018).sort_values("date").iloc[::13]

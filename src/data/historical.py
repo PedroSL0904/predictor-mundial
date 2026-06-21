@@ -7,13 +7,11 @@ Fuentes soportadas:
 """
 from __future__ import annotations
 
-from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
 
 from src.domain import MatchResult
-
 
 MARTJ42_URL = (
     "https://raw.githubusercontent.com/martj42/international_results/master/"
@@ -117,20 +115,5 @@ def compute_strengths_from_results(
 
 
 # Mapeo de nombres alternativos (Understat/FBref → football-data.co.uk / martj42)
-TEAM_NAME_ALIASES = {
-    "USA": "United States",
-    "South Korea": "Korea Republic",
-    "Czechia": "Czech Republic",
-    "Ivory Coast": "Côte d'Ivoire",
-    "Bosnia and Herzegovina": "Bosnia & Herzegovina",
-    "Congo DR": "DR Congo",
-    "Cape Verde": "Cabo Verde",
-    "Curacao": "Curaçao",
-    "Scotland": "Scotland",
-    "Wales": "Wales",
-    "Northern Ireland": "Northern Ireland",
-}
-
-
-def normalize_team_name(name: str) -> str:
-    return TEAM_NAME_ALIASES.get(name, name)
+# Delegado a src.data.team_names (un solo lugar para mantener consistencia).
+from src.data.team_names import normalize_team_name  # noqa: F401

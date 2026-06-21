@@ -18,7 +18,7 @@ import numpy as np
 import pandas as pd
 
 from src.data.elo import ORIGINAL_ELO
-from src.evaluation.backtest_elo import get_elo_at
+from src.data.elo_timeline import get_elo_at
 
 
 def _approx_xg(elo_a: np.ndarray, elo_d: np.ndarray) -> np.ndarray:
@@ -102,15 +102,26 @@ class StrengthsCache:
         self.xg_away = _approx_xg(ae, he)
 
         # Sobrescribir con xG real de StatsBomb si esta disponible
-        # (replica el comportamiento del original que itera partido a partido)
+        # Vectorizado: precomputar indice key->row y aplicar con numpy
         if self._xg_real_lookup:
             date_strs = pd.Series(self.dates).astype(str).str[:10].values
+            # Construir mapping (date, home, away) -> row index
+            row_idx: dict[tuple, int] = {}
             for i in range(self.n):
-                key = (date_strs[i], self.home_teams[i], self.away_teams[i])
-                if key in self._xg_real_lookup:
-                    xh, xa = self._xg_real_lookup[key]
-                    self.xg_home[i] = xh
-                    self.xg_away[i] = xa
+                row_idx[(date_strs[i], self.home_teams[i], self.away_teams[i])] = i
+            # Aplicar todas las sobrescrituras en una sola pasada vectorizada
+            indices = []
+            real_h = []
+            real_a = []
+            for key, (xh, xa) in self._xg_real_lookup.items():
+                if key in row_idx:
+                    indices.append(row_idx[key])
+                    real_h.append(xh)
+                    real_a.append(xa)
+            if indices:
+                idx_arr = np.array(indices, dtype=np.int64)
+                self.xg_home[idx_arr] = np.array(real_h, dtype=np.float64)
+                self.xg_away[idx_arr] = np.array(real_a, dtype=np.float64)
 
         # Pesos de Elo con el snapshot
         elo_diff = (ae - he) / self.elo_sigma

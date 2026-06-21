@@ -12,10 +12,6 @@ from src.data.historical import (
     load_martj42_csv,
     normalize_team_name,
 )
-from src.evaluation.backtest import (
-    get_world_cup_matches,
-    outcome_from_score,
-)
 from src.evaluation.metrics import summarize
 from src.features.recent_form import (
     blend_recent_with_historical,
@@ -23,6 +19,36 @@ from src.features.recent_form import (
 )
 from src.features.strengths_cache import StrengthsCache
 from src.models import PoissonGoalModel, TeamStrength
+
+
+# Constantes y helpers para backtest de Mundiales
+WORLD_CUPS = {
+    2006: ("2006-06-09", "2006-07-09"),
+    2010: ("2010-06-11", "2010-07-11"),
+    2014: ("2014-06-12", "2014-07-13"),
+    2018: ("2018-06-14", "2018-07-15"),
+    2022: ("2022-11-20", "2022-12-18"),
+}
+
+
+def get_world_cup_matches(df: pd.DataFrame, year: int) -> pd.DataFrame:
+    """Filtra partidos del Mundial para un año dado."""
+    start, end = WORLD_CUPS[year]
+    mask = (
+        (df["tournament"] == "FIFA World Cup")
+        & (df["date"] >= start)
+        & (df["date"] <= end)
+    )
+    return df[mask].copy()
+
+
+def outcome_from_score(home_goals: int, away_goals: int) -> str:
+    """Convierte (home_goals, away_goals) a H/D/A."""
+    if home_goals > away_goals:
+        return "H"
+    if home_goals < away_goals:
+        return "A"
+    return "D"
 
 
 def get_elo_at(timeline: dict[str, dict[str, float]], as_of: str) -> dict[str, float]:
@@ -155,7 +181,7 @@ def backtest_strategy_cached(
         actual_scores.append((int(match["home_goals"]), int(match["away_goals"])))
 
     if verbose:
-        print(f"done", flush=True)
+        print("done", flush=True)
     metrics = summarize(predictions, outcomes, predicted_scores, actual_scores)
     metrics["year"] = year
     metrics["strategy"] = strategy

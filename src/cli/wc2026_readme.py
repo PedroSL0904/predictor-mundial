@@ -2,6 +2,7 @@
 
 Uso:
   python -m src.cli.wc2026_readme
+  # o via entry point: wc2026-readme
 
 Este script:
 1. Carga el fixture del WC 2026
@@ -11,7 +12,6 @@ Este script:
 """
 from __future__ import annotations
 
-import sys
 import time
 from datetime import datetime
 from pathlib import Path
@@ -19,26 +19,18 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
-
 from src.config import get_settings
 from src.data.elo import ORIGINAL_ELO
-from src.data.elo_timeline import precompute_and_cache
+from src.data.elo_timeline import get_elo_at, precompute_and_cache
 from src.data.historical import load_martj42_csv
 from src.data.wc2026_fixture import generate_group_fixtures
 from src.features.recent_form import blend_recent_with_historical, compute_recent_form
 from src.features.strengths_cache import StrengthsCache
-from src.models.calibration import (
-    TemperatureScaler, train_temperature_scaler,
-)
 from src.models import PoissonGoalModel, TeamStrength
-
-
-def get_elo_at(timeline: dict, as_of: str) -> dict:
-    candidates = [d for d in timeline if d <= as_of]
-    if not candidates:
-        return {}
-    return timeline[max(candidates)]
+from src.models.calibration import (
+    TemperatureScaler,
+    train_temperature_scaler,
+)
 
 
 def predict_match(
@@ -384,7 +376,7 @@ def main() -> None:
     tournament_stats.to_csv(
         r"C:\dev\predictor-mundial\wc2026_tournament_probs.csv", index=False
     )
-    print(f"Tournament probs guardado en wc2026_tournament_probs.csv")
+    print("Tournament probs guardado en wc2026_tournament_probs.csv")
 
 
 if __name__ == "__main__":

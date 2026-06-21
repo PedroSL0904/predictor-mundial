@@ -19,6 +19,7 @@ dependencies = [
     "tqdm>=4.66",
     "matplotlib>=3.9",
     "seaborn>=0.13",
+    "pyarrow>=15.0",
 ]
 
 [project.optional-dependencies]
@@ -41,6 +42,8 @@ ml = [
 
 [project.scripts]
 predictor = "src.cli:main"
+wc2026-readme = "src.cli.wc2026_readme:main"
+wc2026-simulate = "src.simulation.wc2026_simulate:main"
 
 [build-system]
 requires = ["hatchling"]

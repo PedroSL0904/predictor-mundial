@@ -14,9 +14,7 @@ from src.data.historical import (
     load_martj42_csv,
     normalize_team_name,
 )
-from src.evaluation import summarize
 from src.models import PoissonGoalModel, TeamStrength
-
 
 app = typer.Typer(help="Predictor de fútbol basado en xG + cuotas")
 console = Console()
@@ -120,16 +118,9 @@ def wc_match(
 
 @app.command()
 def backtest() -> None:
-    """Corre el backtest sobre Mundiales 2014, 2018, 2022."""
-    from src.evaluation.backtest import backtest_all
-    backtest_all()
-
-
-@app.command()
-def backtest_market() -> None:
-    """Corre el backtest con mercado sintetico."""
-    from src.evaluation.backtest_market import run_comparison
-    run_comparison()
+    """Corre el backtest sobre Mundiales 2014, 2018, 2022 (cached)."""
+    from src.evaluation.backtest_cached import run_cached_comparison
+    run_cached_comparison()
 
 
 @app.command()

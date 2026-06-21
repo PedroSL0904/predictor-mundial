@@ -15,12 +15,10 @@ from __future__ import annotations
 
 import json
 import math
-from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
 from pydantic import BaseModel
-
 
 # Constantes
 ORIGINAL_ELO = 1500.0
