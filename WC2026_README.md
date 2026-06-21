@@ -3,7 +3,7 @@
 Predicciones para el Mundial 2026 generadas con el modelo Poisson + Dixon-Coles,
 ponderado por Elo rolling, con ajustes de recent form, draw boost y elo gap inflation.
 
-_Generado 2026-06-20 20:27 UTC._
+_Generado 2026-06-20 20:49 UTC._
 
 **72 partidos de fase de grupos** | 34 jugados | 38 pendientes
 
