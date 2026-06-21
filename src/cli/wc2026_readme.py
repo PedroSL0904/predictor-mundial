@@ -122,6 +122,9 @@ def predict_match(
 def render_readme(
     predictions_df: pd.DataFrame,
     metrics: dict | None = None,
+    tournament_stats: pd.DataFrame | None = None,
+    n_simulations: int = 1000,
+    sim_elapsed: float = 0.0,
 ) -> str:
     """Renderiza el README con tablas por grupo."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
@@ -153,6 +156,28 @@ def render_readme(
         lines.append(f"| Log loss | **{metrics['log_loss']:.4f}** |")
         lines.append(f"| Sign accuracy | **{metrics['sign_accuracy']:.1%}** |")
         lines.append(f"| Exact score accuracy | **{metrics['exact_accuracy']:.1%}** |")
+        lines.append("")
+
+    # Probabilidades del torneo (Monte Carlo)
+    if tournament_stats is not None and not tournament_stats.empty:
+        lines.append("## Probabilidades del torneo (Monte Carlo)")
+        lines.append("")
+        lines.append(
+            f"Simulacion: {n_simulations} corridas del torneo completo "
+            f"(fase de grupos + R32 + R16 + QF + SF + Final). "
+            f"Respetando los {n_played} partidos ya jugados. "
+            f"Tiempo: {sim_elapsed:.1f}s."
+        )
+        lines.append("")
+        lines.append("Top 16 por probabilidad de campeon:")
+        lines.append("")
+        lines.append("| Equipo | Campeon | Final | SF | QF | R16 | R32 |")
+        lines.append("|---|---:|---:|---:|---:|---:|---:|")
+        for _, r in tournament_stats.head(16).iterrows():
+            lines.append(
+                f"| {r['team']} | {r['champion']:.1%} | {r['final']:.1%} | "
+                f"{r['sf']:.1%} | {r['qf']:.1%} | {r['r16']:.1%} | {r['r32']:.1%} |"
+            )
         lines.append("")
 
     # Tablas por grupo
@@ -305,8 +330,21 @@ def main() -> None:
         print(f"Métricas: Brier={metrics['brier']:.4f}, "
               f"Sign={metrics['sign_accuracy']:.1%}, n={metrics['n_played']}")
 
+    # Simulacion Monte Carlo del torneo completo
+    print("Corriendo 1000 simulaciones Monte Carlo del torneo...", flush=True)
+    from src.simulation.wc2026_simulate import TournamentSimulator, monte_carlo
+    sim = TournamentSimulator(df, timeline, cache, as_of=AS_OF)
+    mc_result = monte_carlo(sim, fixtures, n_simulations=1000)
+    tournament_stats = mc_result["stats"]
+    print(f"  Monte Carlo en {mc_result['elapsed']:.1f}s")
+    print(f"  Top 3: {tournament_stats.head(3)['team'].tolist()}")
+
     # Generar README
-    readme = render_readme(pred_df, metrics)
+    readme = render_readme(
+        pred_df, metrics, tournament_stats,
+        n_simulations=mc_result["n_simulations"],
+        sim_elapsed=mc_result["elapsed"],
+    )
     readme_path = Path(r"C:\dev\predictor-mundial\WC2026_README.md")
     # Usar UTF-8 sin BOM para compatibilidad maxima
     readme_path.write_bytes(readme.encode("utf-8"))
@@ -317,6 +355,12 @@ def main() -> None:
     pred_df[["group", "date", "home", "away", "played", "home_score", "away_score",
              "predicted_score", "p_h", "p_d", "p_a"]].to_csv(csv_out, index=False)
     print(f"CSV guardado en {csv_out}")
+
+    # Guardar CSV con probabilidades del torneo
+    tournament_stats.to_csv(
+        r"C:\dev\predictor-mundial\wc2026_tournament_probs.csv", index=False
+    )
+    print(f"Tournament probs guardado en wc2026_tournament_probs.csv")
 
 
 if __name__ == "__main__":

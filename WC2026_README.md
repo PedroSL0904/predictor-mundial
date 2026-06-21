@@ -3,7 +3,7 @@
 Predicciones para el Mundial 2026 generadas con el modelo Poisson + Dixon-Coles,
 ponderado por Elo rolling, con ajustes de recent form, draw boost y elo gap inflation.
 
-_Generado 2026-06-18 07:37 UTC._
+_Generado 2026-06-20 19:44 UTC._
 
 **72 partidos de fase de grupos** | 24 jugados | 48 pendientes
 
@@ -17,6 +17,31 @@ Partidos evaluados: **24**
 | Log loss | **1.0421** |
 | Sign accuracy | **50.0%** |
 | Exact score accuracy | **16.7%** |
+
+## Probabilidades del torneo (Monte Carlo)
+
+Simulacion: 1000 corridas del torneo completo (fase de grupos + R32 + R16 + QF + SF + Final). Respetando los 24 partidos ya jugados. Tiempo: 13.0s.
+
+Top 16 por probabilidad de campeon:
+
+| Equipo | Campeon | Final | SF | QF | R16 | R32 |
+|---|---:|---:|---:|---:|---:|---:|
+| Argentina | 21.8% | 35.4% | 49.2% | 64.9% | 84.0% | 100.0% |
+| Morocco | 9.6% | 16.5% | 27.3% | 43.0% | 58.7% | 100.0% |
+| Belgium | 9.2% | 17.6% | 31.1% | 51.6% | 66.9% | 100.0% |
+| Spain | 7.5% | 13.3% | 23.1% | 36.3% | 59.8% | 100.0% |
+| Portugal | 6.7% | 12.0% | 20.6% | 41.0% | 66.4% | 100.0% |
+| Germany | 4.9% | 10.1% | 19.4% | 38.3% | 70.0% | 100.0% |
+| England | 4.6% | 9.6% | 23.8% | 41.6% | 66.8% | 100.0% |
+| Brazil | 4.1% | 8.0% | 17.5% | 34.4% | 52.8% | 100.0% |
+| France | 3.9% | 9.2% | 18.4% | 39.9% | 72.2% | 100.0% |
+| Algeria | 3.8% | 6.4% | 11.7% | 22.3% | 32.8% | 68.1% |
+| Austria | 3.0% | 6.9% | 12.7% | 26.8% | 43.7% | 99.5% |
+| Japan | 2.7% | 7.0% | 16.7% | 27.9% | 41.3% | 100.0% |
+| Colombia | 2.5% | 5.3% | 13.1% | 30.1% | 58.7% | 99.7% |
+| Mexico | 2.3% | 5.3% | 12.8% | 26.4% | 58.3% | 100.0% |
+| Ivory Coast | 2.1% | 5.7% | 13.1% | 25.3% | 57.7% | 100.0% |
+| Netherlands | 1.6% | 5.6% | 11.9% | 24.0% | 47.2% | 100.0% |
 
 ## Grupos
 
