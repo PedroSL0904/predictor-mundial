@@ -74,6 +74,7 @@ class TournamentSimulator:
         cache: StrengthsCache,
         league_avg_multiplier: float = 1.18,
         as_of: str = "2026-06-10",
+        calibrator = None,
     ):
         self.df = df
         self.timeline = timeline
@@ -118,6 +119,9 @@ class TournamentSimulator:
             league_avg_multiplier=league_avg_multiplier,
         )
 
+        # Calibrador (Temperature scaling)
+        self.calibrator = calibrator
+
         # Cache de predicciones: (home_martj, away_martj) -> MatchPrediction
         self._pred_cache: dict[tuple[str, str], MatchPrediction] = {}
 
@@ -150,10 +154,19 @@ class TournamentSimulator:
         away_elo = self.elo_lookup.get(away_martj, ORIGINAL_ELO)
 
         pred = self.model.predict(home, away, home_elo=home_elo, away_elo=away_elo)
+
+        # Aplicar calibracion
+        if self.calibrator is not None and self.calibrator.fitted:
+            raw = np.array([[pred.p_home, pred.p_draw, pred.p_away]])
+            cal = self.calibrator.predict(raw)[0]
+            p_h, p_d, p_a = float(cal[0]), float(cal[1]), float(cal[2])
+        else:
+            p_h, p_d, p_a = pred.p_home, pred.p_draw, pred.p_away
+
         result = MatchPrediction(
-            p_home=pred.p_home,
-            p_draw=pred.p_draw,
-            p_away=pred.p_away,
+            p_home=p_h,
+            p_draw=p_d,
+            p_away=p_a,
             most_likely=pred.most_likely_score,
         )
         self._pred_cache[key] = result
@@ -362,13 +375,26 @@ def monte_carlo(
 def main():
     csv_path = Path(r"C:\dev\predictor-mundial\data\raw\martj42_results.csv")
     cache_path = Path(r"C:\dev\predictor-mundial\data\processed\elo_timeline.json")
+    cal_path = Path(r"C:\dev\predictor-mundial\data\processed\temperature_calibrator.json")
 
     print("Cargando datos...", flush=True)
     timeline = precompute_and_cache(csv_path, cache_path)
     df = load_martj42_csv(csv_path)
 
+    # Cargar calibrador si existe
+    calibrator = None
+    if cal_path.exists():
+        from src.models.calibration import TemperatureScaler
+        calibrator = TemperatureScaler.load(cal_path)
+        print(f"  Calibrador: T={calibrator.T_:.3f}")
+    else:
+        print("  Calibrador: no encontrado (sin calibrar)")
+
     print("Construyendo simulador...", flush=True)
-    sim = TournamentSimulator(df, timeline, StrengthsCache(df, timeline))
+    sim = TournamentSimulator(
+        df, timeline, StrengthsCache(df, timeline),
+        calibrator=calibrator,
+    )
     print(f"  Cache de predicciones listo")
 
     fixtures = generate_group_fixtures()

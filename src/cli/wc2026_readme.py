@@ -28,6 +28,9 @@ from src.data.historical import load_martj42_csv
 from src.data.wc2026_fixture import generate_group_fixtures
 from src.features.recent_form import blend_recent_with_historical, compute_recent_form
 from src.features.strengths_cache import StrengthsCache
+from src.models.calibration import (
+    TemperatureScaler, train_temperature_scaler,
+)
 from src.models import PoissonGoalModel, TeamStrength
 
 
@@ -46,6 +49,7 @@ def predict_match(
     away_martj: str,
     match_date: str,
     as_of: str | None = None,
+    calibrator: TemperatureScaler | None = None,
 ) -> dict:
     """Predice un partido. Retorna dict con p_h, p_d, p_a, predicted_score, top3_scores.
 
@@ -109,10 +113,17 @@ def predict_match(
     )
     pred = model.predict(home, away, home_elo=home_elo, away_elo=away_elo)
 
+    # Aplicar calibracion Temperature scaling si esta disponible
+    raw_probs = np.array([[pred.p_home, pred.p_draw, pred.p_away]])
+    if calibrator is not None and calibrator.fitted:
+        cal_probs = calibrator.predict(raw_probs)[0]
+    else:
+        cal_probs = raw_probs[0]
+
     return {
-        "p_h": pred.p_home,
-        "p_d": pred.p_draw,
-        "p_a": pred.p_away,
+        "p_h": float(cal_probs[0]),
+        "p_d": float(cal_probs[1]),
+        "p_a": float(cal_probs[2]),
         "predicted_score": f"{pred.most_likely_score[0]}-{pred.most_likely_score[1]}",
         "top_scores": [(f"{pred.most_likely_score[0]}-{pred.most_likely_score[1]}", pred.most_likely_score_prob)],
         "degraded": False,
@@ -291,6 +302,15 @@ def main() -> None:
     print("Generando fixture WC 2026...", flush=True)
     fixtures = generate_group_fixtures()
 
+    # Entrenar calibrador con backtest historico (2014/2018/2022 LOO)
+    print("Entrenando calibrador (Temperature scaling LOO)...", flush=True)
+    calibrator = train_temperature_scaler()
+    print(f"  T_optimo: {calibrator.T_:.3f} (T<1 = comprimir, T>1 = expandir)")
+    cal_path = Path(r"C:\dev\predictor-mundial\data\processed\temperature_calibrator.json")
+    cal_path.parent.mkdir(parents=True, exist_ok=True)
+    calibrator.save(cal_path)
+    print(f"  Guardado en {cal_path}")
+
     # Predecir cada partido
     # Usamos una fecha de corte comun (1 dia antes del inicio del WC) para
     # todos los partidos, simulando que las predicciones se generan ANTES del
@@ -309,6 +329,7 @@ def main() -> None:
                 fx["home_martj"], fx["away_martj"],
                 match_date,
                 as_of=AS_OF,
+                calibrator=calibrator,
             )
         except Exception as e:
             print(f"Error prediciendo {fx['home']} vs {fx['away']}: {e}")
@@ -333,7 +354,10 @@ def main() -> None:
     # Simulacion Monte Carlo del torneo completo
     print("Corriendo 1000 simulaciones Monte Carlo del torneo...", flush=True)
     from src.simulation.wc2026_simulate import TournamentSimulator, monte_carlo
-    sim = TournamentSimulator(df, timeline, cache, as_of=AS_OF)
+    sim = TournamentSimulator(
+        df, timeline, cache, as_of=AS_OF,
+        calibrator=calibrator,
+    )
     mc_result = monte_carlo(sim, fixtures, n_simulations=1000)
     tournament_stats = mc_result["stats"]
     print(f"  Monte Carlo en {mc_result['elapsed']:.1f}s")
