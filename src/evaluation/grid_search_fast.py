@@ -71,8 +71,13 @@ def precompute_match_data(
             continue
 
         # Elo de cada equipo en cada partido previo
-        prev_home_elo = prev["home_team"].map(lambda t: elo_lookup.get(t, 1500.0)).values.astype(np.float32)
-        prev_away_elo = prev["away_team"].map(lambda t: elo_lookup.get(t, 1500.0)).values.astype(np.float32)
+        # Capturar elo_lookup como default del lambda para evitar B023
+        prev_home_elo = prev["home_team"].map(
+            lambda t, _elo=elo_lookup: _elo.get(t, 1500.0)
+        ).values.astype(np.float32)
+        prev_away_elo = prev["away_team"].map(
+            lambda t, _elo=elo_lookup: _elo.get(t, 1500.0)
+        ).values.astype(np.float32)
 
         # Para el "team perspective" (local o visitante), cada partido previo
         # tiene gf y ga dependiendo de si el equipo estaba como local o visitante
@@ -82,12 +87,6 @@ def precompute_match_data(
         # Para este partido, los "partidos previos del LOCAL" son todos los
         # partidos donde jugó como local o visitante. La perspectiva
         # del local: gf = home_goals cuando jugó como local, gf = away_goals cuando fue visitante.
-        # Vectorizado:
-        gf_home = np.where(
-            np.ones(len(prev), dtype=bool),
-            prev["home_goals"].values.astype(np.float32),
-            0,
-        )
         # Real: gf del local en cada partido previo
         gf_local = prev["home_goals"].values.astype(np.float32)
         gf_visit = prev["away_goals"].values.astype(np.float32)
@@ -101,12 +100,9 @@ def precompute_match_data(
         # Esto es una aproximación, pero válida para el grid search.
         prev_gf_local = (gf_local + gf_visit) / 2  # aprox promedio
         prev_ga_local = (ga_local + ga_visit) / 2
-        prev_gf_visit = prev_gf_local
-        prev_ga_visit = prev_ga_local
 
         # Elo del rival en cada partido previo (para el local: away_elo del partido)
         prev_rival_elo_local = prev_away_elo
-        prev_rival_elo_visit = prev_home_elo
 
         # Días desde cada partido previo hasta este
         prev_days_ago = (match_date - prev["date"]).dt.days.values.astype(np.float32)

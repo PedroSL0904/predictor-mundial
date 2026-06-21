@@ -79,7 +79,7 @@ def sign_accuracy(
 ) -> float:
     """% de predicciones donde el signo de mayor prob coincide con el real."""
     correct = sum(
-        1 for probs, out in zip(predictions, outcomes)
+        1 for probs, out in zip(predictions, outcomes, strict=True)
         if predict_sign(probs) == out
     )
     return correct / len(outcomes) if outcomes else 0.0
@@ -90,7 +90,7 @@ def exact_score_accuracy(
     actual_scores: list[tuple[int, int]],
 ) -> float:
     """% de marcadores exactos acertados."""
-    correct = sum(1 for p, a in zip(predicted_scores, actual_scores) if p == a)
+    correct = sum(1 for p, a in zip(predicted_scores, actual_scores, strict=True) if p == a)
     return correct / len(actual_scores) if actual_scores else 0.0
 
 
@@ -107,9 +107,9 @@ def summarize(
         raise ValueError("predictions y outcomes deben tener igual longitud")
 
     n = len(predictions)
-    brier = sum(brier_score(p, o) for p, o in zip(predictions, outcomes)) / n
-    rps = sum(ranked_probability_score(p, o) for p, o in zip(predictions, outcomes)) / n
-    ll = sum(log_loss(p, o) for p, o in zip(predictions, outcomes)) / n
+    brier = sum(brier_score(p, o) for p, o in zip(predictions, outcomes, strict=True)) / n
+    rps = sum(ranked_probability_score(p, o) for p, o in zip(predictions, outcomes, strict=True)) / n
+    ll = sum(log_loss(p, o) for p, o in zip(predictions, outcomes, strict=True)) / n
     sign_acc = sign_accuracy(predictions, outcomes)
 
     metrics = {

@@ -20,6 +20,10 @@ import pandas as pd
 from scipy.optimize import minimize_scalar
 from sklearn.linear_model import LogisticRegression
 
+from src.models.poisson import (
+    PoissonGoalModel,  # noqa: F401  (usado en type hints via _build_model)
+)
+
 
 def _softmax(x: np.ndarray, axis: int = -1) -> np.ndarray:
     x_max = np.max(x, axis=axis, keepdims=True)
@@ -110,7 +114,6 @@ class PlattCalibrator:
 
 def _build_model(draw_boost: float, settings) -> PoissonGoalModel:
     """Construye un PoissonGoalModel con los params de la config."""
-    from src.models import PoissonGoalModel
     return PoissonGoalModel(
         draw_penalty_threshold=settings.draw_penalty_threshold,
         draw_penalty_strength=settings.draw_penalty_strength,

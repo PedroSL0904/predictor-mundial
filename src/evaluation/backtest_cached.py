@@ -20,7 +20,6 @@ from src.features.recent_form import (
 from src.features.strengths_cache import StrengthsCache
 from src.models import PoissonGoalModel, TeamStrength
 
-
 # Constantes y helpers para backtest de Mundiales
 WORLD_CUPS = {
     2006: ("2006-06-09", "2006-07-09"),

@@ -5,11 +5,10 @@ Formato: 12 grupos de 4 -> top 2 + 8 mejores terceros -> R32 -> ... -> Final.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Optional
+from enum import StrEnum
 
 
-class SlotKind(str, Enum):
+class SlotKind(StrEnum):
     GROUP_WINNER = "winner"
     GROUP_RUNNER_UP = "runner_up"
     GROUP_THIRD = "third"
@@ -19,9 +18,9 @@ class SlotKind(str, Enum):
 @dataclass
 class BracketSlot:
     kind: SlotKind
-    group: Optional[str] = None
+    group: str | None = None
     third_options: list[str] = field(default_factory=list)
-    tie_id: Optional[int] = None
+    tie_id: int | None = None
 
 
 @dataclass

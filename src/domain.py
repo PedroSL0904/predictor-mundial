@@ -1,13 +1,13 @@
 """Modelos de dominio del sistema de predicciones."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from enum import Enum
+from datetime import UTC, datetime
+from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
 
-class MatchOutcome(str, Enum):
+class MatchOutcome(StrEnum):
     """Resultado de un partido en términos de 1X2."""
 
     HOME = "H"
@@ -15,7 +15,7 @@ class MatchOutcome(str, Enum):
     AWAY = "A"
 
 
-class MatchStage(str, Enum):
+class MatchStage(StrEnum):
     """Etapa del torneo."""
 
     GROUP = "group"
@@ -85,7 +85,7 @@ class MatchPrediction(BaseModel):
     # Contexto
     features: dict[str, float] = Field(default_factory=dict)
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc)
+        default_factory=lambda: datetime.now(UTC)
     )
 
     @property

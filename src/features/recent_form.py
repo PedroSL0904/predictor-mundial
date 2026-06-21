@@ -13,8 +13,6 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from src.data.elo import ORIGINAL_ELO
-
 
 def compute_recent_form(
     df: pd.DataFrame,

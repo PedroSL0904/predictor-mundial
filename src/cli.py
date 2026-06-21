@@ -58,13 +58,18 @@ def predict(
     console.print(table)
 
 
+_DEFAULT_DATA_PATH = Path("data/raw/martj42_results.csv")
+
+
 @app.command()
 def wc_match(
     home: str = typer.Option(..., help="Nombre del equipo local"),
     away: str = typer.Option(..., help="Nombre del equipo visitante"),
     home_elo: float = typer.Option(1500.0),
     away_elo: float = typer.Option(1500.0),
-    data_path: Path = typer.Option(Path("data/raw/martj42_results.csv")),
+    data_path: Path = typer.Option(  # noqa: B008  (typer Option pattern)
+        default_factory=lambda: _DEFAULT_DATA_PATH
+    ),
     years_window: int = typer.Option(8),
     as_of: str = typer.Option("2026-06-15", help="Fecha de corte para histórico"),
 ) -> None:

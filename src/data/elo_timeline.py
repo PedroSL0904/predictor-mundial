@@ -106,7 +106,7 @@ def _parquet_to_timeline(path: Path) -> dict[str, dict[str, float]]:
     timeline: dict[str, dict[str, float]] = {}
     for date_iso, group in grouped:
         timeline[str(date_iso)[:10]] = dict(
-            zip(group["team"].tolist(), group["elo"].tolist())
+            zip(group["team"].tolist(), group["elo"].tolist(), strict=True)
         )
     return timeline
 

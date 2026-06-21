@@ -11,6 +11,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.data.team_names import normalize_team_name  # noqa: F401  (compat shim)
 from src.domain import MatchResult
 
 MARTJ42_URL = (
@@ -112,8 +113,3 @@ def compute_strengths_from_results(
 
     combined = combined[combined["matches"] >= min_matches]
     return combined.sort_values("attack", ascending=False).reset_index(drop=True)
-
-
-# Mapeo de nombres alternativos (Understat/FBref → football-data.co.uk / martj42)
-# Delegado a src.data.team_names (un solo lugar para mantener consistencia).
-from src.data.team_names import normalize_team_name  # noqa: F401

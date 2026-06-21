@@ -17,11 +17,11 @@ import math
 from datetime import datetime
 
 import numpy as np
-from scipy.stats import nbinom, poisson
 from pydantic import BaseModel, Field
+from scipy.stats import nbinom, poisson
 
 from src.config import get_settings
-from src.domain import MatchOutcome, MatchPrediction, ScorelineProb
+from src.domain import MatchPrediction, ScorelineProb
 
 
 # Dixon-Coles correction: tau(x, y, lam_h, lam_a, rho)
