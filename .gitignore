@@ -17,10 +17,16 @@ venv/
 env/
 
 # Datos grandes (datasets cacheados)
-data/raw/
+# - CSV principal de martj42 (~3.7 MB): descargado por setup_data.py en CI
+data/raw/martj42_results.csv
+# - Eventos crudos de StatsBomb (~210 MB): regenerados por download_statsbomb.py
+data/raw/statsbomb/
+# - Cache de Elo (~3.6 MB Parquet): regenerado por precompute_and_cache()
 data/processed/*.json
 data/processed/*.csv
 data/processed/*.parquet
+# - Lookup agregado de StatsBomb xG (25 KB): commiteado al repo
+#   data/raw/statsbomb_xg.json  ← NO ignorar (es chico y los tests lo necesitan)
 
 # Logs y temporales
 *.log

@@ -1,0 +1,1154 @@
+{
+  "8650": {
+    "home_team": "Brazil",
+    "away_team": "Belgium",
+    "date": "2018-07-06",
+    "home_xg": 2.609,
+    "away_xg": 0.405,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "7584": {
+    "home_team": "Belgium",
+    "away_team": "Japan",
+    "date": "2018-07-02",
+    "home_xg": 2.918,
+    "away_xg": 0.694,
+    "home_score": 3,
+    "away_score": 2
+  },
+  "7554": {
+    "home_team": "England",
+    "away_team": "Panama",
+    "date": "2018-06-24",
+    "home_xg": 3.168,
+    "away_xg": 1.08,
+    "home_score": 6,
+    "away_score": 1
+  },
+  "7539": {
+    "home_team": "Poland",
+    "away_team": "Senegal",
+    "date": "2018-06-19",
+    "home_xg": 1.042,
+    "away_xg": 1.428,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "7550": {
+    "home_team": "Serbia",
+    "away_team": "Switzerland",
+    "date": "2018-06-22",
+    "home_xg": 1.153,
+    "away_xg": 1.557,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "7538": {
+    "home_team": "Sweden",
+    "away_team": "South Korea",
+    "date": "2018-06-18",
+    "home_xg": 2.015,
+    "away_xg": 0.414,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "7534": {
+    "home_team": "Germany",
+    "away_team": "Mexico",
+    "date": "2018-06-17",
+    "home_xg": 2.299,
+    "away_xg": 0.993,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "7543": {
+    "home_team": "Iran",
+    "away_team": "Spain",
+    "date": "2018-06-20",
+    "home_xg": 0.426,
+    "away_xg": 2.197,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "7544": {
+    "home_team": "Uruguay",
+    "away_team": "Saudi Arabia",
+    "date": "2018-06-20",
+    "home_xg": 1.807,
+    "away_xg": 0.273,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "7546": {
+    "home_team": "France",
+    "away_team": "Peru",
+    "date": "2018-06-21",
+    "home_xg": 1.862,
+    "away_xg": 0.625,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "7545": {
+    "home_team": "Argentina",
+    "away_team": "Croatia",
+    "date": "2018-06-21",
+    "home_xg": 1.218,
+    "away_xg": 1.832,
+    "home_score": 0,
+    "away_score": 3
+  },
+  "7585": {
+    "home_team": "Colombia",
+    "away_team": "England",
+    "date": "2018-07-03",
+    "home_xg": 4.749,
+    "away_xg": 6.162,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "7569": {
+    "home_team": "Panama",
+    "away_team": "Tunisia",
+    "date": "2018-06-28",
+    "home_xg": 0.691,
+    "away_xg": 2.852,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "7572": {
+    "home_team": "Japan",
+    "away_team": "Poland",
+    "date": "2018-06-28",
+    "home_xg": 0.891,
+    "away_xg": 1.041,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "7561": {
+    "home_team": "Iceland",
+    "away_team": "Croatia",
+    "date": "2018-06-26",
+    "home_xg": 2.133,
+    "away_xg": 0.674,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "7540": {
+    "home_team": "Russia",
+    "away_team": "Egypt",
+    "date": "2018-06-19",
+    "home_xg": 0.981,
+    "away_xg": 1.698,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "7531": {
+    "home_team": "Argentina",
+    "away_team": "Iceland",
+    "date": "2018-06-16",
+    "home_xg": 2.081,
+    "away_xg": 1.032,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "7570": {
+    "home_team": "England",
+    "away_team": "Belgium",
+    "date": "2018-06-28",
+    "home_xg": 1.201,
+    "away_xg": 0.965,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "7586": {
+    "home_team": "Sweden",
+    "away_team": "Switzerland",
+    "date": "2018-07-03",
+    "home_xg": 0.91,
+    "away_xg": 0.533,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "7557": {
+    "home_team": "Iran",
+    "away_team": "Portugal",
+    "date": "2018-06-25",
+    "home_xg": 1.577,
+    "away_xg": 1.522,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "7542": {
+    "home_team": "Portugal",
+    "away_team": "Morocco",
+    "date": "2018-06-20",
+    "home_xg": 0.885,
+    "away_xg": 1.455,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "8656": {
+    "home_team": "Croatia",
+    "away_team": "England",
+    "date": "2018-07-11",
+    "home_xg": 2.141,
+    "away_xg": 0.547,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "7548": {
+    "home_team": "Brazil",
+    "away_team": "Costa Rica",
+    "date": "2018-06-22",
+    "home_xg": 3.096,
+    "away_xg": 0.159,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "7578": {
+    "home_team": "Egypt",
+    "away_team": "Uruguay",
+    "date": "2018-06-15",
+    "home_xg": 0.364,
+    "away_xg": 1.941,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "7553": {
+    "home_team": "South Korea",
+    "away_team": "Mexico",
+    "date": "2018-06-23",
+    "home_xg": 0.822,
+    "away_xg": 1.878,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "7536": {
+    "home_team": "Belgium",
+    "away_team": "Panama",
+    "date": "2018-06-18",
+    "home_xg": 1.212,
+    "away_xg": 0.625,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "7555": {
+    "home_team": "Poland",
+    "away_team": "Colombia",
+    "date": "2018-06-24",
+    "home_xg": 1.114,
+    "away_xg": 1.387,
+    "home_score": 0,
+    "away_score": 3
+  },
+  "7576": {
+    "home_team": "Portugal",
+    "away_team": "Spain",
+    "date": "2018-06-15",
+    "home_xg": 1.435,
+    "away_xg": 1.661,
+    "home_score": 3,
+    "away_score": 3
+  },
+  "7565": {
+    "home_team": "Serbia",
+    "away_team": "Brazil",
+    "date": "2018-06-27",
+    "home_xg": 0.948,
+    "away_xg": 1.42,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "7551": {
+    "home_team": "Germany",
+    "away_team": "Sweden",
+    "date": "2018-06-23",
+    "home_xg": 1.318,
+    "away_xg": 0.815,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "7537": {
+    "home_team": "Tunisia",
+    "away_team": "England",
+    "date": "2018-06-18",
+    "home_xg": 0.946,
+    "away_xg": 2.626,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "7580": {
+    "home_team": "France",
+    "away_team": "Argentina",
+    "date": "2018-06-30",
+    "home_xg": 1.638,
+    "away_xg": 1.447,
+    "home_score": 4,
+    "away_score": 3
+  },
+  "7581": {
+    "home_team": "Croatia",
+    "away_team": "Denmark",
+    "date": "2018-07-01",
+    "home_xg": 6.088,
+    "away_xg": 4.614,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "7549": {
+    "home_team": "Nigeria",
+    "away_team": "Iceland",
+    "date": "2018-06-22",
+    "home_xg": 1.312,
+    "away_xg": 1.552,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "7529": {
+    "home_team": "Croatia",
+    "away_team": "Nigeria",
+    "date": "2018-06-16",
+    "home_xg": 1.694,
+    "away_xg": 0.762,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "7562": {
+    "home_team": "Australia",
+    "away_team": "Peru",
+    "date": "2018-06-26",
+    "home_xg": 1.629,
+    "away_xg": 0.336,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "7571": {
+    "home_team": "Senegal",
+    "away_team": "Colombia",
+    "date": "2018-06-28",
+    "home_xg": 0.361,
+    "away_xg": 0.285,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "7568": {
+    "home_team": "Switzerland",
+    "away_team": "Costa Rica",
+    "date": "2018-06-27",
+    "home_xg": 1.22,
+    "away_xg": 1.576,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "7530": {
+    "home_team": "France",
+    "away_team": "Australia",
+    "date": "2018-06-16",
+    "home_xg": 1.562,
+    "away_xg": 0.98,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "7558": {
+    "home_team": "Uruguay",
+    "away_team": "Russia",
+    "date": "2018-06-25",
+    "home_xg": 2.483,
+    "away_xg": 0.18,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "7583": {
+    "home_team": "Brazil",
+    "away_team": "Mexico",
+    "date": "2018-07-02",
+    "home_xg": 3.32,
+    "away_xg": 0.583,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "7547": {
+    "home_team": "Denmark",
+    "away_team": "Australia",
+    "date": "2018-06-21",
+    "home_xg": 1.014,
+    "away_xg": 1.412,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "7535": {
+    "home_team": "Costa Rica",
+    "away_team": "Serbia",
+    "date": "2018-06-17",
+    "home_xg": 0.596,
+    "away_xg": 1.993,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "8649": {
+    "home_team": "Uruguay",
+    "away_team": "France",
+    "date": "2018-07-06",
+    "home_xg": 0.693,
+    "away_xg": 0.539,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "8658": {
+    "home_team": "France",
+    "away_team": "Croatia",
+    "date": "2018-07-15",
+    "home_xg": 1.098,
+    "away_xg": 1.48,
+    "home_score": 4,
+    "away_score": 2
+  },
+  "7582": {
+    "home_team": "Spain",
+    "away_team": "Russia",
+    "date": "2018-07-01",
+    "home_xg": 5.359,
+    "away_xg": 4.54,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "7552": {
+    "home_team": "Belgium",
+    "away_team": "Tunisia",
+    "date": "2018-06-23",
+    "home_xg": 5.336,
+    "away_xg": 1.188,
+    "home_score": 5,
+    "away_score": 2
+  },
+  "7532": {
+    "home_team": "Peru",
+    "away_team": "Denmark",
+    "date": "2018-06-16",
+    "home_xg": 1.926,
+    "away_xg": 1.122,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "7560": {
+    "home_team": "Spain",
+    "away_team": "Morocco",
+    "date": "2018-06-25",
+    "home_xg": 2.604,
+    "away_xg": 1.072,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "7533": {
+    "home_team": "Brazil",
+    "away_team": "Switzerland",
+    "date": "2018-06-17",
+    "home_xg": 1.867,
+    "away_xg": 0.472,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "7564": {
+    "home_team": "Nigeria",
+    "away_team": "Argentina",
+    "date": "2018-06-26",
+    "home_xg": 1.305,
+    "away_xg": 0.851,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "7579": {
+    "home_team": "Uruguay",
+    "away_team": "Portugal",
+    "date": "2018-06-30",
+    "home_xg": 0.476,
+    "away_xg": 0.996,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "7577": {
+    "home_team": "Morocco",
+    "away_team": "Iran",
+    "date": "2018-06-15",
+    "home_xg": 1.059,
+    "away_xg": 0.698,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "7525": {
+    "home_team": "Russia",
+    "away_team": "Saudi Arabia",
+    "date": "2018-06-14",
+    "home_xg": 1.282,
+    "away_xg": 0.249,
+    "home_score": 5,
+    "away_score": 0
+  },
+  "7566": {
+    "home_team": "Mexico",
+    "away_team": "Sweden",
+    "date": "2018-06-27",
+    "home_xg": 1.611,
+    "away_xg": 2.79,
+    "home_score": 0,
+    "away_score": 3
+  },
+  "8651": {
+    "home_team": "Sweden",
+    "away_team": "England",
+    "date": "2018-07-07",
+    "home_xg": 0.834,
+    "away_xg": 0.758,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "7567": {
+    "home_team": "South Korea",
+    "away_team": "Germany",
+    "date": "2018-06-27",
+    "home_xg": 1.775,
+    "away_xg": 2.706,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "7541": {
+    "home_team": "Colombia",
+    "away_team": "Japan",
+    "date": "2018-06-19",
+    "home_xg": 0.806,
+    "away_xg": 2.321,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "8655": {
+    "home_team": "France",
+    "away_team": "Belgium",
+    "date": "2018-07-10",
+    "home_xg": 1.682,
+    "away_xg": 0.567,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "8657": {
+    "home_team": "Belgium",
+    "away_team": "England",
+    "date": "2018-07-14",
+    "home_xg": 1.321,
+    "away_xg": 1.335,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "8652": {
+    "home_team": "Russia",
+    "away_team": "Croatia",
+    "date": "2018-07-07",
+    "home_xg": 4.988,
+    "away_xg": 5.568,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "7563": {
+    "home_team": "Denmark",
+    "away_team": "France",
+    "date": "2018-06-26",
+    "home_xg": 0.139,
+    "away_xg": 0.418,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "7556": {
+    "home_team": "Japan",
+    "away_team": "Senegal",
+    "date": "2018-06-24",
+    "home_xg": 0.982,
+    "away_xg": 1.878,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "7559": {
+    "home_team": "Saudi Arabia",
+    "away_team": "Egypt",
+    "date": "2018-06-25",
+    "home_xg": 2.546,
+    "away_xg": 0.924,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3857276": {
+    "home_team": "Canada",
+    "away_team": "Morocco",
+    "date": "2022-12-01",
+    "home_xg": 1.096,
+    "away_xg": 0.426,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3857271": {
+    "home_team": "England",
+    "away_team": "Iran",
+    "date": "2022-11-21",
+    "home_xg": 1.987,
+    "away_xg": 1.456,
+    "home_score": 6,
+    "away_score": 2
+  },
+  "3857296": {
+    "home_team": "Croatia",
+    "away_team": "Belgium",
+    "date": "2022-12-01",
+    "home_xg": 0.695,
+    "away_xg": 2.382,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3857274": {
+    "home_team": "Netherlands",
+    "away_team": "Ecuador",
+    "date": "2022-11-25",
+    "home_xg": 0.104,
+    "away_xg": 1.651,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3857255": {
+    "home_team": "Japan",
+    "away_team": "Spain",
+    "date": "2022-12-01",
+    "home_xg": 1.158,
+    "away_xg": 0.858,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3857272": {
+    "home_team": "England",
+    "away_team": "United States",
+    "date": "2022-11-25",
+    "home_xg": 0.461,
+    "away_xg": 0.514,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3857278": {
+    "home_team": "Iran",
+    "away_team": "United States",
+    "date": "2022-11-29",
+    "home_xg": 0.921,
+    "away_xg": 1.17,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3857277": {
+    "home_team": "Morocco",
+    "away_team": "Croatia",
+    "date": "2022-11-23",
+    "home_xg": 0.363,
+    "away_xg": 0.85,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3857273": {
+    "home_team": "Wales",
+    "away_team": "Iran",
+    "date": "2022-11-25",
+    "home_xg": 0.616,
+    "away_xg": 1.454,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3857275": {
+    "home_team": "Tunisia",
+    "away_team": "France",
+    "date": "2022-11-30",
+    "home_xg": 0.298,
+    "away_xg": 0.477,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3857261": {
+    "home_team": "Wales",
+    "away_team": "England",
+    "date": "2022-11-29",
+    "home_xg": 0.208,
+    "away_xg": 2.915,
+    "home_score": 0,
+    "away_score": 3
+  },
+  "3857290": {
+    "home_team": "Switzerland",
+    "away_team": "Cameroon",
+    "date": "2022-11-24",
+    "home_xg": 1.427,
+    "away_xg": 0.613,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3857298": {
+    "home_team": "Portugal",
+    "away_team": "Ghana",
+    "date": "2022-11-24",
+    "home_xg": 2.097,
+    "away_xg": 0.78,
+    "home_score": 3,
+    "away_score": 2
+  },
+  "3857285": {
+    "home_team": "Senegal",
+    "away_team": "Netherlands",
+    "date": "2022-11-21",
+    "home_xg": 0.691,
+    "away_xg": 1.124,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3857282": {
+    "home_team": "United States",
+    "away_team": "Wales",
+    "date": "2022-11-21",
+    "home_xg": 0.602,
+    "away_xg": 1.395,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3857297": {
+    "home_team": "Poland",
+    "away_team": "Saudi Arabia",
+    "date": "2022-11-26",
+    "home_xg": 1.734,
+    "away_xg": 1.972,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3857294": {
+    "home_team": "Netherlands",
+    "away_team": "Qatar",
+    "date": "2022-11-29",
+    "home_xg": 1.714,
+    "away_xg": 0.144,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3857266": {
+    "home_team": "France",
+    "away_team": "Denmark",
+    "date": "2022-11-26",
+    "home_xg": 1.934,
+    "away_xg": 0.889,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3857284": {
+    "home_team": "Germany",
+    "away_team": "Japan",
+    "date": "2022-11-23",
+    "home_xg": 2.768,
+    "away_xg": 1.249,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3857254": {
+    "home_team": "Denmark",
+    "away_team": "Tunisia",
+    "date": "2022-11-22",
+    "home_xg": 1.567,
+    "away_xg": 1.06,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3857265": {
+    "home_team": "Mexico",
+    "away_team": "Poland",
+    "date": "2022-11-22",
+    "home_xg": 0.529,
+    "away_xg": 1.138,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3857301": {
+    "home_team": "Qatar",
+    "away_team": "Senegal",
+    "date": "2022-11-25",
+    "home_xg": 0.96,
+    "away_xg": 0.903,
+    "home_score": 1,
+    "away_score": 3
+  },
+  "3857268": {
+    "home_team": "Belgium",
+    "away_team": "Canada",
+    "date": "2022-11-23",
+    "home_xg": 0.67,
+    "away_xg": 2.546,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3857269": {
+    "home_team": "Brazil",
+    "away_team": "Switzerland",
+    "date": "2022-11-28",
+    "home_xg": 0.923,
+    "away_xg": 0.289,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3869321": {
+    "home_team": "Netherlands",
+    "away_team": "Argentina",
+    "date": "2022-12-09",
+    "home_xg": 4.487,
+    "away_xg": 5.857,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "3857292": {
+    "home_team": "Costa Rica",
+    "away_team": "Germany",
+    "date": "2022-12-01",
+    "home_xg": 1.035,
+    "away_xg": 4.316,
+    "home_score": 2,
+    "away_score": 4
+  },
+  "3857295": {
+    "home_team": "Japan",
+    "away_team": "Costa Rica",
+    "date": "2022-11-27",
+    "home_xg": 0.774,
+    "away_xg": 0.199,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3869685": {
+    "home_team": "Argentina",
+    "away_team": "France",
+    "date": "2022-12-18",
+    "home_xg": 5.892,
+    "away_xg": 5.407,
+    "home_score": 3,
+    "away_score": 3
+  },
+  "3869684": {
+    "home_team": "Croatia",
+    "away_team": "Morocco",
+    "date": "2022-12-17",
+    "home_xg": 0.849,
+    "away_xg": 0.991,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3857256": {
+    "home_team": "Serbia",
+    "away_team": "Switzerland",
+    "date": "2022-12-02",
+    "home_xg": 1.189,
+    "away_xg": 3.104,
+    "home_score": 2,
+    "away_score": 3
+  },
+  "3869151": {
+    "home_team": "Argentina",
+    "away_team": "Australia",
+    "date": "2022-12-03",
+    "home_xg": 1.482,
+    "away_xg": 0.426,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3857257": {
+    "home_team": "Australia",
+    "away_team": "Denmark",
+    "date": "2022-11-30",
+    "home_xg": 0.47,
+    "away_xg": 0.737,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3857258": {
+    "home_team": "Brazil",
+    "away_team": "Serbia",
+    "date": "2022-11-24",
+    "home_xg": 2.124,
+    "away_xg": 0.163,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3857288": {
+    "home_team": "Tunisia",
+    "away_team": "Australia",
+    "date": "2022-11-26",
+    "home_xg": 1.052,
+    "away_xg": 0.359,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3857267": {
+    "home_team": "Ecuador",
+    "away_team": "Senegal",
+    "date": "2022-11-29",
+    "home_xg": 1.002,
+    "away_xg": 1.707,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3857287": {
+    "home_team": "Uruguay",
+    "away_team": "South Korea",
+    "date": "2022-11-24",
+    "home_xg": 0.417,
+    "away_xg": 0.493,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3869486": {
+    "home_team": "Morocco",
+    "away_team": "Portugal",
+    "date": "2022-12-10",
+    "home_xg": 0.972,
+    "away_xg": 0.744,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3857260": {
+    "home_team": "Saudi Arabia",
+    "away_team": "Mexico",
+    "date": "2022-11-30",
+    "home_xg": 1.076,
+    "away_xg": 2.322,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3857264": {
+    "home_team": "Poland",
+    "away_team": "Argentina",
+    "date": "2022-11-30",
+    "home_xg": 0.198,
+    "away_xg": 3.077,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3857289": {
+    "home_team": "Argentina",
+    "away_team": "Mexico",
+    "date": "2022-11-26",
+    "home_xg": 0.325,
+    "away_xg": 0.206,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3869254": {
+    "home_team": "Portugal",
+    "away_team": "Switzerland",
+    "date": "2022-12-06",
+    "home_xg": 2.284,
+    "away_xg": 1.272,
+    "home_score": 6,
+    "away_score": 1
+  },
+  "3869118": {
+    "home_team": "England",
+    "away_team": "Senegal",
+    "date": "2022-12-04",
+    "home_xg": 1.02,
+    "away_xg": 0.973,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3869519": {
+    "home_team": "Argentina",
+    "away_team": "Croatia",
+    "date": "2022-12-13",
+    "home_xg": 1.864,
+    "away_xg": 0.41,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3869354": {
+    "home_team": "England",
+    "away_team": "France",
+    "date": "2022-12-10",
+    "home_xg": 2.353,
+    "away_xg": 0.839,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3869552": {
+    "home_team": "France",
+    "away_team": "Morocco",
+    "date": "2022-12-14",
+    "home_xg": 2.002,
+    "away_xg": 1.23,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3869420": {
+    "home_team": "Croatia",
+    "away_team": "Brazil",
+    "date": "2022-12-09",
+    "home_xg": 3.767,
+    "away_xg": 4.95,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3869220": {
+    "home_team": "Morocco",
+    "away_team": "Spain",
+    "date": "2022-12-06",
+    "home_xg": 3.704,
+    "away_xg": 2.845,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3869219": {
+    "home_team": "Japan",
+    "away_team": "Croatia",
+    "date": "2022-12-05",
+    "home_xg": 4.203,
+    "away_xg": 3.988,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3869253": {
+    "home_team": "Brazil",
+    "away_team": "South Korea",
+    "date": "2022-12-05",
+    "home_xg": 3.261,
+    "away_xg": 0.345,
+    "home_score": 4,
+    "away_score": 1
+  },
+  "3869152": {
+    "home_team": "France",
+    "away_team": "Poland",
+    "date": "2022-12-04",
+    "home_xg": 1.126,
+    "away_xg": 1.594,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "3869117": {
+    "home_team": "Netherlands",
+    "away_team": "United States",
+    "date": "2022-12-03",
+    "home_xg": 1.482,
+    "away_xg": 1.652,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "3857270": {
+    "home_team": "Portugal",
+    "away_team": "Uruguay",
+    "date": "2022-11-28",
+    "home_xg": 1.214,
+    "away_xg": 1.217,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3857263": {
+    "home_team": "Spain",
+    "away_team": "Germany",
+    "date": "2022-11-27",
+    "home_xg": 0.64,
+    "away_xg": 1.147,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3857259": {
+    "home_team": "Cameroon",
+    "away_team": "Serbia",
+    "date": "2022-11-28",
+    "home_xg": 2.07,
+    "away_xg": 1.738,
+    "home_score": 3,
+    "away_score": 3
+  },
+  "3857283": {
+    "home_team": "Belgium",
+    "away_team": "Morocco",
+    "date": "2022-11-27",
+    "home_xg": 0.643,
+    "away_xg": 0.991,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3857286": {
+    "home_team": "Qatar",
+    "away_team": "Ecuador",
+    "date": "2022-11-20",
+    "home_xg": 0.304,
+    "away_xg": 1.154,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3857300": {
+    "home_team": "Argentina",
+    "away_team": "Saudi Arabia",
+    "date": "2022-11-22",
+    "home_xg": 2.492,
+    "away_xg": 0.153,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3857299": {
+    "home_team": "South Korea",
+    "away_team": "Ghana",
+    "date": "2022-11-28",
+    "home_xg": 1.368,
+    "away_xg": 1.181,
+    "home_score": 2,
+    "away_score": 3
+  },
+  "3857293": {
+    "home_team": "Ghana",
+    "away_team": "Uruguay",
+    "date": "2022-12-02",
+    "home_xg": 1.393,
+    "away_xg": 1.637,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3857291": {
+    "home_team": "Spain",
+    "away_team": "Costa Rica",
+    "date": "2022-11-23",
+    "home_xg": 2.762,
+    "away_xg": 0.0,
+    "home_score": 7,
+    "away_score": 0
+  },
+  "3857281": {
+    "home_team": "Croatia",
+    "away_team": "Canada",
+    "date": "2022-11-27",
+    "home_xg": 2.61,
+    "away_xg": 0.287,
+    "home_score": 4,
+    "away_score": 1
+  },
+  "3857280": {
+    "home_team": "Cameroon",
+    "away_team": "Brazil",
+    "date": "2022-12-02",
+    "home_xg": 0.383,
+    "away_xg": 2.378,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3857279": {
+    "home_team": "France",
+    "away_team": "Australia",
+    "date": "2022-11-22",
+    "home_xg": 3.17,
+    "away_xg": 0.323,
+    "home_score": 4,
+    "away_score": 1
+  },
+  "3857262": {
+    "home_team": "South Korea",
+    "away_team": "Portugal",
+    "date": "2022-12-02",
+    "home_xg": 1.399,
+    "away_xg": 0.974,
+    "home_score": 2,
+    "away_score": 1
+  }
+}
