@@ -291,6 +291,7 @@ def simulate_tournament(
         "group_runners_up": group_runners_up,
         "third_teams": third_teams,
         "qualified_thirds": qualified_thirds,
+        "third_assignments": third_assignments,
     }
 
 

@@ -128,6 +128,7 @@ def render_readme(
     tournament_stats: pd.DataFrame | None = None,
     n_simulations: int = 1000,
     sim_elapsed: float = 0.0,
+    bracket_analysis: dict | None = None,
 ) -> str:
     """Renderiza el README con tablas por grupo."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
@@ -182,6 +183,13 @@ def render_readme(
                 f"{r['sf']:.1%} | {r['qf']:.1%} | {r['r16']:.1%} | {r['r32']:.1%} |"
             )
         lines.append("")
+
+    # Llave completa de eliminatorias (analisis de los 32 partidos de la llave)
+    if bracket_analysis is not None:
+        from src.simulation.bracket_analysis import format_bracket_table
+        bracket_md = format_bracket_table(bracket_analysis)
+        # Split multi-line string y agregar a lines
+        lines.extend(bracket_md.split("\n"))
 
     # Tablas por grupo
     lines.append("## Grupos")
@@ -355,11 +363,19 @@ def main() -> None:
     print(f"  Monte Carlo en {mc_result['elapsed']:.1f}s")
     print(f"  Top 3: {tournament_stats.head(3)['team'].tolist()}")
 
+    # Analisis de llave completa (reusar las simulaciones ya corridas seria ideal
+    # pero analyze_bracket corre sus propias simulaciones; lo limitamos a 500 para
+    # no duplicar el costo)
+    print("Analizando llave completa (500 simulaciones)...", flush=True)
+    from src.simulation.bracket_analysis import analyze_bracket
+    bracket_analysis = analyze_bracket(sim, fixtures, n_simulations=500)
+
     # Generar README
     readme = render_readme(
         pred_df, metrics, tournament_stats,
         n_simulations=mc_result["n_simulations"],
         sim_elapsed=mc_result["elapsed"],
+        bracket_analysis=bracket_analysis,
     )
     readme_path = Path(r"C:\dev\predictor-mundial\WC2026_README.md")
     # Usar UTF-8 sin BOM para compatibilidad maxima
