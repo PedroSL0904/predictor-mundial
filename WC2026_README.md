@@ -3,7 +3,7 @@
 Predicciones para el Mundial 2026 generadas con el modelo Poisson + Dixon-Coles,
 ponderado por Elo rolling, con ajustes de recent form, draw boost y elo gap inflation.
 
-_Generado 2026-06-20 21:27 UTC._
+_Generado 2026-06-20 21:48 UTC._
 
 **72 partidos de fase de grupos** | 34 jugados | 38 pendientes
 
@@ -20,7 +20,7 @@ Partidos evaluados: **34**
 
 ## Probabilidades del torneo (Monte Carlo)
 
-Simulacion: 1000 corridas del torneo completo (fase de grupos + R32 + R16 + QF + SF + Final). Respetando los 34 partidos ya jugados. Tiempo: 11.5s.
+Simulacion: 1000 corridas del torneo completo (fase de grupos + R32 + R16 + QF + SF + Final). Respetando los 34 partidos ya jugados. Tiempo: 11.9s.
 
 Top 16 por probabilidad de campeon:
 
