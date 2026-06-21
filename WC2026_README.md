@@ -3,7 +3,7 @@
 Predicciones para el Mundial 2026 generadas con el modelo Poisson + Dixon-Coles,
 ponderado por Elo rolling, con ajustes de recent form, draw boost y elo gap inflation.
 
-_Generado 2026-06-21 15:48 UTC._
+_Generado 2026-06-21 16:10 UTC._
 
 **72 partidos de fase de grupos** | 36 jugados | 36 pendientes
 
@@ -20,7 +20,7 @@ Partidos evaluados: **36**
 
 ## Probabilidades del torneo (Monte Carlo)
 
-Simulacion: 1000 corridas del torneo completo (fase de grupos + R32 + R16 + QF + SF + Final). Respetando los 36 partidos ya jugados. Tiempo: 11.3s.
+Simulacion: 1000 corridas del torneo completo (fase de grupos + R32 + R16 + QF + SF + Final). Respetando los 36 partidos ya jugados. Tiempo: 11.0s.
 
 Top 16 por probabilidad de campeon:
 
@@ -43,517 +43,202 @@ Top 16 por probabilidad de campeon:
 | Austria | 1.8% | 4.5% | 8.7% | 23.9% | 41.3% | 100.0% |
 | Bosnia and Herzegovina | 1.3% | 2.1% | 4.8% | 9.5% | 17.7% | 34.8% |
 
-## Llave completa de eliminatorias (500 simulaciones MC)
-
-Para cada partido, mostramos la probabilidad de que cada equipo juegue (**Juega**) y gane (**Gana**) ese partido, agregado sobre 500 simulaciones.
-
-*Nota: para partidos de R32 con un slot de 3rd (ej. 'Winner E vs 3rd {A,B,C,D,F}'), la columna 'Juega' puede no atribuirse al 3rd correcto por ambiguedad del bracket, pero la columna 'Gana' es exacta.*
-
-### R32
-
-**Partido 73** (Runner A vs Runner B)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| South Korea | 67.2% | 30.4% |
-| Switzerland | 54.2% | 29.4% |
-| Canada | 45.8% | 26.4% |
-| South Africa | 32.8% | 13.8% |
-
-**Partido 74** (Winner E vs 3rd {A,B,C,D,F})
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Germany | 100.0% | 72.2% |
-| Bosnia and Herzegovina | 0.2% | 12.2% |
-| South Korea | 0.2% | 9.8% |
-| Scotland | 0.2% | 4.2% |
-| Qatar | 0.2% | 1.6% |
-
-**Partido 75** (Winner F vs Runner C)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Morocco | 100.0% | 67.8% |
-| Netherlands | 100.0% | 32.2% |
-
-**Partido 76** (Winner C vs Runner F)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Japan | 100.0% | 52.2% |
-| Brazil | 100.0% | 47.8% |
-
-**Partido 77** (Winner I vs 3rd {C,D,F,G,H})
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| France | 100.0% | 76.8% |
-| Scotland | 0.2% | 8.2% |
-| Paraguay | 0.2% | 7.4% |
-| Australia | 0.2% | 5.2% |
-| Turkey | 0.2% | 1.6% |
-| Sweden | 0.2% | 0.8% |
-
-**Partido 78** (Runner E vs Runner I)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Ivory Coast | 100.0% | 61.6% |
-| Norway | 72.2% | 29.4% |
-| Senegal | 27.8% | 9.0% |
-
-**Partido 79** (Winner A vs 3rd {C,E,F,H,I})
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Mexico | 100.0% | 69.2% |
-| Scotland | 0.2% | 12.4% |
-| Sweden | 0.2% | 9.2% |
-| Ecuador | 0.2% | 9.0% |
-| Saudi Arabia | 0.2% | 0.2% |
-
-**Partido 80** (Winner L vs 3rd {E,H,I,J,K})
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| England | 100.0% | 70.2% |
-| Portugal | 0.2% | 11.6% |
-| Colombia | 0.2% | 6.6% |
-| Congo DR | 0.2% | 4.2% |
-| Uzbekistan | 0.2% | 4.0% |
-| Senegal | 0.2% | 1.4% |
-| Saudi Arabia | 0.2% | 0.8% |
-| Ecuador | 0.2% | 0.6% |
-| Uruguay | 0.2% | 0.2% |
-| Cape Verde | 0.2% | 0.2% |
-| Norway | 0.2% | 0.2% |
-
-**Partido 81** (Winner D vs 3rd {B,E,F,I,J})
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| USA | 100.0% | 55.6% |
-| Sweden | 0.2% | 18.4% |
-| Senegal | 0.2% | 8.4% |
-| Bosnia and Herzegovina | 0.2% | 5.4% |
-| Norway | 0.2% | 4.4% |
-| Ecuador | 0.2% | 2.6% |
-| Qatar | 0.2% | 2.2% |
-| Austria | 0.2% | 1.8% |
-| Iraq | 0.2% | 1.0% |
-| Algeria | 0.2% | 0.2% |
-
-**Partido 82** (Winner G vs 3rd {A,E,H,I,J})
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Belgium | 100.0% | 75.2% |
-| Austria | 0.2% | 6.0% |
-| Algeria | 0.2% | 5.2% |
-| Senegal | 0.2% | 4.0% |
-| Norway | 0.2% | 3.0% |
-| Saudi Arabia | 0.2% | 2.8% |
-| Cape Verde | 0.2% | 1.8% |
-| Uruguay | 0.2% | 0.8% |
-| South Korea | 0.2% | 0.6% |
-| Ecuador | 0.2% | 0.4% |
-| Iraq | 0.2% | 0.2% |
-
-**Partido 83** (Runner K vs Runner L)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Croatia | 100.0% | 35.4% |
-| Colombia | 39.0% | 27.4% |
-| Portugal | 35.0% | 25.8% |
-| Congo DR | 26.0% | 11.4% |
-
-**Partido 84** (Winner H vs Runner J)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Spain | 100.0% | 65.6% |
-| Austria | 56.6% | 17.0% |
-| Algeria | 43.4% | 17.4% |
-
-**Partido 85** (Winner B vs 3rd {E,F,G,I,J})
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Canada | 54.2% | 21.8% |
-| Switzerland | 45.8% | 22.8% |
-| Egypt | 0.2% | 19.2% |
-| Austria | 0.2% | 11.6% |
-| Algeria | 0.2% | 8.8% |
-| IR Iran | 0.2% | 3.8% |
-| Sweden | 0.2% | 3.6% |
-| Norway | 0.2% | 3.0% |
-| Senegal | 0.2% | 2.6% |
-| New Zealand | 0.2% | 2.0% |
-| Iraq | 0.2% | 0.8% |
-
-**Partido 86** (Winner J vs Runner H)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Argentina | 100.0% | 90.4% |
-| Uruguay | 52.6% | 8.4% |
-| Cape Verde | 38.0% | 0.8% |
-| Saudi Arabia | 9.4% | 0.4% |
-
-**Partido 87** (Winner K vs 3rd {D,E,I,J,L})
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Colombia | 44.6% | 37.2% |
-| Portugal | 43.2% | 36.4% |
-| Congo DR | 12.2% | 5.6% |
-| Ghana | 0.2% | 5.6% |
-| Austria | 0.2% | 4.4% |
-| Algeria | 0.2% | 3.4% |
-| Paraguay | 0.2% | 2.6% |
-| Australia | 0.2% | 2.0% |
-| Turkey | 0.2% | 1.6% |
-| Ecuador | 0.2% | 0.4% |
-| Norway | 0.2% | 0.4% |
-| Senegal | 0.2% | 0.4% |
-
-**Partido 88** (Runner D vs Runner G)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Australia | 63.0% | 22.6% |
-| Egypt | 49.2% | 27.8% |
-| IR Iran | 47.2% | 36.0% |
-| Paraguay | 37.0% | 12.6% |
-| New Zealand | 3.6% | 1.0% |
-
-### R16
-
-**Partido 89** (Wo74 vs Wo77)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| France | 76.8% | 42.8% |
-| Germany | 72.2% | 40.4% |
-| Scotland | 12.4% | 2.8% |
-| Bosnia and Herzegovina | 12.2% | 6.4% |
-| South Korea | 9.8% | 3.4% |
-| Paraguay | 7.4% | 2.0% |
-| Australia | 5.2% | 1.0% |
-| Turkey | 1.6% | 0.6% |
-| Qatar | 1.6% | 0.2% |
-| Sweden | 0.8% | 0.4% |
-
-**Partido 90** (Wo73 vs Wo75)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Morocco | 67.8% | 53.2% |
-| Netherlands | 32.2% | 21.8% |
-| South Korea | 30.4% | 6.6% |
-| Switzerland | 29.4% | 10.0% |
-| Canada | 26.4% | 7.0% |
-| South Africa | 13.8% | 1.4% |
-
-**Partido 91** (Wo76 vs Wo78)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Ivory Coast | 61.6% | 26.8% |
-| Japan | 52.2% | 29.8% |
-| Brazil | 47.8% | 30.4% |
-| Norway | 29.4% | 10.4% |
-| Senegal | 9.0% | 2.6% |
-
-**Partido 92** (Wo79 vs Wo80)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| England | 70.2% | 42.0% |
-| Mexico | 69.2% | 33.0% |
-| Scotland | 12.4% | 2.8% |
-| Portugal | 11.6% | 7.8% |
-| Ecuador | 9.6% | 4.2% |
-| Sweden | 9.2% | 2.0% |
-| Colombia | 6.6% | 3.2% |
-| Congo DR | 4.2% | 2.2% |
-| Uzbekistan | 4.0% | 1.6% |
-| Senegal | 1.4% | 0.6% |
-| Saudi Arabia | 1.0% | 0.2% |
-| Uruguay | 0.2% | 0.2% |
-| Norway | 0.2% | 0.2% |
-| Cape Verde | 0.2% | 0.0% |
-
-**Partido 93** (Wo83 vs Wo84)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Spain | 65.6% | 48.0% |
-| Croatia | 35.4% | 7.6% |
-| Colombia | 27.4% | 9.8% |
-| Portugal | 25.8% | 12.0% |
-| Algeria | 17.4% | 11.4% |
-| Austria | 17.0% | 9.4% |
-| Congo DR | 11.4% | 1.8% |
-
-**Partido 94** (Wo81 vs Wo82)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Belgium | 75.2% | 62.0% |
-| USA | 55.6% | 11.8% |
-| Sweden | 18.4% | 3.6% |
-| Senegal | 12.4% | 4.4% |
-| Austria | 7.8% | 6.0% |
-| Norway | 7.4% | 4.0% |
-| Algeria | 5.4% | 3.2% |
-| Bosnia and Herzegovina | 5.4% | 2.6% |
-| Ecuador | 3.0% | 0.6% |
-| Saudi Arabia | 2.8% | 0.6% |
-| Qatar | 2.2% | 0.0% |
-| Cape Verde | 1.8% | 0.4% |
-| Iraq | 1.2% | 0.2% |
-| Uruguay | 0.8% | 0.4% |
-| South Korea | 0.6% | 0.2% |
-
-**Partido 95** (Wo86 vs Wo88)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Argentina | 90.4% | 74.8% |
-| IR Iran | 36.0% | 11.4% |
-| Egypt | 27.8% | 6.2% |
-| Australia | 22.6% | 2.8% |
-| Paraguay | 12.6% | 0.4% |
-| Uruguay | 8.4% | 4.2% |
-| New Zealand | 1.0% | 0.0% |
-| Cape Verde | 0.8% | 0.0% |
-| Saudi Arabia | 0.4% | 0.2% |
-
-**Partido 96** (Wo85 vs Wo87)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Colombia | 37.2% | 24.0% |
-| Portugal | 36.4% | 25.8% |
-| Switzerland | 22.8% | 8.2% |
-| Canada | 21.8% | 6.4% |
-| Egypt | 19.2% | 5.8% |
-| Austria | 16.0% | 9.8% |
-| Algeria | 12.2% | 7.4% |
-| Congo DR | 5.6% | 2.8% |
-| Ghana | 5.6% | 0.8% |
-| IR Iran | 3.8% | 2.0% |
-| Sweden | 3.6% | 1.2% |
-| Norway | 3.4% | 1.2% |
-| Senegal | 3.0% | 0.8% |
-| Paraguay | 2.6% | 1.0% |
-| Australia | 2.0% | 1.0% |
-| New Zealand | 2.0% | 0.4% |
-| Turkey | 1.6% | 0.8% |
-| Iraq | 0.8% | 0.2% |
-| Ecuador | 0.4% | 0.4% |
-
-### QF
-
-**Partido 97** (Wo89 vs Wo90)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Morocco | 53.2% | 36.8% |
-| France | 42.8% | 20.4% |
-| Germany | 40.4% | 17.0% |
-| Netherlands | 21.8% | 11.8% |
-| Switzerland | 10.0% | 3.4% |
-| South Korea | 10.0% | 3.0% |
-| Canada | 7.0% | 1.8% |
-| Bosnia and Herzegovina | 6.4% | 3.0% |
-| Scotland | 2.8% | 0.6% |
-| Paraguay | 2.0% | 0.8% |
-| South Africa | 1.4% | 0.8% |
-| Australia | 1.0% | 0.6% |
-| Turkey | 0.6% | 0.0% |
-| Sweden | 0.4% | 0.0% |
-| Qatar | 0.2% | 0.0% |
-
-**Partido 98** (Wo93 vs Wo94)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Belgium | 62.0% | 33.8% |
-| Spain | 48.0% | 30.4% |
-| Austria | 15.4% | 6.2% |
-| Algeria | 14.6% | 8.0% |
-| Portugal | 12.0% | 6.8% |
-| USA | 11.8% | 2.2% |
-| Colombia | 9.8% | 4.4% |
-| Croatia | 7.6% | 2.6% |
-| Senegal | 4.4% | 1.0% |
-| Norway | 4.0% | 0.8% |
-| Sweden | 3.6% | 0.4% |
-| Bosnia and Herzegovina | 2.6% | 1.6% |
-| Congo DR | 1.8% | 0.8% |
-| Ecuador | 0.6% | 0.4% |
-| Saudi Arabia | 0.6% | 0.0% |
-| Cape Verde | 0.4% | 0.2% |
-| Uruguay | 0.4% | 0.0% |
-| Iraq | 0.2% | 0.2% |
-| South Korea | 0.2% | 0.2% |
-
-**Partido 99** (Wo91 vs Wo92)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| England | 42.0% | 23.0% |
-| Mexico | 33.0% | 16.4% |
-| Brazil | 30.4% | 16.4% |
-| Japan | 29.8% | 16.2% |
-| Ivory Coast | 26.8% | 12.4% |
-| Norway | 10.6% | 3.4% |
-| Portugal | 7.8% | 5.0% |
-| Ecuador | 4.2% | 2.2% |
-| Colombia | 3.2% | 2.0% |
-| Senegal | 3.2% | 0.8% |
-| Scotland | 2.8% | 0.6% |
-| Congo DR | 2.2% | 0.6% |
-| Sweden | 2.0% | 0.6% |
-| Uzbekistan | 1.6% | 0.2% |
-| Uruguay | 0.2% | 0.2% |
-| Saudi Arabia | 0.2% | 0.0% |
-
-**Partido 100** (Wo95 vs Wo96)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Argentina | 74.8% | 54.2% |
-| Portugal | 25.8% | 12.4% |
-| Colombia | 24.0% | 9.2% |
-| IR Iran | 13.4% | 5.6% |
-| Egypt | 12.0% | 3.8% |
-| Austria | 9.8% | 3.4% |
-| Switzerland | 8.2% | 1.8% |
-| Algeria | 7.4% | 3.0% |
-| Canada | 6.4% | 1.4% |
-| Uruguay | 4.2% | 1.6% |
-| Australia | 3.8% | 0.8% |
-| Congo DR | 2.8% | 1.2% |
-| Paraguay | 1.4% | 0.4% |
-| Norway | 1.2% | 0.4% |
-| Sweden | 1.2% | 0.2% |
-| Senegal | 0.8% | 0.4% |
-| Turkey | 0.8% | 0.2% |
-| Ghana | 0.8% | 0.0% |
-| Ecuador | 0.4% | 0.0% |
-| New Zealand | 0.4% | 0.0% |
-| Saudi Arabia | 0.2% | 0.0% |
-| Iraq | 0.2% | 0.0% |
-
-### SF
-
-**Partido 101** (Wo97 vs Wo98)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Morocco | 36.8% | 21.8% |
-| Belgium | 33.8% | 20.2% |
-| Spain | 30.4% | 16.6% |
-| France | 20.4% | 7.0% |
-| Germany | 17.0% | 6.6% |
-| Netherlands | 11.8% | 5.0% |
-| Algeria | 8.0% | 4.6% |
-| Portugal | 6.8% | 3.8% |
-| Austria | 6.2% | 3.4% |
-| Bosnia and Herzegovina | 4.6% | 2.4% |
-| Colombia | 4.4% | 2.4% |
-| Switzerland | 3.4% | 1.4% |
-| South Korea | 3.2% | 0.2% |
-| Croatia | 2.6% | 1.0% |
-| USA | 2.2% | 0.8% |
-| Canada | 1.8% | 0.6% |
-| Senegal | 1.0% | 0.2% |
-| Norway | 0.8% | 0.4% |
-| Congo DR | 0.8% | 0.4% |
-| Paraguay | 0.8% | 0.4% |
-| South Africa | 0.8% | 0.0% |
-| Scotland | 0.6% | 0.2% |
-| Australia | 0.6% | 0.0% |
-| Ecuador | 0.4% | 0.2% |
-| Sweden | 0.4% | 0.0% |
-| Cape Verde | 0.2% | 0.2% |
-| Iraq | 0.2% | 0.2% |
-
-**Partido 102** (Wo99 vs Wo100)
-
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Argentina | 54.2% | 38.0% |
-| England | 23.0% | 11.2% |
-| Portugal | 17.4% | 7.2% |
-| Brazil | 16.4% | 8.6% |
-| Mexico | 16.4% | 5.6% |
-| Japan | 16.2% | 8.8% |
-| Ivory Coast | 12.4% | 5.2% |
-| Colombia | 11.2% | 5.2% |
-| IR Iran | 5.6% | 3.0% |
-| Egypt | 3.8% | 1.2% |
-| Norway | 3.8% | 0.2% |
-| Austria | 3.4% | 2.0% |
-| Algeria | 3.0% | 1.0% |
-| Ecuador | 2.2% | 1.2% |
-| Switzerland | 1.8% | 0.6% |
-| Uruguay | 1.8% | 0.2% |
-| Congo DR | 1.8% | 0.0% |
-| Canada | 1.4% | 0.4% |
-| Senegal | 1.2% | 0.0% |
-| Australia | 0.8% | 0.2% |
-| Sweden | 0.8% | 0.0% |
-| Scotland | 0.6% | 0.0% |
-| Paraguay | 0.4% | 0.2% |
-| Turkey | 0.2% | 0.0% |
-| Uzbekistan | 0.2% | 0.0% |
+## Llave de eliminatorias (500 simulaciones)
+
+Para cada partido, los **3 favoritos para GANAR** ese partido (probabilidad condicional de ganar ese match especifico, no de campeon).
+
+### Round of 32
+
+**#73**  Runner A  vs  Runner B
+
+- **South Korea** 30%
+- **Switzerland** 29%
+- **Canada** 26%
+
+**#74**  Winner E  vs  3rd {A,B,C,D,F}
+
+- **Germany** 72%
+- **Bosnia and Herzegovina** 12%
+- **South Korea** 10%
+
+**#75**  Winner F  vs  Runner C
+
+- **Morocco** 68%
+- **Netherlands** 32%
+
+**#76**  Winner C  vs  Runner F
+
+- **Japan** 52%
+- **Brazil** 48%
+
+**#77**  Winner I  vs  3rd {C,D,F,G,H}
+
+- **France** 77%
+- **Scotland** 8%
+- **Paraguay** 7%
+
+**#78**  Runner E  vs  Runner I
+
+- **Ivory Coast** 62%
+- **Norway** 29%
+- **Senegal** 9%
+
+**#79**  Winner A  vs  3rd {C,E,F,H,I}
+
+- **Mexico** 69%
+- **Scotland** 12%
+- **Sweden** 9%
+
+**#80**  Winner L  vs  3rd {E,H,I,J,K}
+
+- **England** 70%
+- **Portugal** 12%
+- **Colombia** 7%
+
+**#81**  Winner D  vs  3rd {B,E,F,I,J}
+
+- **USA** 56%
+- **Sweden** 18%
+- **Senegal** 8%
+
+**#82**  Winner G  vs  3rd {A,E,H,I,J}
+
+- **Belgium** 75%
+- **Austria** 6%
+- **Algeria** 5%
+
+**#83**  Runner K  vs  Runner L
+
+- **Croatia** 35%
+- **Colombia** 27%
+- **Portugal** 26%
+
+**#84**  Winner H  vs  Runner J
+
+- **Spain** 66%
+- **Algeria** 17%
+- **Austria** 17%
+
+**#85**  Winner B  vs  3rd {E,F,G,I,J}
+
+- **Switzerland** 23%
+- **Canada** 22%
+- **Egypt** 19%
+
+**#86**  Winner J  vs  Runner H
+
+- **Argentina** 90%
+- **Uruguay** 8%
+
+**#87**  Winner K  vs  3rd {D,E,I,J,L}
+
+- **Colombia** 37%
+- **Portugal** 36%
+- **Congo DR** 6%
+
+**#88**  Runner D  vs  Runner G
+
+- **IR Iran** 36%
+- **Egypt** 28%
+- **Australia** 23%
+
+### Round of 16
+
+**#89**  Wo74  vs  Wo77
+
+- **France** 43%
+- **Germany** 40%
+- **Bosnia and Herzegovina** 6%
+
+**#90**  Wo73  vs  Wo75
+
+- **Morocco** 53%
+- **Netherlands** 22%
+- **Switzerland** 10%
+
+**#91**  Wo76  vs  Wo78
+
+- **Brazil** 30%
+- **Japan** 30%
+- **Ivory Coast** 27%
+
+**#92**  Wo79  vs  Wo80
+
+- **England** 42%
+- **Mexico** 33%
+- **Portugal** 8%
+
+**#93**  Wo83  vs  Wo84
+
+- **Spain** 48%
+- **Portugal** 12%
+- **Algeria** 11%
+
+**#94**  Wo81  vs  Wo82
+
+- **Belgium** 62%
+- **USA** 12%
+- **Austria** 6%
+
+**#95**  Wo86  vs  Wo88
+
+- **Argentina** 75%
+- **IR Iran** 11%
+- **Egypt** 6%
+
+**#96**  Wo85  vs  Wo87
+
+- **Portugal** 26%
+- **Colombia** 24%
+- **Austria** 10%
+
+### Quarterfinals
+
+**#97**  Wo89  vs  Wo90
+
+- **Morocco** 37%
+- **France** 20%
+- **Germany** 17%
+
+**#98**  Wo93  vs  Wo94
+
+- **Belgium** 34%
+- **Spain** 30%
+- **Algeria** 8%
+
+**#99**  Wo91  vs  Wo92
+
+- **England** 23%
+- **Brazil** 16%
+- **Mexico** 16%
+
+**#100**  Wo95  vs  Wo96
+
+- **Argentina** 54%
+- **Portugal** 12%
+- **Colombia** 9%
+
+### Semifinals
+
+**#101**  Wo97  vs  Wo98
+
+- **Morocco** 22%
+- **Belgium** 20%
+- **Spain** 17%
+
+**#102**  Wo99  vs  Wo100
+
+- **Argentina** 38%
+- **England** 11%
+- **Japan** 9%
 
 ### Final
 
-**Partido 104** (Wo101 vs Wo102)
+**#104**  Wo101  vs  Wo102
 
-| Equipo | Juega | Gana |
-|---|---:|---:|
-| Argentina | 38.0% | 27.2% |
-| Morocco | 21.8% | 13.8% |
-| Belgium | 20.2% | 9.4% |
-| Spain | 16.6% | 8.6% |
-| England | 11.2% | 6.2% |
-| Portugal | 11.0% | 4.0% |
-| Japan | 8.8% | 3.8% |
-| Brazil | 8.6% | 3.2% |
-| Colombia | 7.6% | 3.6% |
-| France | 7.0% | 2.8% |
-| Germany | 6.6% | 3.4% |
-| Algeria | 5.6% | 2.6% |
-| Mexico | 5.6% | 1.0% |
-| Austria | 5.4% | 1.6% |
-| Ivory Coast | 5.2% | 2.4% |
-| Netherlands | 5.0% | 2.2% |
-| IR Iran | 3.0% | 0.6% |
-| Bosnia and Herzegovina | 2.4% | 1.2% |
-| Switzerland | 2.0% | 0.6% |
-| Ecuador | 1.4% | 0.2% |
-| Egypt | 1.2% | 0.2% |
-| Canada | 1.0% | 0.2% |
-| Croatia | 1.0% | 0.2% |
-| USA | 0.8% | 0.4% |
-| Norway | 0.6% | 0.2% |
-| Paraguay | 0.6% | 0.0% |
-| Congo DR | 0.4% | 0.0% |
-| Scotland | 0.2% | 0.2% |
-| Cape Verde | 0.2% | 0.2% |
-| Uruguay | 0.2% | 0.0% |
-| South Korea | 0.2% | 0.0% |
-| Senegal | 0.2% | 0.0% |
-| Australia | 0.2% | 0.0% |
-| Iraq | 0.2% | 0.0% |
+- **Argentina** 27%
+- **Morocco** 14%
+- **Belgium** 9%
 
 ## Grupos
 

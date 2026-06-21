@@ -186,8 +186,8 @@ def render_readme(
 
     # Llave completa de eliminatorias (analisis de los 32 partidos de la llave)
     if bracket_analysis is not None:
-        from src.simulation.bracket_analysis import format_bracket_table
-        bracket_md = format_bracket_table(bracket_analysis)
+        from src.simulation.bracket_analysis import format_bracket_tree
+        bracket_md = format_bracket_tree(bracket_analysis)
         # Split multi-line string y agregar a lines
         lines.extend(bracket_md.split("\n"))
 
