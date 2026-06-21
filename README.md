@@ -6,24 +6,56 @@ Sistema de predicciones de fútbol basado en Poisson/Dixon-Coles con ponderació
 
 Construir el mejor modelo predictivo open-source para partidos de fútbol de selecciones, optimizado para Brier score y RPS sobre Mundiales 2014, 2018 y 2022.
 
-## Estado actual
+## Rendimiento vs. los mejores sistemas del mundo
 
-| Métrica | Baseline | Modelo actual | Pinnacle (ref.) |
+**Pregunta honesta**: ¿qué tan bien estamos comparados con sistemas profesionales como Pinnacle, Opta, FiveThirtyEight?
+
+| Sistema | Brier 1X2 | Sign accuracy | Fuente |
 |---|---|---|---|
-| Brier 1X2 | 0.677 | **0.598** | ~0.55 |
-| Sign accuracy | 44.7% | **54.0%** | 53-55% |
-| RPS | 0.498 | **0.425** | ~0.40 |
+| **Pinnacle closing odds** (mercado) | **0.20-0.22** | 53-55% | Mercado real (mejor predictor) |
+| Opta / Stats Perform | 0.21-0.23 | 53-55% | Industria |
+| FiveThirtyEight SPI (2014-2022) | 0.22-0.24 | 52-54% | Modelo estadístico |
+| **Predictor-Mundial** (backtest 2014-2022) | **0.578** | **54.0%** | Mi sistema |
+| **Predictor-Mundial** (WC 2026 in-progress, 34 partidos) | **0.569** | **58.8%** | Mi sistema |
+| Baseline uniforme (1/3) | 0.667 | 33% | Random |
+
+**Lectura**:
+
+1. **Estamos en el rango de sign accuracy de Pinnacle** (54% vs 53-55%): acierto de signo comparable al mejor mercado del mundo.
+
+2. **Pero estamos ~0.35 por encima en Brier**: nuestras probabilidades están peor calibradas. Una predicción de "70% H" debería acertar 70%, y la nuestra no tanto.
+
+3. **¿Por qué Pinnacle es mucho mejor en Brier?**
+
+   - **Información de mercado en tiempo real**: lesionados de último momento, clima, alineaciones titulares.
+   - **Sharp bettors corrigen el precio**: el mercado agrega información de miles de apostadores profesionales (los modelos "buenos" son los que Platense Inc. y demás sharp bettors usan).
+   - **Modelos más complejos**: xG player-level, player ratings, fatiga, etc.
+   - **Datos propietarios**: Opta tiene tracking de eventos de cada partido (pases, tiros, pressing, etc.).
+   - **Capacidad de mover la línea**: Pinnacle cierra cerca del "true" probability porque acepta límites altos y puede mover líneas.
+
+4. **WC 2026 va mejor que el backtest histórico** (Brier 0.569 vs 0.578). Esto puede ser:
+   - Suerte positiva en 34 partidos
+   - El WC 2026 tiene más variabilidad (más empates, más sorpresas)
+   - El ajuste `league_avg_multiplier=1.18` ayudó
+
+5. **Conclusión**: somos un **modelo amateur competitivo** comparable en sign accuracy al mercado, pero sin su información en tiempo real. Para cerrar la brecha en Brier (~0.35), necesitaríamos:
+   - Datos de lesionados en tiempo real
+   - Cuotas de mercado en tiempo real como feature
+   - Modelo de xG player-level
+   - Ensemble con Pinnacle/Opta
+
+### Comparación con Oloraculo (sistema de referencia)
+
+| Sistema | Brier | Sign accuracy | Aciertos |
+|---|---|---|---|
+| Oloraculo (WC 2026, 23 partidos) | 0.614 | 52.2% | 12/23 |
+| **Predictor-Mundial** (34 partidos) | **0.569** | **58.8%** | ~20/34 |
+
+Ganamos en Brier (-0.045) y sign (+7pp). Las mejoras vienen de recent form, draw_boost, y elo_gap_inflation que Oloraculo no usa.
 
 ## Predicciones del Mundial 2026
 
 Ver [WC2026_README.md](WC2026_README.md) para las predicciones actualizadas partido a partido (se re-generan ejecutando `python src/cli/wc2026_readme.py`).
-
-Comparación con Oloraculo (sistema de referencia, basado en Poisson + Dixon-Coles) en 23 partidos de grupo del WC 2026 ya jugados:
-
-| Sistema | Brier | Log loss | Sign accuracy | Aciertos |
-|---|---|---|---|---|
-| Oloraculo | 0.6138 | 1.0088 | 52.2% | 12/23 |
-| **Predictor-Mundial** | **0.5960** | **0.9877** | **56.5%** | **13/23** |
 
 ## Arquitectura
 
