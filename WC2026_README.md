@@ -3,7 +3,7 @@
 Predicciones para el Mundial 2026 generadas con el modelo Poisson + Dixon-Coles,
 ponderado por Elo rolling, con ajustes de recent form, draw boost y elo gap inflation.
 
-_Generado 2026-06-21 22:05 UTC._
+_Generado 2026-06-21 22:18 UTC._
 
 **72 partidos de fase de grupos** | 40 jugados | 32 pendientes
 
@@ -13,35 +13,35 @@ Partidos evaluados: **40**
 
 | Métrica | Valor |
 |---|---|
-| Brier score (1X2) | **0.5748** |
-| Log loss | **0.9719** |
-| Sign accuracy | **57.5%** |
-| Exact score accuracy | **15.0%** |
+| Brier score (1X2) | **0.5042** |
+| Log loss | **0.8660** |
+| Sign accuracy | **65.0%** |
+| Exact score accuracy | **17.5%** |
 
 ## Probabilidades del torneo (Monte Carlo)
 
-Simulacion: 1000 corridas del torneo completo (fase de grupos + R32 + R16 + QF + SF + Final). Respetando los 40 partidos ya jugados. Tiempo: 10.5s.
+Simulacion: 1000 corridas del torneo completo (fase de grupos + R32 + R16 + QF + SF + Final). Respetando los 40 partidos ya jugados. Tiempo: 10.3s.
 
 Top 16 por probabilidad de campeon:
 
 | Equipo | Campeon | Final | SF | QF | R16 | R32 |
 |---|---:|---:|---:|---:|---:|---:|
-| Argentina | 24.2% | 35.5% | 49.8% | 67.3% | 94.3% | 100.0% |
-| Morocco | 11.4% | 22.5% | 34.6% | 53.6% | 69.4% | 100.0% |
-| Belgium | 8.6% | 15.7% | 26.9% | 42.1% | 73.5% | 100.0% |
-| Spain | 7.5% | 15.3% | 27.0% | 41.2% | 61.5% | 100.0% |
-| England | 6.1% | 10.9% | 24.5% | 43.2% | 70.6% | 100.0% |
-| Portugal | 5.7% | 13.1% | 22.8% | 44.5% | 74.0% | 100.0% |
-| Japan | 4.3% | 8.3% | 17.6% | 32.5% | 53.9% | 100.0% |
-| France | 4.2% | 9.9% | 18.9% | 41.3% | 75.6% | 100.0% |
-| Colombia | 3.7% | 7.3% | 15.7% | 37.9% | 69.5% | 100.0% |
-| Germany | 3.6% | 8.7% | 19.0% | 38.8% | 71.6% | 100.0% |
-| Brazil | 3.4% | 6.9% | 15.2% | 29.1% | 46.1% | 100.0% |
-| Algeria | 3.2% | 6.6% | 12.2% | 24.1% | 37.5% | 76.0% |
-| IR Iran | 2.4% | 3.5% | 8.6% | 19.4% | 49.9% | 73.9% |
-| Mexico | 2.2% | 4.8% | 15.5% | 32.8% | 69.2% | 100.0% |
-| Austria | 2.0% | 6.7% | 13.8% | 26.9% | 44.9% | 100.0% |
-| Ivory Coast | 1.8% | 3.7% | 11.9% | 26.4% | 61.8% | 100.0% |
+| Argentina | 27.9% | 38.9% | 53.7% | 70.3% | 94.6% | 100.0% |
+| Spain | 12.0% | 22.9% | 37.7% | 49.0% | 68.4% | 100.0% |
+| England | 7.7% | 12.7% | 27.3% | 47.7% | 73.9% | 100.0% |
+| Morocco | 6.5% | 15.2% | 24.5% | 42.8% | 62.7% | 100.0% |
+| Japan | 6.2% | 10.7% | 22.8% | 38.0% | 56.6% | 100.0% |
+| France | 4.6% | 11.8% | 21.9% | 43.4% | 81.0% | 100.0% |
+| Germany | 4.5% | 11.6% | 22.2% | 40.8% | 75.1% | 100.0% |
+| Portugal | 4.5% | 10.7% | 19.3% | 41.8% | 74.8% | 100.0% |
+| Colombia | 3.8% | 8.0% | 17.8% | 41.2% | 76.6% | 100.0% |
+| Belgium | 3.8% | 7.2% | 14.9% | 25.3% | 75.2% | 100.0% |
+| Brazil | 3.5% | 6.8% | 14.5% | 28.1% | 43.4% | 100.0% |
+| Austria | 2.1% | 5.8% | 13.0% | 25.0% | 43.6% | 100.0% |
+| Mexico | 1.7% | 4.5% | 15.2% | 33.0% | 71.9% | 100.0% |
+| Netherlands | 1.5% | 4.4% | 12.3% | 23.2% | 37.3% | 100.0% |
+| IR Iran | 1.4% | 4.1% | 8.4% | 22.8% | 39.3% | 69.5% |
+| Canada | 1.3% | 3.8% | 9.7% | 27.7% | 58.7% | 100.0% |
 
 ## Llave de eliminatorias (500 simulaciones)
 
@@ -51,195 +51,193 @@ Para cada partido, los **3 favoritos para GANAR** ese partido (probabilidad cond
 
 **#73**  Runner A  vs  Runner B
 
-- **South Korea** 33%
-- **Switzerland** 31%
-- **Canada** 20%
+- **Switzerland** 40%
+- **South Korea** 28%
+- **Canada** 24%
 
 **#74**  Winner E  vs  3rd {A,B,C,D,F}
 
-- **Germany** 71%
-- **Bosnia and Herzegovina** 13%
-- **South Korea** 9%
+- **Germany** 75%
+- **Bosnia and Herzegovina** 15%
+- **South Korea** 6%
 
 **#75**  Winner F  vs  Runner C
 
-- **Morocco** 69%
-- **Netherlands** 31%
+- **Morocco** 63%
+- **Netherlands** 37%
 
 **#76**  Winner C  vs  Runner F
 
-- **Japan** 53%
-- **Brazil** 47%
+- **Japan** 55%
+- **Brazil** 45%
 
 **#77**  Winner I  vs  3rd {C,D,F,G,H}
 
-- **France** 76%
-- **Scotland** 10%
-- **Australia** 6%
+- **France** 82%
+- **Scotland** 7%
+- **Paraguay** 6%
 
 **#78**  Runner E  vs  Runner I
 
-- **Ivory Coast** 61%
-- **Norway** 28%
-- **Senegal** 11%
+- **Ivory Coast** 50%
+- **Norway** 50%
 
 **#79**  Winner A  vs  3rd {C,E,F,H,I}
 
-- **Mexico** 68%
-- **Scotland** 15%
-- **Ecuador** 10%
+- **Mexico** 70%
+- **Scotland** 17%
+- **Sweden** 7%
 
 **#80**  Winner L  vs  3rd {E,H,I,J,K}
 
-- **England** 71%
+- **England** 75%
 - **Portugal** 9%
-- **Congo DR** 6%
+- **Congo DR** 5%
 
 **#81**  Winner D  vs  3rd {B,E,F,I,J}
 
-- **USA** 59%
-- **Sweden** 16%
+- **USA** 71%
+- **Sweden** 13%
 - **Senegal** 7%
 
 **#82**  Winner G  vs  3rd {A,E,H,I,J}
 
-- **Belgium** 31%
-- **Egypt** 25%
-- **Austria** 12%
+- **Egypt** 32%
+- **IR Iran** 25%
+- **Austria** 13%
 
 **#83**  Runner K  vs  Runner L
 
-- **Croatia** 37%
-- **Portugal** 27%
-- **Colombia** 25%
+- **Croatia** 31%
+- **Portugal** 30%
+- **Colombia** 24%
 
 **#84**  Winner H  vs  Runner J
 
-- **Spain** 60%
-- **Austria** 24%
-- **Algeria** 16%
+- **Spain** 68%
+- **Austria** 25%
+- **Algeria** 7%
 
 **#85**  Winner B  vs  3rd {E,F,G,I,J}
 
-- **Egypt** 25%
-- **Canada** 22%
-- **Switzerland** 21%
+- **Canada** 36%
+- **Switzerland** 20%
+- **Egypt** 19%
 
 **#86**  Winner J  vs  Runner H
 
 - **Argentina** 94%
-- **Cape Verde** 4%
-- **Saudi Arabia** 2%
+- **Cape Verde** 6%
 
 **#87**  Winner K  vs  3rd {D,E,I,J,L}
 
-- **Colombia** 40%
-- **Portugal** 39%
-- **Ghana** 5%
+- **Colombia** 48%
+- **Portugal** 35%
+- **Ghana** 7%
 
 **#88**  Runner D  vs  Runner G
 
-- **Belgium** 42%
-- **IR Iran** 32%
-- **Australia** 14%
+- **Belgium** 75%
+- **Australia** 17%
+- **Paraguay** 9%
 
 ### Round of 16
 
 **#89**  Wo74  vs  Wo77
 
-- **France** 43%
-- **Germany** 38%
-- **Bosnia and Herzegovina** 7%
+- **France** 45%
+- **Germany** 39%
+- **Bosnia and Herzegovina** 8%
 
 **#90**  Wo73  vs  Wo75
 
-- **Morocco** 52%
-- **Netherlands** 20%
-- **Switzerland** 11%
+- **Morocco** 41%
+- **Netherlands** 22%
+- **Switzerland** 16%
 
 **#91**  Wo76  vs  Wo78
 
-- **Japan** 33%
+- **Japan** 38%
 - **Brazil** 30%
-- **Ivory Coast** 25%
+- **Norway** 17%
 
 **#92**  Wo79  vs  Wo80
 
-- **England** 45%
-- **Mexico** 29%
-- **Ecuador** 6%
+- **England** 50%
+- **Mexico** 30%
+- **Portugal** 6%
 
 **#93**  Wo83  vs  Wo84
 
-- **Spain** 41%
-- **Austria** 14%
+- **Spain** 50%
+- **Austria** 15%
 - **Portugal** 13%
 
 **#94**  Wo81  vs  Wo82
 
-- **Belgium** 24%
-- **USA** 19%
-- **Egypt** 15%
+- **USA** 36%
+- **Egypt** 18%
+- **IR Iran** 14%
 
 **#95**  Wo86  vs  Wo88
 
-- **Argentina** 69%
-- **Belgium** 17%
-- **IR Iran** 9%
+- **Argentina** 74%
+- **Belgium** 23%
+- **Australia** 2%
 
 **#96**  Wo85  vs  Wo87
 
-- **Portugal** 29%
-- **Colombia** 24%
-- **Canada** 9%
+- **Colombia** 28%
+- **Portugal** 25%
+- **Canada** 19%
 
 ### Quarterfinals
 
 **#97**  Wo89  vs  Wo90
 
-- **Morocco** 35%
-- **Germany** 19%
-- **France** 18%
+- **Morocco** 25%
+- **France** 22%
+- **Germany** 20%
 
 **#98**  Wo93  vs  Wo94
 
-- **Spain** 26%
-- **Belgium** 17%
-- **Austria** 13%
+- **Spain** 38%
+- **Austria** 14%
+- **USA** 9%
 
 **#99**  Wo91  vs  Wo92
 
-- **England** 26%
-- **Japan** 18%
-- **Brazil** 15%
+- **England** 28%
+- **Japan** 22%
+- **Brazil** 16%
 
 **#100**  Wo95  vs  Wo96
 
-- **Argentina** 48%
-- **Portugal** 12%
-- **Belgium** 11%
+- **Argentina** 54%
+- **Belgium** 13%
+- **Colombia** 11%
 
 ### Semifinals
 
 **#101**  Wo97  vs  Wo98
 
-- **Morocco** 23%
-- **Spain** 15%
-- **Belgium** 10%
+- **Spain** 24%
+- **Morocco** 16%
+- **Germany** 11%
 
 **#102**  Wo99  vs  Wo100
 
-- **Argentina** 35%
+- **Argentina** 39%
 - **England** 12%
-- **Japan** 9%
+- **Japan** 11%
 
 ### Final
 
 **#104**  Wo101  vs  Wo102
 
-- **Argentina** 24%
-- **Morocco** 12%
-- **Belgium** 9%
+- **Argentina** 29%
+- **Spain** 12%
+- **Morocco** 8%
 
 ## Grupos
 
@@ -247,132 +245,132 @@ Para cada partido, los **3 favoritos para GANAR** ese partido (probabilidad cond
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| Mexico vs South Africa | FT | **2-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 59% | 20% | 21% |
-| South Korea vs Czechia | FT | **2-1**<br><sub>Pred: 2-2 -&gt; A (X)</sub> | 37% | 18% | 46% |
-| Czechia vs South Africa | FT | **1-1**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 47% | 20% | 34% |
-| Mexico vs South Korea | FT | **1-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 52% | 19% | 30% |
-| Mexico vs Czechia | 2026-06-24 | 2-1 | 54% | 17% | 29% |
-| South Africa vs South Korea | 2026-06-24 | 1-1 | 33% | 21% | 45% |
+| Mexico vs South Africa | FT | **2-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 66% | 18% | 16% |
+| South Korea vs Czechia | FT | **2-1**<br><sub>Pred: 2-2 -&gt; H (OK)</sub> | 42% | 20% | 38% |
+| Czechia vs South Africa | FT | **1-1**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 47% | 20% | 33% |
+| Mexico vs South Korea | FT | **1-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 52% | 20% | 28% |
+| Mexico vs Czechia | 2026-06-24 | 2-1 | 58% | 17% | 25% |
+| South Africa vs South Korea | 2026-06-24 | 1-1 | 29% | 22% | 49% |
 
 ### Group B
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| Canada vs Bosnia and Herzegovina | FT | **1-1**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 61% | 20% | 19% |
-| Qatar vs Switzerland | FT | **1-1**<br><sub>Pred: 1-2 -&gt; A (X)</sub> | 14% | 14% | 72% |
-| Switzerland vs Bosnia and Herzegovina | FT | **4-1**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 73% | 13% | 14% |
-| Canada vs Qatar | FT | **6-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 61% | 20% | 19% |
-| Canada vs Switzerland | 2026-06-24 | 1-1 | 35% | 22% | 44% |
-| Bosnia and Herzegovina vs Qatar | 2026-06-24 | 1-1 | 34% | 24% | 43% |
+| Canada vs Bosnia and Herzegovina | FT | **1-1**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 62% | 19% | 18% |
+| Qatar vs Switzerland | FT | **1-1**<br><sub>Pred: 1-2 -&gt; A (X)</sub> | 14% | 13% | 73% |
+| Switzerland vs Bosnia and Herzegovina | FT | **4-1**<br><sub>Pred: 3-1 -&gt; H (OK)</sub> | 83% | 9% | 8% |
+| Canada vs Qatar | FT | **6-0**<br><sub>Pred: 2-0 -&gt; H (OK)</sub> | 83% | 10% | 7% |
+| Canada vs Switzerland | 2026-06-24 | 1-1 | 44% | 20% | 36% |
+| Bosnia and Herzegovina vs Qatar | 2026-06-24 | 1-1 | 37% | 24% | 39% |
 
 ### Group C
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| Brazil vs Morocco | FT | **1-1**<br><sub>Pred: 1-1 -&gt; A (X)</sub> | 29% | 19% | 53% |
-| Haiti vs Scotland | FT | **0-1**<br><sub>Pred: 1-2 -&gt; A (OK)</sub> | 33% | 17% | 50% |
-| Scotland vs Morocco | FT | **0-1**<br><sub>Pred: 1-2 -&gt; A (OK)</sub> | 15% | 15% | 70% |
-| Brazil vs Haiti | FT | **3-0**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 77% | 10% | 12% |
-| Scotland vs Brazil | 2026-06-24 | 1-2 | 19% | 13% | 68% |
-| Morocco vs Haiti | 2026-06-24 | 2-1 | 80% | 11% | 9% |
+| Brazil vs Morocco | FT | **1-1**<br><sub>Pred: 1-1 -&gt; A (X)</sub> | 30% | 20% | 50% |
+| Haiti vs Scotland | FT | **0-1**<br><sub>Pred: 1-2 -&gt; A (OK)</sub> | 25% | 17% | 58% |
+| Scotland vs Morocco | FT | **0-1**<br><sub>Pred: 1-1 -&gt; A (OK)</sub> | 15% | 17% | 68% |
+| Brazil vs Haiti | FT | **3-0**<br><sub>Pred: 3-1 -&gt; H (OK)</sub> | 86% | 8% | 6% |
+| Scotland vs Brazil | 2026-06-24 | 1-2 | 15% | 14% | 71% |
+| Morocco vs Haiti | 2026-06-24 | 2-0 | 84% | 10% | 6% |
 
 ### Group D
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| USA vs Paraguay | FT | **4-1**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 39% | 24% | 38% |
-| Australia vs Turkey | FT | **2-0**<br><sub>Pred: 1-1 -&gt; A (X)</sub> | 35% | 18% | 47% |
-| USA vs Australia | FT | **2-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 41% | 22% | 37% |
-| Turkey vs Paraguay | FT | **0-1**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 44% | 20% | 36% |
-| USA vs Turkey | 2026-06-25 | 2-2 | 38% | 17% | 45% |
-| Paraguay vs Australia | 2026-06-25 | 1-1 | 38% | 26% | 36% |
+| USA vs Paraguay | FT | **4-1**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 57% | 16% | 26% |
+| Australia vs Turkey | FT | **2-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 46% | 19% | 35% |
+| USA vs Australia | FT | **2-0**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 53% | 18% | 29% |
+| Turkey vs Paraguay | FT | **0-1**<br><sub>Pred: 1-1 -&gt; A (OK)</sub> | 37% | 24% | 39% |
+| USA vs Turkey | 2026-06-25 | 2-1 | 61% | 15% | 25% |
+| Paraguay vs Australia | 2026-06-25 | 1-1 | 34% | 25% | 41% |
 
 ### Group E
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| Germany vs Curacao | FT | **7-1**<br><sub>Pred: 4-1 -&gt; H (OK)</sub> | 91% | 5% | 5% |
-| Ivory Coast vs Ecuador | FT | **1-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 46% | 23% | 31% |
-| Germany vs Ivory Coast | FT | **2-1**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 45% | 18% | 36% |
-| Ecuador vs Curacao | FT | **0-0**<br><sub>Pred: 2-1 -&gt; H (X)</sub> | 78% | 12% | 10% |
-| Curacao vs Ivory Coast | 2026-06-25 | 1-3 | 7% | 7% | 86% |
-| Ecuador vs Germany | 2026-06-25 | 1-1 | 32% | 20% | 49% |
+| Germany vs Curacao | FT | **7-1**<br><sub>Pred: 5-1 -&gt; H (OK)</sub> | 97% | 2% | 1% |
+| Ivory Coast vs Ecuador | FT | **1-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 48% | 24% | 27% |
+| Germany vs Ivory Coast | FT | **2-1**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 54% | 16% | 30% |
+| Ecuador vs Curacao | FT | **0-0**<br><sub>Pred: 2-0 -&gt; H (X)</sub> | 83% | 10% | 7% |
+| Curacao vs Ivory Coast | 2026-06-25 | 1-3 | 4% | 6% | 90% |
+| Ecuador vs Germany | 2026-06-25 | 1-1 | 25% | 19% | 55% |
 
 ### Group F
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| Netherlands vs Japan | FT | **2-2**<br><sub>Pred: 1-1 -&gt; A (X)</sub> | 35% | 20% | 45% |
-| Sweden vs Tunisia | FT | **5-1**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 48% | 19% | 33% |
-| Netherlands vs Sweden | FT | **5-1**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 71% | 12% | 16% |
-| Tunisia vs Japan | FT | **0-4**<br><sub>Pred: 0-2 -&gt; A (OK)</sub> | 10% | 13% | 77% |
-| Japan vs Sweden | 2026-06-25 | 2-1 | 74% | 12% | 14% |
-| Tunisia vs Netherlands | 2026-06-25 | 1-2 | 11% | 13% | 77% |
+| Netherlands vs Japan | FT | **2-2**<br><sub>Pred: 1-1 -&gt; A (X)</sub> | 34% | 18% | 47% |
+| Sweden vs Tunisia | FT | **5-1**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 68% | 13% | 19% |
+| Netherlands vs Sweden | FT | **5-1**<br><sub>Pred: 3-1 -&gt; H (OK)</sub> | 76% | 10% | 14% |
+| Tunisia vs Japan | FT | **0-4**<br><sub>Pred: 0-3 -&gt; A (OK)</sub> | 4% | 6% | 90% |
+| Japan vs Sweden | 2026-06-25 | 3-1 | 80% | 9% | 11% |
+| Tunisia vs Netherlands | 2026-06-25 | 1-3 | 5% | 6% | 89% |
 
 ### Group G
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| Belgium vs Egypt | FT | **1-1**<br><sub>Pred: 2-1 -&gt; H (X)</sub> | 62% | 17% | 21% |
-| IR Iran vs New Zealand | FT | **2-2**<br><sub>Pred: 2-1 -&gt; H (X)</sub> | 79% | 11% | 9% |
-| Belgium vs IR Iran | FT | **0-0**<br><sub>Pred: 2-1 -&gt; H (X)</sub> | 49% | 18% | 33% |
-| New Zealand vs Egypt | FT | **1-3**<br><sub>Pred: 1-1 -&gt; A (OK)</sub> | 17% | 19% | 64% |
-| Egypt vs IR Iran | 2026-06-26 | 1-1 | 29% | 22% | 49% |
-| New Zealand vs Belgium | 2026-06-26 | 1-3 | 5% | 7% | 88% |
+| Belgium vs Egypt | FT | **1-1**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 59% | 18% | 22% |
+| IR Iran vs New Zealand | FT | **2-2**<br><sub>Pred: 2-1 -&gt; H (X)</sub> | 77% | 12% | 11% |
+| Belgium vs IR Iran | FT | **0-0**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 46% | 20% | 34% |
+| New Zealand vs Egypt | FT | **1-3**<br><sub>Pred: 1-2 -&gt; A (OK)</sub> | 16% | 16% | 68% |
+| Egypt vs IR Iran | 2026-06-26 | 1-1 | 34% | 25% | 42% |
+| New Zealand vs Belgium | 2026-06-26 | 1-2 | 7% | 9% | 84% |
 
 ### Group H
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| Spain vs Cape Verde | FT | **0-0**<br><sub>Pred: 2-1 -&gt; H (X)</sub> | 82% | 10% | 8% |
-| Saudi Arabia vs Uruguay | FT | **1-1**<br><sub>Pred: 1-1 -&gt; A (X)</sub> | 23% | 25% | 52% |
-| Spain vs Saudi Arabia | FT | **4-0**<br><sub>Pred: 2-0 -&gt; H (OK)</sub> | 78% | 12% | 9% |
-| Uruguay vs Cape Verde | FT | **2-2**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 55% | 21% | 24% |
-| Cape Verde vs Saudi Arabia | 2026-06-26 | 1-1 | 37% | 28% | 35% |
-| Uruguay vs Spain | 2026-06-26 | 1-2 | 18% | 17% | 65% |
+| Spain vs Cape Verde | FT | **0-0**<br><sub>Pred: 2-1 -&gt; H (X)</sub> | 76% | 13% | 11% |
+| Saudi Arabia vs Uruguay | FT | **1-1**<br><sub>Pred: 0-1 -&gt; A (X)</sub> | 20% | 24% | 56% |
+| Spain vs Saudi Arabia | FT | **4-0**<br><sub>Pred: 2-0 -&gt; H (OK)</sub> | 88% | 8% | 4% |
+| Uruguay vs Cape Verde | FT | **2-2**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 53% | 22% | 25% |
+| Cape Verde vs Saudi Arabia | 2026-06-26 | 1-1 | 53% | 23% | 24% |
+| Uruguay vs Spain | 2026-06-26 | 1-2 | 16% | 16% | 68% |
 
 ### Group I
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| France vs Senegal | FT | **3-1**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 61% | 16% | 23% |
-| Iraq vs Norway | FT | **1-4**<br><sub>Pred: 1-1 -&gt; A (OK)</sub> | 18% | 17% | 65% |
-| France vs Iraq | 2026-06-22 | 2-1 | 78% | 12% | 10% |
-| Norway vs Senegal | 2026-06-22 | 1-1 | 46% | 19% | 35% |
-| Norway vs France | 2026-06-26 | 1-2 | 29% | 16% | 55% |
-| Senegal vs Iraq | 2026-06-26 | 1-1 | 58% | 21% | 22% |
+| France vs Senegal | FT | **3-1**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 71% | 13% | 16% |
+| Iraq vs Norway | FT | **1-4**<br><sub>Pred: 1-2 -&gt; A (OK)</sub> | 12% | 12% | 76% |
+| France vs Iraq | 2026-06-22 | 2-1 | 85% | 9% | 6% |
+| Norway vs Senegal | 2026-06-22 | 2-1 | 58% | 16% | 26% |
+| Norway vs France | 2026-06-26 | 1-2 | 30% | 16% | 54% |
+| Senegal vs Iraq | 2026-06-26 | 1-1 | 60% | 18% | 22% |
 
 ### Group J
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| Argentina vs Algeria | FT | **3-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 59% | 19% | 22% |
-| Austria vs Jordan | FT | **3-1**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 81% | 10% | 10% |
-| Argentina vs Austria | 2026-06-22 | 2-1 | 64% | 17% | 19% |
-| Jordan vs Algeria | 2026-06-22 | 1-2 | 8% | 10% | 82% |
-| Algeria vs Austria | 2026-06-27 | 1-1 | 44% | 21% | 35% |
-| Jordan vs Argentina | 2026-06-27 | 0-3 | 3% | 5% | 92% |
+| Argentina vs Algeria | FT | **3-0**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 73% | 13% | 13% |
+| Austria vs Jordan | FT | **3-1**<br><sub>Pred: 3-1 -&gt; H (OK)</sub> | 84% | 8% | 8% |
+| Argentina vs Austria | 2026-06-22 | 2-1 | 67% | 16% | 18% |
+| Jordan vs Algeria | 2026-06-22 | 1-2 | 12% | 11% | 78% |
+| Algeria vs Austria | 2026-06-27 | 1-1 | 32% | 18% | 49% |
+| Jordan vs Argentina | 2026-06-27 | 0-3 | 2% | 4% | 94% |
 
 ### Group K
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| Portugal vs Congo DR | FT | **1-1**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 66% | 18% | 16% |
-| Uzbekistan vs Colombia | FT | **1-3**<br><sub>Pred: 1-2 -&gt; A (OK)</sub> | 16% | 17% | 68% |
-| Portugal vs Uzbekistan | 2026-06-23 | 2-1 | 74% | 14% | 12% |
-| Colombia vs Congo DR | 2026-06-23 | 1-1 | 59% | 21% | 20% |
-| Colombia vs Portugal | 2026-06-27 | 1-1 | 34% | 19% | 47% |
-| Congo DR vs Uzbekistan | 2026-06-27 | 1-1 | 44% | 26% | 30% |
+| Portugal vs Congo DR | FT | **1-1**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 64% | 18% | 17% |
+| Uzbekistan vs Colombia | FT | **1-3**<br><sub>Pred: 1-2 -&gt; A (OK)</sub> | 12% | 13% | 75% |
+| Portugal vs Uzbekistan | 2026-06-23 | 2-1 | 77% | 12% | 11% |
+| Colombia vs Congo DR | 2026-06-23 | 1-1 | 61% | 20% | 19% |
+| Colombia vs Portugal | 2026-06-27 | 1-1 | 36% | 21% | 42% |
+| Congo DR vs Uzbekistan | 2026-06-27 | 1-1 | 49% | 24% | 27% |
 
 ### Group L
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| England vs Croatia | FT | **4-2**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 61% | 18% | 22% |
-| Ghana vs Panama | FT | **1-0**<br><sub>Pred: 1-1 -&gt; A (X)</sub> | 32% | 18% | 50% |
-| England vs Ghana | 2026-06-23 | 2-0 | 84% | 10% | 6% |
-| Panama vs Croatia | 2026-06-23 | 1-2 | 20% | 14% | 66% |
-| Panama vs England | 2026-06-27 | 1-2 | 7% | 9% | 84% |
-| Croatia vs Ghana | 2026-06-27 | 2-1 | 71% | 14% | 15% |
+| England vs Croatia | FT | **4-2**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 69% | 14% | 17% |
+| Ghana vs Panama | FT | **1-0**<br><sub>Pred: 1-1 -&gt; A (X)</sub> | 36% | 22% | 42% |
+| England vs Ghana | 2026-06-23 | 2-0 | 85% | 9% | 6% |
+| Panama vs Croatia | 2026-06-23 | 1-2 | 21% | 14% | 65% |
+| Panama vs England | 2026-06-27 | 1-3 | 6% | 7% | 87% |
+| Croatia vs Ghana | 2026-06-27 | 2-1 | 66% | 16% | 18% |
 
 <!-- predictor:snapshots:end -->

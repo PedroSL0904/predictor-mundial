@@ -312,10 +312,18 @@ def main() -> None:
     print(f"  Guardado en {cal_path}")
 
     # Predecir cada partido
-    # Usamos una fecha de corte comun (1 dia antes del inicio del WC) para
-    # todos los partidos, simulando que las predicciones se generan ANTES del
-    # torneo. Esto evita leakage de partidos ya jugados.
-    AS_OF = "2026-06-10"
+    # Usamos como fecha de corte la fecha del ULTIMO partido FT (o 2 dias
+    # atras) para que el modelo aproveche los resultados del Mundial ya
+    # jugados al predecir partidos futuros. Esto es valido: refleja el
+    # "conocimiento disponible" al momento de predecir.
+    if fixtures["played"].any():
+        last_played = pd.to_datetime(
+            fixtures[fixtures["played"]]["date"]
+        ).max()
+        # Usar el dia siguiente al ultimo partido FT
+        AS_OF = (last_played + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
+    else:
+        AS_OF = "2026-06-10"
     print(f"Prediciendo {len(fixtures)} partidos (as_of={AS_OF})...", flush=True)
     rows = []
     t0 = time.time()
