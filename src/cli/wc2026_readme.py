@@ -372,11 +372,11 @@ def main() -> None:
     print(f"  Top 3: {tournament_stats.head(3)['team'].tolist()}")
 
     # Analisis de llave completa (reusar las simulaciones ya corridas seria ideal
-    # pero analyze_bracket corre sus propias simulaciones; lo limitamos a 500 para
-    # no duplicar el costo)
-    print("Analizando llave completa (500 simulaciones)...", flush=True)
+    # pero analyze_bracket corre sus propias simulaciones; usamos la misma cantidad
+    # que el MC del torneo para mantener consistencia en el README)
+    print(f"Analizando llave completa ({mc_result['n_simulations']} simulaciones)...", flush=True)
     from src.simulation.bracket_analysis import analyze_bracket
-    bracket_analysis = analyze_bracket(sim, fixtures, n_simulations=500)
+    bracket_analysis = analyze_bracket(sim, fixtures, n_simulations=mc_result["n_simulations"])
 
     # Generar README
     readme = render_readme(
