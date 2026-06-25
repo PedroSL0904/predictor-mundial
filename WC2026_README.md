@@ -3,45 +3,45 @@
 Predicciones para el Mundial 2026 generadas con el modelo Poisson + Dixon-Coles,
 ponderado por Elo rolling, con ajustes de recent form, draw boost y elo gap inflation.
 
-_Generado 2026-06-25 07:32 UTC._
+_Generado 2026-06-25 07:47 UTC._
 
-**72 partidos de fase de grupos** | 52 jugados | 20 pendientes
+**72 partidos de fase de grupos** | 54 jugados | 18 pendientes
 
 ## Métricas en partidos jugados
 
-Partidos evaluados: **52**
+Partidos evaluados: **54**
 
 | Métrica | Valor |
 |---|---|
-| Brier score (1X2) | **0.4581** |
-| Log loss | **0.7948** |
-| Sign accuracy | **69.2%** |
-| Exact score accuracy | **17.3%** |
+| Brier score (1X2) | **0.4462** |
+| Log loss | **0.7781** |
+| Sign accuracy | **70.4%** |
+| Exact score accuracy | **18.5%** |
 
 ## Probabilidades del torneo (Monte Carlo)
 
-Simulacion: 1000 corridas del torneo completo (fase de grupos + R32 + R16 + QF + SF + Final). Respetando los 52 partidos ya jugados. Tiempo: 7.9s.
+Simulacion: 1000 corridas del torneo completo (fase de grupos + R32 + R16 + QF + SF + Final). Respetando los 54 partidos ya jugados. Tiempo: 8.2s.
 
 Top 16 por probabilidad de campeon:
 
 | Equipo | Campeon | Final | SF | QF | R16 | R32 |
 |---|---:|---:|---:|---:|---:|---:|
-| Argentina | 25.7% | 37.5% | 52.4% | 75.0% | 94.2% | 100.0% |
-| Spain | 12.7% | 24.3% | 40.7% | 56.5% | 77.5% | 100.0% |
-| Portugal | 9.1% | 16.8% | 28.6% | 68.2% | 89.3% | 100.0% |
-| France | 7.2% | 18.1% | 31.5% | 51.9% | 86.0% | 100.0% |
-| Morocco | 6.5% | 12.5% | 24.7% | 45.9% | 58.8% | 100.0% |
-| Japan | 5.3% | 10.0% | 22.8% | 35.7% | 52.7% | 100.0% |
-| England | 4.9% | 9.0% | 21.7% | 43.8% | 71.1% | 100.0% |
-| Brazil | 4.4% | 8.5% | 19.1% | 32.4% | 47.3% | 100.0% |
-| Germany | 4.3% | 12.3% | 22.2% | 40.5% | 82.4% | 100.0% |
-| Bosnia and Herzegovina | 3.7% | 7.4% | 13.3% | 25.5% | 50.9% | 100.0% |
-| Colombia | 3.1% | 8.1% | 18.0% | 31.4% | 66.6% | 100.0% |
-| Mexico | 3.0% | 5.8% | 17.0% | 38.9% | 76.2% | 100.0% |
-| Belgium | 2.8% | 5.4% | 11.8% | 22.5% | 75.9% | 100.0% |
-| Netherlands | 2.5% | 6.3% | 12.1% | 26.8% | 41.2% | 100.0% |
-| IR Iran | 0.9% | 2.5% | 6.0% | 18.7% | 39.3% | 64.4% |
-| Egypt | 0.8% | 2.2% | 6.5% | 24.3% | 56.9% | 100.0% |
+| Argentina | 25.4% | 36.7% | 52.5% | 72.5% | 92.8% | 100.0% |
+| Spain | 10.6% | 20.2% | 33.9% | 48.5% | 79.9% | 100.0% |
+| Portugal | 8.9% | 18.3% | 31.7% | 58.1% | 87.0% | 100.0% |
+| France | 8.2% | 16.5% | 31.9% | 54.0% | 86.2% | 100.0% |
+| Morocco | 6.2% | 12.8% | 23.4% | 44.0% | 59.3% | 100.0% |
+| England | 5.2% | 9.5% | 23.0% | 48.0% | 80.0% | 100.0% |
+| Brazil | 5.1% | 8.7% | 19.9% | 33.4% | 49.4% | 100.0% |
+| Germany | 4.7% | 11.7% | 21.9% | 38.2% | 79.9% | 100.0% |
+| Japan | 4.4% | 8.5% | 19.2% | 31.7% | 50.6% | 100.0% |
+| Colombia | 4.1% | 9.2% | 17.2% | 41.8% | 80.7% | 100.0% |
+| Bosnia and Herzegovina | 4.1% | 8.0% | 14.4% | 25.3% | 53.9% | 100.0% |
+| Mexico | 3.1% | 6.4% | 19.2% | 40.7% | 77.4% | 100.0% |
+| Belgium | 2.7% | 6.1% | 12.5% | 22.5% | 75.9% | 100.0% |
+| Netherlands | 1.9% | 5.9% | 13.9% | 28.4% | 40.7% | 100.0% |
+| Ivory Coast | 1.2% | 2.6% | 7.9% | 18.0% | 52.7% | 100.0% |
+| Switzerland | 0.8% | 2.1% | 5.0% | 20.1% | 51.8% | 100.0% |
 
 ## Llave de eliminatorias (1000 simulaciones)
 
@@ -56,8 +56,8 @@ Para cada partido, los **3 favoritos para GANAR** ese partido (probabilidad cond
 
 **#74**  Winner E  vs  3rd {A,B,C,D,F}
 
-- **Germany** 82%
-- **South Korea** 18%
+- **Germany** 80%
+- **South Korea** 20%
 
 **#75**  Winner F  vs  Runner C
 
@@ -66,71 +66,71 @@ Para cada partido, los **3 favoritos para GANAR** ese partido (probabilidad cond
 
 **#76**  Winner C  vs  Runner F
 
-- **Japan** 53%
-- **Brazil** 47%
+- **Japan** 51%
+- **Brazil** 49%
 
 **#77**  Winner I  vs  3rd {C,D,F,G,H}
 
 - **France** 86%
-- **Paraguay** 6%
+- **Paraguay** 8%
 - **Australia** 5%
 
 **#78**  Runner E  vs  Runner I
 
-- **Ivory Coast** 52%
-- **Norway** 48%
+- **Ivory Coast** 53%
+- **Norway** 47%
 
 **#79**  Winner A  vs  3rd {C,E,F,H,I}
 
-- **Mexico** 76%
-- **Sweden** 14%
+- **Mexico** 77%
+- **Sweden** 13%
 - **Ecuador** 7%
 
 **#80**  Winner L  vs  3rd {E,H,I,J,K}
 
-- **England** 71%
-- **Colombia** 14%
-- **Congo DR** 10%
+- **England** 80%
+- **Congo DR** 11%
+- **Senegal** 7%
 
 **#81**  Winner D  vs  3rd {B,E,F,I,J}
 
-- **Bosnia and Herzegovina** 51%
-- **USA** 49%
+- **Bosnia and Herzegovina** 54%
+- **USA** 46%
 
 **#82**  Winner G  vs  3rd {A,E,H,I,J}
 
-- **Egypt** 36%
-- **IR Iran** 25%
-- **Senegal** 13%
+- **Egypt** 33%
+- **IR Iran** 27%
+- **Austria** 15%
 
 **#83**  Runner K  vs  Runner L
 
-- **Colombia** 53%
-- **Croatia** 23%
-- **Congo DR** 18%
+- **Colombia** 41%
+- **Portugal** 40%
+- **Croatia** 16%
 
 **#84**  Winner H  vs  Runner J
 
-- **Spain** 78%
-- **Austria** 12%
-- **Algeria** 11%
+- **Spain** 80%
+- **Algeria** 10%
+- **Austria** 10%
 
 **#85**  Winner B  vs  3rd {E,F,G,I,J}
 
-- **Switzerland** 53%
+- **Switzerland** 52%
 - **Egypt** 20%
 - **IR Iran** 14%
 
 **#86**  Winner J  vs  Runner H
 
-- **Argentina** 94%
-- **Cape Verde** 5%
+- **Argentina** 93%
+- **Cape Verde** 6%
 
 **#87**  Winner K  vs  3rd {D,E,I,J,L}
 
-- **Portugal** 89%
-- **Croatia** 7%
-- **Ghana** 3%
+- **Portugal** 47%
+- **Colombia** 39%
+- **Croatia** 8%
 
 **#88**  Runner D  vs  Runner G
 
@@ -142,98 +142,98 @@ Para cada partido, los **3 favoritos para GANAR** ese partido (probabilidad cond
 
 **#89**  Wo74  vs  Wo77
 
-- **France** 52%
-- **Germany** 40%
+- **France** 54%
+- **Germany** 38%
 - **South Korea** 4%
 
 **#90**  Wo73  vs  Wo75
 
-- **Morocco** 46%
-- **Netherlands** 27%
-- **Canada** 20%
+- **Morocco** 44%
+- **Netherlands** 28%
+- **Canada** 21%
 
 **#91**  Wo76  vs  Wo78
 
-- **Japan** 36%
-- **Brazil** 32%
-- **Norway** 17%
+- **Brazil** 33%
+- **Japan** 32%
+- **Ivory Coast** 18%
 
 **#92**  Wo79  vs  Wo80
 
-- **England** 44%
-- **Mexico** 39%
-- **Colombia** 7%
+- **England** 48%
+- **Mexico** 41%
+- **Ecuador** 3%
 
 **#93**  Wo83  vs  Wo84
 
-- **Spain** 56%
-- **Colombia** 24%
-- **Austria** 5%
+- **Spain** 48%
+- **Portugal** 23%
+- **Colombia** 17%
 
 **#94**  Wo81  vs  Wo82
 
-- **Bosnia and Herzegovina** 26%
+- **Bosnia and Herzegovina** 25%
 - **USA** 25%
-- **Egypt** 19%
+- **Egypt** 16%
 
 **#95**  Wo86  vs  Wo88
 
-- **Argentina** 75%
+- **Argentina** 72%
 - **Belgium** 22%
-- **Australia** 1%
+- **Australia** 2%
 
 **#96**  Wo85  vs  Wo87
 
-- **Portugal** 68%
-- **Switzerland** 16%
-- **Egypt** 5%
+- **Portugal** 35%
+- **Colombia** 25%
+- **Switzerland** 20%
 
 ### Quarterfinals
 
 **#97**  Wo89  vs  Wo90
 
 - **France** 32%
-- **Morocco** 25%
+- **Morocco** 23%
 - **Germany** 22%
 
 **#98**  Wo93  vs  Wo94
 
-- **Spain** 41%
-- **Colombia** 15%
-- **Bosnia and Herzegovina** 13%
+- **Spain** 34%
+- **Portugal** 15%
+- **Bosnia and Herzegovina** 14%
 
 **#99**  Wo91  vs  Wo92
 
-- **Japan** 23%
-- **England** 22%
-- **Brazil** 19%
+- **England** 23%
+- **Brazil** 20%
+- **Japan** 19%
 
 **#100**  Wo95  vs  Wo96
 
 - **Argentina** 52%
-- **Portugal** 29%
+- **Portugal** 16%
 - **Belgium** 12%
 
 ### Semifinals
 
 **#101**  Wo97  vs  Wo98
 
-- **Spain** 24%
-- **France** 18%
-- **Morocco** 12%
+- **Spain** 20%
+- **France** 16%
+- **Morocco** 13%
 
 **#102**  Wo99  vs  Wo100
 
-- **Argentina** 38%
-- **Portugal** 17%
-- **Japan** 10%
+- **Argentina** 37%
+- **Portugal** 10%
+- **England** 10%
 
 ### Final
 
 **#104**  Wo101  vs  Wo102
 
-- **Argentina** 26%
-- **Spain** 13%
+- **Argentina** 25%
+- **Spain** 11%
 - **Portugal** 9%
 
 ## Grupos
@@ -312,7 +312,7 @@ Para cada partido, los **3 favoritos para GANAR** ese partido (probabilidad cond
 | IR Iran vs New Zealand | FT | **2-2**<br><sub>Pred: 2-1 -&gt; H (X)</sub> | 77% | 12% | 11% |
 | Belgium vs IR Iran | FT | **0-0**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 45% | 20% | 34% |
 | New Zealand vs Egypt | FT | **1-3**<br><sub>Pred: 1-2 -&gt; A (OK)</sub> | 16% | 16% | 68% |
-| Egypt vs IR Iran | 2026-06-26 | 1-1 | 34% | 24% | 42% |
+| Egypt vs IR Iran | 2026-06-26 | 1-1 | 34% | 25% | 42% |
 | New Zealand vs Belgium | 2026-06-26 | 1-2 | 7% | 9% | 84% |
 
 ### Group H
@@ -344,7 +344,7 @@ Para cada partido, los **3 favoritos para GANAR** ese partido (probabilidad cond
 | Argentina vs Algeria | FT | **3-0**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 74% | 13% | 13% |
 | Austria vs Jordan | FT | **3-1**<br><sub>Pred: 3-1 -&gt; H (OK)</sub> | 82% | 9% | 9% |
 | Argentina vs Austria | FT | **2-0**<br><sub>Pred: 2-1 -&gt; H (OK)</sub> | 76% | 13% | 11% |
-| Jordan vs Algeria | 2026-06-22 | 1-2 | 12% | 11% | 78% |
+| Jordan vs Algeria | FT | **1-2**<br><sub>Pred: 1-2 -&gt; A (OK)</sub> | 11% | 10% | 79% |
 | Algeria vs Austria | 2026-06-27 | 1-1 | 44% | 21% | 36% |
 | Jordan vs Argentina | 2026-06-27 | 0-3 | 2% | 4% | 94% |
 
@@ -352,12 +352,12 @@ Para cada partido, los **3 favoritos para GANAR** ese partido (probabilidad cond
 
 | Match | Status | Pick / Result | H | D | A |
 |---|---|---|---:|---:|---:|
-| Portugal vs Congo DR | FT | **1-1**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 65% | 18% | 17% |
+| Portugal vs Congo DR | FT | **1-1**<br><sub>Pred: 1-1 -&gt; H (X)</sub> | 65% | 18% | 16% |
 | Uzbekistan vs Colombia | FT | **1-3**<br><sub>Pred: 1-2 -&gt; A (OK)</sub> | 9% | 11% | 80% |
 | Portugal vs Uzbekistan | FT | **5-0**<br><sub>Pred: 3-0 -&gt; H (OK)</sub> | 92% | 5% | 3% |
-| Colombia vs Congo DR | 2026-06-23 | 1-1 | 61% | 20% | 19% |
-| Colombia vs Portugal | 2026-06-27 | 1-2 | 30% | 18% | 52% |
-| Congo DR vs Uzbekistan | 2026-06-27 | 1-1 | 64% | 19% | 17% |
+| Colombia vs Congo DR | FT | **1-0**<br><sub>Pred: 1-1 -&gt; H (OK)</sub> | 64% | 20% | 16% |
+| Colombia vs Portugal | 2026-06-27 | 1-1 | 30% | 19% | 51% |
+| Congo DR vs Uzbekistan | 2026-06-27 | 1-1 | 59% | 21% | 20% |
 
 ### Group L
 
