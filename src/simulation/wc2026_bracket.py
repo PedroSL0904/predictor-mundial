@@ -96,21 +96,60 @@ SEMI_FINALS = [
 FINAL = BracketTie(104, _wo(101), _wo(102))
 
 
+# Tabla oficial FIFA WC 2026: asignacion de los 8 mejores terceros a los slots R32.
+# Basada en el bracket publicado por FIFA. El rank 1 = mejor tercero, rank 8 = peor.
+# El matchup es: 1st del grupo X vs 3rd del grupo Y segun esta tabla fija.
+#
+#   tie_id -> grupo del 3ro (letra A-L)
+#   Ej: 74 -> "D" significa que en el partido #74, el 3ro del grupo D juega
+#       contra el winner del grupo E (1E vs 3D = Germany vs Paraguay).
+#
+# Validada con el bracket oficial (imagen del usuario, 28-jun-2026).
+FIFA_THIRD_ASSIGNMENT: dict[int, str] = {
+    74: "D",   # 1E (GER) vs 3D (PAR)
+    77: "F",   # 1I (FRA) vs 3F (SWE)
+    79: "E",   # 1A (MEX) vs 3E (ECU)
+    80: "K",   # 1L (ENG) vs 3K (COD)
+    81: "B",   # 1D (USA) vs 3B (BIH)
+    82: "I",   # 1G (BEL) vs 3I (SEN)
+    85: "J",   # 1B (SUI) vs 3J (ALG)
+    87: "L",   # 1K (COL) vs 3L (GHA)
+}
+
+
 def assign_third_place_slots(qualified_third_groups: list[str]) -> dict[int, str]:
-    """Asigna los grupos terceros a los slots del R32.
+    """Asigna los grupos terceros a los slots del R32 segun la tabla oficial FIFA.
 
     Args:
         qualified_third_groups: 8 grupos (letras A-L) que pasan como terceros.
+            El orden NO importa: la tabla FIFA es fija independiente del rank.
 
     Returns:
         dict[tie_id, group]: tie_id del R32 -> grupo asignado.
-        None si no hay asignacion valida.
+        None si algun grupo de FIFA_THIRD_ASSIGNMENT no esta en qualified.
     """
     if len(qualified_third_groups) != 8:
         return None
 
     qualified = set(qualified_third_groups)
-    # Extraer (tie_id, side, options) para cada slot de third
+    result: dict[int, str] = {}
+    for tie_id, group in FIFA_THIRD_ASSIGNMENT.items():
+        if group not in qualified:
+            return None  # El bracket FIFA no aplica a estos 8 terceros
+        result[tie_id] = group
+    return result
+
+
+def assign_third_place_slots_backtrack(qualified_third_groups: list[str]) -> dict[int, str] | None:
+    """DEPRECATED: usar assign_third_place_slots (tabla FIFA fija).
+
+    Backtracking alfabetico que producia asignaciones NO canonicas.
+    Mantenido por compatibilidad con tests legacy.
+    """
+    if len(qualified_third_groups) != 8:
+        return None
+
+    qualified = set(qualified_third_groups)
     third_slots = []
     for tie in ROUND_OF_32:
         if tie.home.kind == SlotKind.GROUP_THIRD:
@@ -118,7 +157,6 @@ def assign_third_place_slots(qualified_third_groups: list[str]) -> dict[int, str
         if tie.away.kind == SlotKind.GROUP_THIRD:
             third_slots.append((tie.id, "away", tie.away.third_options))
 
-    # Ordenar por # de opciones (slots mas restrictivos primero)
     third_slots.sort(key=lambda x: (len(x[2]), x[0], x[1]))
 
     assigned: dict[tuple[int, str], str] = {}
@@ -128,7 +166,7 @@ def assign_third_place_slots(qualified_third_groups: list[str]) -> dict[int, str
         if idx == len(third_slots):
             return True
         tie_id, side, options = third_slots[idx]
-        for g in sorted(options):  # orden alfabetico
+        for g in sorted(options):
             if g in qualified and g not in used:
                 used.add(g)
                 assigned[(tie_id, side)] = g
@@ -139,10 +177,8 @@ def assign_third_place_slots(qualified_third_groups: list[str]) -> dict[int, str
         return False
 
     if backtrack(0):
-        # Cada tie_id tiene UN grupo (algunos pueden tener 2 si tienen 2 slots third,
-        # pero en este bracket eso no pasa). Devolver tie_id -> grupo.
-        result: dict[int, str] = {}
+        result_back: dict[int, str] = {}
         for (tie_id, _side), g in assigned.items():
-            result[tie_id] = g
-        return result
+            result_back[tie_id] = g
+        return result_back
     return None
