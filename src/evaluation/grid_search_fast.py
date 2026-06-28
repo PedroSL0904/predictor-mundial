@@ -126,8 +126,9 @@ def precompute_match_data(
 
 
 def _approx_xg(elo_attacker: float, elo_defender: float) -> float:
-    diff = (elo_attacker - elo_defender) / 400.0
-    return 1.30 * (1.0 + 0.30 * np.tanh(diff))
+    """DEPRECATED: usa src.features.xg_approximation.approx_xg_from_elo."""
+    from src.features.xg_approximation import approx_xg_from_elo as _impl
+    return _impl(elo_attacker, elo_defender)
 
 
 def compute_attack_defense_fast(

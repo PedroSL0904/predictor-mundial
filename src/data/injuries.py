@@ -45,18 +45,6 @@ class TeamInjuries:
     source: str = "manual"
     last_updated: str = ""
 
-    def attack_penalty(self) -> float:
-        """Penalización al ataque (0-1). 0 = sin lesionados, 0.5 = mucho."""
-        fwd_out = [p for p in self.out if p.position in ("FWD", "MID")]
-        total = sum(p.importance for p in fwd_out)
-        return min(0.5, total * 0.4)
-
-    def defense_penalty(self) -> float:
-        """Penalización a la defensa (0-1)."""
-        def_out = [p for p in self.out if p.position in ("DEF", "GK")]
-        total = sum(p.importance for p in def_out)
-        return min(0.3, total * 0.3)
-
 
 def load_injuries(path: Path = INJURIES_PATH) -> dict[str, TeamInjuries]:
     """Carga el archivo de lesionados. Si no existe, retorna dict vacío.

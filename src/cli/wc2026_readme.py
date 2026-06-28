@@ -34,39 +34,12 @@ from src.models.calibration import (
 
 
 def _injury_factors(injuries: dict | None, team_martj: str) -> tuple[float, float]:
-    """Multiplicadores (attack, defense) basados en lesionados. 1.0 = sin ajuste.
+    """DEPRECATED: usa src.features.injury_factors.injury_factors.
 
-    Penalizaciones conservadoras: un jugador top no elimina mas del 20%
-    del equipo, porque hay suplentes que cubren parcialmente.
-    Configurable via Settings (injury_max_attack_penalty, etc).
+    Mantenido como shim para backward compat.
     """
-    if not injuries:
-        return 1.0, 1.0
-    ti = injuries.get(team_martj)
-    if ti is None or (not ti.out and not ti.doubtful):
-        return 1.0, 1.0
-
-    s = get_settings()
-    out_attack = min(
-        s.injury_max_attack_penalty,
-        sum(p.importance for p in ti.out if p.position in ("FWD", "MID")) * s.injury_max_attack_penalty,
-    )
-    out_defense = min(
-        s.injury_max_defense_penalty,
-        sum(p.importance for p in ti.out if p.position in ("DEF", "GK")) * s.injury_max_defense_penalty,
-    )
-    dout_attack = min(
-        s.injury_max_attack_penalty * s.injury_doubtful_factor,
-        sum(p.importance for p in ti.doubtful if p.position in ("FWD", "MID")) * s.injury_max_attack_penalty * s.injury_doubtful_factor,
-    )
-    dout_defense = min(
-        s.injury_max_defense_penalty * s.injury_doubtful_factor,
-        sum(p.importance for p in ti.doubtful if p.position in ("DEF", "GK")) * s.injury_max_defense_penalty * s.injury_doubtful_factor,
-    )
-
-    attack_mult = max(s.injury_min_attack_mult, 1.0 - out_attack - dout_attack)
-    defense_mult = min(s.injury_max_defense_mult, 1.0 + out_defense + dout_defense)
-    return attack_mult, defense_mult
+    from src.features.injury_factors import injury_factors as _impl
+    return _impl(injuries, team_martj)
 
 
 def predict_match(

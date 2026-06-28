@@ -113,40 +113,12 @@ class TournamentSimulator:
         self._pred_cache: dict[tuple[str, str], MatchPrediction] = {}
 
     def _injury_factors(self, team_martj: str) -> tuple[float, float]:
-        """Calcula multiplicadores (attack, defense) basados en lesionados.
+        """DEPRECATED: usa src.features.injury_factors.injury_factors.
 
-        Returns:
-            (attack_mult, defense_mult) donde 1.0 = sin ajuste.
-
-        Penalizaciones conservadoras (configurables via Settings):
-        - OUT: max 20% reduccion de attack, max 15% aumento de vulnerability
-        - DOUBTFUL: 50% del penalty de OUT
+        Mantenido como shim para backward compat.
         """
-        ti = self.injuries.get(team_martj)
-        if ti is None or (not ti.out and not ti.doubtful):
-            return 1.0, 1.0
-
-        s = get_settings()
-        out_attack = min(
-            s.injury_max_attack_penalty,
-            sum(p.importance for p in ti.out if p.position in ("FWD", "MID")) * s.injury_max_attack_penalty,
-        )
-        out_defense = min(
-            s.injury_max_defense_penalty,
-            sum(p.importance for p in ti.out if p.position in ("DEF", "GK")) * s.injury_max_defense_penalty,
-        )
-        dout_attack = min(
-            s.injury_max_attack_penalty * s.injury_doubtful_factor,
-            sum(p.importance for p in ti.doubtful if p.position in ("FWD", "MID")) * s.injury_max_attack_penalty * s.injury_doubtful_factor,
-        )
-        dout_defense = min(
-            s.injury_max_defense_penalty * s.injury_doubtful_factor,
-            sum(p.importance for p in ti.doubtful if p.position in ("DEF", "GK")) * s.injury_max_defense_penalty * s.injury_doubtful_factor,
-        )
-
-        attack_mult = max(s.injury_min_attack_mult, 1.0 - out_attack - dout_attack)
-        defense_mult = min(s.injury_max_defense_mult, 1.0 + out_defense + dout_defense)
-        return attack_mult, defense_mult
+        from src.features.injury_factors import injury_factors as _impl
+        return _impl(self.injuries, team_martj)
 
     def predict(self, home_olo: str, away_olo: str) -> MatchPrediction:
         """Predice un partido. Cachea el resultado."""

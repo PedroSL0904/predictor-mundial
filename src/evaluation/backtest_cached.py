@@ -42,12 +42,12 @@ def get_world_cup_matches(df: pd.DataFrame, year: int) -> pd.DataFrame:
 
 
 def outcome_from_score(home_goals: int, away_goals: int) -> str:
-    """Convierte (home_goals, away_goals) a H/D/A."""
-    if home_goals > away_goals:
-        return "H"
-    if home_goals < away_goals:
-        return "A"
-    return "D"
+    """DEPRECATED: usa src.domain.outcome_from_score.
+
+    Convierte (home_goals, away_goals) a H/D/A.
+    """
+    from src.domain import outcome_from_score as _impl
+    return _impl(home_goals, away_goals).value
 
 
 def get_elo_at(timeline: dict[str, dict[str, float]], as_of: str) -> dict[str, float]:

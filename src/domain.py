@@ -95,3 +95,31 @@ class MatchPrediction(BaseModel):
         if self.p_away >= self.p_draw and self.p_away >= self.p_home:
             return MatchOutcome.AWAY
         return MatchOutcome.DRAW
+
+
+def outcome_from_score(home_goals: int, away_goals: int) -> MatchOutcome:
+    """Calcula el outcome 1X2 a partir de un marcador.
+
+    Args:
+        home_goals: goles del local.
+        away_goals: goles del visitante.
+
+    Returns:
+        MatchOutcome (HOME / DRAW / AWAY).
+
+    Consolidacion: existia duplicado en src/evaluation/backtest_cached.py
+    y compute_metrics.py. Esta es la unica implementacion.
+    """
+    if home_goals > away_goals:
+        return MatchOutcome.HOME
+    if home_goals < away_goals:
+        return MatchOutcome.AWAY
+    return MatchOutcome.DRAW
+
+
+def outcome_from_score_str(score: str) -> MatchOutcome:
+    """Variante que acepta un string 'H-A' (ej '2-1')."""
+    parts = score.split("-")
+    if len(parts) != 2:
+        raise ValueError(f"Invalid score format: {score!r}")
+    return outcome_from_score(int(parts[0]), int(parts[1]))

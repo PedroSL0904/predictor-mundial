@@ -22,8 +22,9 @@ from src.data.elo_timeline import get_elo_at
 
 
 def _approx_xg(elo_a: np.ndarray, elo_d: np.ndarray) -> np.ndarray:
-    diff = (elo_a - elo_d) / 400.0
-    return 1.30 * (1.0 + 0.30 * np.tanh(diff))
+    """DEPRECATED: usa src.features.xg_approximation.approx_xg."""
+    from src.features.xg_approximation import approx_xg as _impl
+    return _impl(elo_a, elo_d)
 
 
 class StrengthsCache:

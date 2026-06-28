@@ -187,14 +187,12 @@ def _aggregate_team(group: pd.DataFrame) -> pd.Series:
 
 
 def _approx_xg_from_elo(elo_attacker: float, elo_defender: float) -> float:
-    """Aproxima xG esperado desde la diferencia de Elo.
+    """DEPRECATED: usa src.features.xg_approximation.approx_xg_from_elo.
 
-    Para Elo=1500 vs Elo=1500, devuelve 1.30 (promedio neutral).
-    Diferencia de +200 Elo del atacante → ~1.7.
-    Diferencia de -200 Elo del atacante → ~1.0.
+    Aproxima xG esperado desde la diferencia de Elo. Mantenido como shim.
     """
-    diff = (elo_attacker - elo_defender) / 400.0
-    return 1.30 * (1.0 + 0.30 * np.tanh(diff))
+    from src.features.xg_approximation import approx_xg_from_elo as _impl
+    return _impl(elo_attacker, elo_defender)
 
 
 def build_elo_lookup_at(
