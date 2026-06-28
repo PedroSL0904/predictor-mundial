@@ -12,6 +12,7 @@ import pandas as pd
 
 from src.data.elo_timeline import precompute_and_cache
 from src.data.historical import load_martj42_csv
+from src.data.injuries import load_injuries
 from src.data.team_names import OLO_TO_MARTJ
 from src.data.wc2026_fixture import generate_group_fixtures
 from src.features.strengths_cache import StrengthsCache
@@ -49,6 +50,7 @@ def main() -> None:
     sim = TournamentSimulator(
         df, timeline, StrengthsCache(df, timeline),
         as_of=as_of, calibrator=calibrator,
+        injuries=load_injuries(),
     )
     print("  Cache de predicciones listo")
 

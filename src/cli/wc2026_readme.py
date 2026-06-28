@@ -23,6 +23,7 @@ from src.config import get_settings
 from src.data.elo import ORIGINAL_ELO
 from src.data.elo_timeline import get_elo_at, precompute_and_cache
 from src.data.historical import load_martj42_csv
+from src.data.injuries import load_injuries
 from src.data.wc2026_fixture import generate_group_fixtures
 from src.features.recent_form import blend_recent_with_historical, compute_recent_form
 from src.features.strengths_cache import StrengthsCache
@@ -31,6 +32,24 @@ from src.models.calibration import (
     TemperatureScaler,
     train_temperature_scaler,
 )
+
+
+def _injury_factors(injuries: dict | None, team_martj: str) -> tuple[float, float]:
+    """Multiplicadores (attack, defense) basados en lesionados. 1.0 = sin ajuste."""
+    if not injuries:
+        return 1.0, 1.0
+    ti = injuries.get(team_martj)
+    if ti is None or (not ti.out and not ti.doubtful):
+        return 1.0, 1.0
+
+    out_attack = min(0.5, sum(p.importance for p in ti.out if p.position in ("FWD", "MID")) * 0.4)
+    out_defense = min(0.3, sum(p.importance for p in ti.out if p.position in ("DEF", "GK")) * 0.3)
+    dout_attack = min(0.25, sum(p.importance for p in ti.doubtful if p.position in ("FWD", "MID")) * 0.2)
+    dout_defense = min(0.15, sum(p.importance for p in ti.doubtful if p.position in ("DEF", "GK")) * 0.15)
+
+    attack_mult = max(0.5, 1.0 - out_attack - dout_attack)
+    defense_mult = min(1.5, 1.0 + out_defense + dout_defense)
+    return attack_mult, defense_mult
 
 
 def predict_match(
@@ -42,10 +61,12 @@ def predict_match(
     match_date: str,
     as_of: str | None = None,
     calibrator: TemperatureScaler | None = None,
+    injuries: dict | None = None,
 ) -> dict:
     """Predice un partido. Retorna dict con p_h, p_d, p_a, predicted_score, top3_scores.
 
     as_of: fecha de corte para train y snapshot. Si None, usa match_date.
+    injuries: dict[martj, TeamInjuries] para ajustar strengths por lesionados.
     """
     settings = get_settings()
     if as_of is None:
@@ -80,15 +101,19 @@ def predict_match(
             "degraded": True,
         }
 
+    # Ajustar por lesionados
+    home_att_mult, home_def_mult = _injury_factors(injuries, home_martj)
+    away_att_mult, away_def_mult = _injury_factors(injuries, away_martj)
+
     home = TeamStrength(
         name=home_martj,
-        attack=float(h["attack"].iloc[0]),
-        defense_vulnerability=float(h["defense_vulnerability"].iloc[0]),
+        attack=float(h["attack"].iloc[0]) * home_att_mult,
+        defense_vulnerability=float(h["defense_vulnerability"].iloc[0]) * home_def_mult,
     )
     away = TeamStrength(
         name=away_martj,
-        attack=float(a["attack"].iloc[0]),
-        defense_vulnerability=float(a["defense_vulnerability"].iloc[0]),
+        attack=float(a["attack"].iloc[0]) * away_att_mult,
+        defense_vulnerability=float(a["defense_vulnerability"].iloc[0]) * away_def_mult,
     )
     elo_lookup = get_elo_at(timeline, match_date)
     home_elo = elo_lookup.get(home_martj, ORIGINAL_ELO)
@@ -325,6 +350,10 @@ def main() -> None:
     else:
         AS_OF = "2026-06-10"
     print(f"Prediciendo {len(fixtures)} partidos (as_of={AS_OF})...", flush=True)
+    injuries_dict = load_injuries()
+    if injuries_dict:
+        n_out = sum(len(ti.out) for ti in injuries_dict.values())
+        print(f"  Lesionados: {len(injuries_dict)} equipos, {n_out} jugadores out", flush=True)
     rows = []
     t0 = time.time()
     for i, (_, fx) in enumerate(fixtures.iterrows()):
@@ -338,6 +367,7 @@ def main() -> None:
                 match_date,
                 as_of=AS_OF,
                 calibrator=calibrator,
+                injuries=injuries_dict,
             )
         except Exception as e:
             print(f"Error prediciendo {fx['home']} vs {fx['away']}: {e}")
@@ -362,9 +392,15 @@ def main() -> None:
     # Simulacion Monte Carlo del torneo completo
     print("Corriendo 1000 simulaciones Monte Carlo del torneo...", flush=True)
     from src.simulation.wc2026_simulate import TournamentSimulator, monte_carlo
+    injuries = load_injuries()
+    if injuries:
+        n_teams = len(injuries)
+        n_out = sum(len(ti.out) for ti in injuries.values())
+        print(f"  Lesionados cargados: {n_teams} equipos, {n_out} jugadores out")
     sim = TournamentSimulator(
         df, timeline, cache, as_of=AS_OF,
         calibrator=calibrator,
+        injuries=injuries,
     )
     mc_result = monte_carlo(sim, fixtures, n_simulations=1000)
     tournament_stats = mc_result["stats"]

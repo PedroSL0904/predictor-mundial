@@ -61,12 +61,14 @@ class TournamentSimulator:
         league_avg_multiplier: float = 1.18,
         as_of: str = "2026-06-10",
         calibrator = None,
+        injuries: dict | None = None,
     ):
         self.df = df
         self.timeline = timeline
         self.cache = cache
         self.league_avg_multiplier = league_avg_multiplier
         self.as_of = as_of
+        self.injuries = injuries or {}  # dict[martj_name, TeamInjuries]
 
         # Setup: precomputar strengths una vez
         settings = get_settings()
@@ -111,6 +113,28 @@ class TournamentSimulator:
         # Cache de predicciones: (home_martj, away_martj) -> MatchPrediction
         self._pred_cache: dict[tuple[str, str], MatchPrediction] = {}
 
+    def _injury_factors(self, team_martj: str) -> tuple[float, float]:
+        """Calcula multiplicadores (attack, defense) basados en lesionados.
+
+        Returns:
+            (attack_mult, defense_mult) donde 1.0 = sin ajuste.
+        """
+        ti = self.injuries.get(team_martj)
+        if ti is None or (not ti.out and not ti.doubtful):
+            return 1.0, 1.0
+
+        # Out: aplica el penalty completo
+        out_attack = min(0.5, sum(p.importance for p in ti.out if p.position in ("FWD", "MID")) * 0.4)
+        out_defense = min(0.3, sum(p.importance for p in ti.out if p.position in ("DEF", "GK")) * 0.3)
+
+        # Doubtful: aplica el penalty a la mitad
+        dout_attack = min(0.25, sum(p.importance for p in ti.doubtful if p.position in ("FWD", "MID")) * 0.2)
+        dout_defense = min(0.15, sum(p.importance for p in ti.doubtful if p.position in ("DEF", "GK")) * 0.15)
+
+        attack_mult = max(0.5, 1.0 - out_attack - dout_attack)
+        defense_mult = min(1.5, 1.0 + out_defense + dout_defense)
+        return attack_mult, defense_mult
+
     def predict(self, home_olo: str, away_olo: str) -> MatchPrediction:
         """Predice un partido. Cachea el resultado."""
         home_martj = _olo_to_martj(home_olo)
@@ -126,15 +150,19 @@ class TournamentSimulator:
             self._pred_cache[key] = MatchPrediction(1/3, 1/3, 1/3, (1, 1))
             return self._pred_cache[key]
 
+        # Aplicar ajustes por lesionados
+        home_attack_mult, home_def_mult = self._injury_factors(home_martj)
+        away_attack_mult, away_def_mult = self._injury_factors(away_martj)
+
         home = TeamStrength(
             name=home_martj,
-            attack=float(h["attack"]),
-            defense_vulnerability=float(h["defense_vulnerability"]),
+            attack=float(h["attack"]) * home_attack_mult,
+            defense_vulnerability=float(h["defense_vulnerability"]) * home_def_mult,
         )
         away = TeamStrength(
             name=away_martj,
-            attack=float(a["attack"]),
-            defense_vulnerability=float(a["defense_vulnerability"]),
+            attack=float(a["attack"]) * away_attack_mult,
+            defense_vulnerability=float(a["defense_vulnerability"]) * away_def_mult,
         )
         home_elo = self.elo_lookup.get(home_martj, ORIGINAL_ELO)
         away_elo = self.elo_lookup.get(away_martj, ORIGINAL_ELO)
