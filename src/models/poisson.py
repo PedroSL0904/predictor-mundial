@@ -66,6 +66,7 @@ class PoissonGoalModel:
     LEAGUE_AVG_GOALS = 1.35  # promedio goles por equipo en partidos internacionales recientes
     MAX_GOALS = 8
     DEFAULT_RHO = -0.03  # correlación Dixon-Coles
+    ELO_GAP_THRESHOLD = 100  # gap minimo (Elo points) para activar inflation
 
     def __init__(
         self,
@@ -129,14 +130,14 @@ class PoissonGoalModel:
         if home_elo is not None and away_elo is not None:
             elo_diff = home_elo - away_elo
             # elo_diff positivo = local más fuerte
-            if elo_diff > 100:
+            if elo_diff > self.ELO_GAP_THRESHOLD:
                 # Local claramente más fuerte
-                factor = 1.0 + (math.log10(elo_diff / 100) * self.elo_gap_inflation)
+                factor = 1.0 + (math.log10(elo_diff / self.ELO_GAP_THRESHOLD) * self.elo_gap_inflation)
                 lam_h *= factor
                 lam_a /= factor
-            elif elo_diff < -100:
+            elif elo_diff < -self.ELO_GAP_THRESHOLD:
                 # Visitante claramente más fuerte
-                factor = 1.0 + (math.log10(-elo_diff / 100) * self.elo_gap_inflation)
+                factor = 1.0 + (math.log10(-elo_diff / self.ELO_GAP_THRESHOLD) * self.elo_gap_inflation)
                 lam_a *= factor
                 lam_h /= factor
 

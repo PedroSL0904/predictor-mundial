@@ -20,10 +20,14 @@ from pathlib import Path
 import pandas as pd
 from pydantic import BaseModel
 
-# Constantes
+# Constantes (mantenidas como module-level para backward compat;
+# los valores reales estan en src.config.Settings)
+from src.config import get_settings
+
+_settings = get_settings()
 ORIGINAL_ELO = 1500.0
-BASE_K = 32.0
-HOME_ADVANTAGE_ELO = 100.0  # bonus de local en escala Elo
+BASE_K = _settings.elo_k_factor
+HOME_ADVANTAGE_ELO = _settings.elo_home_advantage  # bonus de local en escala Elo
 
 
 class EloMatchUpdate(BaseModel):

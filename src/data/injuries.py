@@ -23,7 +23,9 @@ import json
 from dataclasses import dataclass, field
 from pathlib import Path
 
-INJURIES_PATH = Path(r"C:\dev\predictor-mundial\data\processed\injuries.json")
+from src.paths import INJURIES_JSON
+
+INJURIES_PATH = INJURIES_JSON
 
 
 @dataclass

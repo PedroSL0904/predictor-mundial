@@ -23,15 +23,31 @@ class Settings(BaseSettings):
 
     # APIs externas
     odds_api_key: str = ""
+    opencode_api_key: str = ""
     understat_enabled: bool = True
     football_data_api_key: str = ""
 
-    # Modelo
+    # Modelo base
     goal_model_years_window: int = 8
+    league_avg_goals: float = 1.35
+    league_mean: float = 1.30
+    world_cup_league_avg_multiplier: float = 1.18
+    max_goals: int = 8
+    dispersion: float = 0.0
+    rho: float = -0.03
+
+    # Recent form
     recent_form_n_matches: int = 8
     recent_form_weight: float = 0.30
+    recent_form_decay_half_life_matches: float = 3.0
+    recent_form_min_matches: int = 3
+    recent_form_shrink_k: float = 3.0
+
+    # Elo
     elo_k_factor: float = 32.0
     elo_home_advantage: float = 100.0
+    elo_gap_threshold: int = 100
+    elo_divisor: float = 400.0
 
     # Anti-sesgo
     draw_penalty_threshold: float = 0.08
@@ -45,12 +61,36 @@ class Settings(BaseSettings):
     shrinkage_matches: int = 10
     min_weighted_matches: float = 8.0
 
-    # Modelo
-    dispersion: float = 0.0
+    # Injuries
+    injury_max_attack_penalty: float = 0.20
+    injury_max_defense_penalty: float = 0.15
+    injury_doubtful_factor: float = 0.5
+    injury_min_attack_mult: float = 0.7
+    injury_max_defense_mult: float = 1.3
+
+    # Ensemble
+    ensemble_enabled: bool = True
+    ensemble_weights: list[float] = [0.5, 0.3, 0.2]
+    ensemble_bivariate_weight_default: float = 0.3
+    ensemble_skellam_weight_default: float = 0.2
+
+    # LLM (OpenCode)
+    llm_model: str = "minimax-m3"
+    llm_max_tokens_discovery: int = 4000
+    llm_max_tokens_enrichment: int = 500
+    llm_temperature: float = 0.0
 
     # Simulación
     n_simulations: int = 10_000
+    n_simulations_cli: int = 1000
     simulation_seed: int = 2026
+
+    # Bracket
+    r32_tie_ids: tuple[int, int] = (73, 89)
+    r16_tie_ids: tuple[int, int] = (89, 97)
+    qf_tie_ids: tuple[int, int] = (97, 101)
+    sf_tie_ids: tuple[int, int] = (101, 103)
+    final_tie_id: int = 104
 
     # Paths
     data_dir: Path = DATA_DIR

@@ -1,10 +1,12 @@
 """Tests para el modulo de calibracion."""
 import numpy as np
-import pytest
 
 from src.models.calibration import (
-    PlattCalibrator, TemperatureScaler, _softmax,
-    brier, log_loss, sign_acc,
+    TemperatureScaler,
+    _softmax,
+    brier,
+    log_loss,
+    sign_acc,
 )
 
 
@@ -83,7 +85,6 @@ def test_temperature_scaler_save_load():
     ts = TemperatureScaler()
     ts.T_ = 0.85
     ts.fitted = True
-    import json
     import tempfile
     from pathlib import Path
 

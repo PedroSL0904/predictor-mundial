@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import pandas as pd
-import pytest
 
 from src.features.recent_form import (
     blend_recent_with_historical,
@@ -47,7 +46,6 @@ def test_compute_recent_form_basic() -> None:
 
 def test_compute_recent_form_decay() -> None:
     df = make_sample_df()
-    out_no_decay = compute_recent_form(df, n_matches=3, min_matches=2, decay_half_life_matches=None)
     out_decay = compute_recent_form(df, n_matches=3, min_matches=2, decay_half_life_matches=1.0)
     # Con decay, los valores pueden diferir
     # (no garantizamos cual es mayor, solo que el cálculo no falla)

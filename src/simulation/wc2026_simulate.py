@@ -13,7 +13,6 @@ from __future__ import annotations
 import time
 from collections import Counter
 from dataclasses import dataclass
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -119,8 +118,7 @@ class TournamentSimulator:
         Returns:
             (attack_mult, defense_mult) donde 1.0 = sin ajuste.
 
-        Penalizaciones conservadoras (un solo jugador top no debe eliminar
-        mas del 20% del equipo, porque hay suplentes que cubren parcialmente):
+        Penalizaciones conservadoras (configurables via Settings):
         - OUT: max 20% reduccion de attack, max 15% aumento de vulnerability
         - DOUBTFUL: 50% del penalty de OUT
         """
@@ -128,13 +126,26 @@ class TournamentSimulator:
         if ti is None or (not ti.out and not ti.doubtful):
             return 1.0, 1.0
 
-        out_attack = min(0.20, sum(p.importance for p in ti.out if p.position in ("FWD", "MID")) * 0.20)
-        out_defense = min(0.15, sum(p.importance for p in ti.out if p.position in ("DEF", "GK")) * 0.15)
-        dout_attack = min(0.10, sum(p.importance for p in ti.doubtful if p.position in ("FWD", "MID")) * 0.10)
-        dout_defense = min(0.08, sum(p.importance for p in ti.doubtful if p.position in ("DEF", "GK")) * 0.08)
+        s = get_settings()
+        out_attack = min(
+            s.injury_max_attack_penalty,
+            sum(p.importance for p in ti.out if p.position in ("FWD", "MID")) * s.injury_max_attack_penalty,
+        )
+        out_defense = min(
+            s.injury_max_defense_penalty,
+            sum(p.importance for p in ti.out if p.position in ("DEF", "GK")) * s.injury_max_defense_penalty,
+        )
+        dout_attack = min(
+            s.injury_max_attack_penalty * s.injury_doubtful_factor,
+            sum(p.importance for p in ti.doubtful if p.position in ("FWD", "MID")) * s.injury_max_attack_penalty * s.injury_doubtful_factor,
+        )
+        dout_defense = min(
+            s.injury_max_defense_penalty * s.injury_doubtful_factor,
+            sum(p.importance for p in ti.doubtful if p.position in ("DEF", "GK")) * s.injury_max_defense_penalty * s.injury_doubtful_factor,
+        )
 
-        attack_mult = max(0.7, 1.0 - out_attack - dout_attack)
-        defense_mult = min(1.3, 1.0 + out_defense + dout_defense)
+        attack_mult = max(s.injury_min_attack_mult, 1.0 - out_attack - dout_attack)
+        defense_mult = min(s.injury_max_defense_mult, 1.0 + out_defense + dout_defense)
         return attack_mult, defense_mult
 
     def predict(self, home_olo: str, away_olo: str) -> MatchPrediction:
@@ -390,9 +401,15 @@ def monte_carlo(
 
 
 def main():
-    csv_path = Path(r"C:\dev\predictor-mundial\data\raw\martj42_results.csv")
-    cache_path = Path(r"C:\dev\predictor-mundial\data\processed\elo_timeline.json")
-    cal_path = Path(r"C:\dev\predictor-mundial\data\processed\temperature_calibrator.json")
+    from src.paths import (
+        ELO_TIMELINE_JSON,
+        MARTJ_CSV,
+        TEMPERATURE_CALIBRATOR,
+        TOURNAMENT_PROBS_CSV,
+    )
+    csv_path = MARTJ_CSV
+    cache_path = ELO_TIMELINE_JSON
+    cal_path = TEMPERATURE_CALIBRATOR
 
     print("Cargando datos...", flush=True)
     timeline = precompute_and_cache(csv_path, cache_path)
@@ -425,8 +442,8 @@ def main():
     print("\nTop 20 equipos por probabilidad de campeon:\n")
     print(stats.head(20).to_string(index=False))
 
-    stats.to_csv(r"C:\dev\predictor-mundial\wc2026_tournament_probs.csv", index=False)
-    print("\nGuardado en wc2026_tournament_probs.csv")
+    stats.to_csv(TOURNAMENT_PROBS_CSV, index=False)
+    print(f"\nGuardado en {TOURNAMENT_PROBS_CSV}")
 
 
 if __name__ == "__main__":

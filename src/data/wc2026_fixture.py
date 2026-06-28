@@ -38,7 +38,8 @@ def generate_group_fixtures(csv_path: Path | None = None) -> pd.DataFrame:
     Oloraculo.
     """
     if csv_path is None:
-        csv_path = Path(r"C:\dev\predictor-mundial\data\raw\martj42_results.csv")
+        from src.paths import MARTJ_CSV
+        csv_path = MARTJ_CSV
 
     df = pd.read_csv(csv_path)
     wc = df[(df["date"] >= "2026-06-01") & (df["tournament"] == "FIFA World Cup")].copy()

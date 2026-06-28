@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import time
 from datetime import datetime
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -39,6 +38,7 @@ def _injury_factors(injuries: dict | None, team_martj: str) -> tuple[float, floa
 
     Penalizaciones conservadoras: un jugador top no elimina mas del 20%
     del equipo, porque hay suplentes que cubren parcialmente.
+    Configurable via Settings (injury_max_attack_penalty, etc).
     """
     if not injuries:
         return 1.0, 1.0
@@ -46,13 +46,26 @@ def _injury_factors(injuries: dict | None, team_martj: str) -> tuple[float, floa
     if ti is None or (not ti.out and not ti.doubtful):
         return 1.0, 1.0
 
-    out_attack = min(0.20, sum(p.importance for p in ti.out if p.position in ("FWD", "MID")) * 0.20)
-    out_defense = min(0.15, sum(p.importance for p in ti.out if p.position in ("DEF", "GK")) * 0.15)
-    dout_attack = min(0.10, sum(p.importance for p in ti.doubtful if p.position in ("FWD", "MID")) * 0.10)
-    dout_defense = min(0.08, sum(p.importance for p in ti.doubtful if p.position in ("DEF", "GK")) * 0.08)
+    s = get_settings()
+    out_attack = min(
+        s.injury_max_attack_penalty,
+        sum(p.importance for p in ti.out if p.position in ("FWD", "MID")) * s.injury_max_attack_penalty,
+    )
+    out_defense = min(
+        s.injury_max_defense_penalty,
+        sum(p.importance for p in ti.out if p.position in ("DEF", "GK")) * s.injury_max_defense_penalty,
+    )
+    dout_attack = min(
+        s.injury_max_attack_penalty * s.injury_doubtful_factor,
+        sum(p.importance for p in ti.doubtful if p.position in ("FWD", "MID")) * s.injury_max_attack_penalty * s.injury_doubtful_factor,
+    )
+    dout_defense = min(
+        s.injury_max_defense_penalty * s.injury_doubtful_factor,
+        sum(p.importance for p in ti.doubtful if p.position in ("DEF", "GK")) * s.injury_max_defense_penalty * s.injury_doubtful_factor,
+    )
 
-    attack_mult = max(0.7, 1.0 - out_attack - dout_attack)
-    defense_mult = min(1.3, 1.0 + out_defense + dout_defense)
+    attack_mult = max(s.injury_min_attack_mult, 1.0 - out_attack - dout_attack)
+    defense_mult = min(s.injury_max_defense_mult, 1.0 + out_defense + dout_defense)
     return attack_mult, defense_mult
 
 
@@ -130,7 +143,8 @@ def predict_match(
         draw_boost=settings.draw_boost,
         # Mundial 2026 tiene ~17% mas goles que el promedio historico
         # (3.12 vs 2.67 goles/partido en WC 2014-2022). Inflamos λ un 18%.
-        league_avg_multiplier=1.18,
+        # Configurable via settings.world_cup_league_avg_multiplier.
+        league_avg_multiplier=settings.world_cup_league_avg_multiplier,
     )
     pred = model.predict(home, away, home_elo=home_elo, away_elo=away_elo)
 
@@ -320,8 +334,16 @@ def compute_metrics(predictions_df: pd.DataFrame) -> dict:
 
 
 def main() -> None:
-    csv_path = Path(r"C:\dev\predictor-mundial\data\raw\martj42_results.csv")
-    cache_path = Path(r"C:\dev\predictor-mundial\data\processed\elo_timeline.json")
+    from src.paths import (
+        ELO_TIMELINE_JSON,
+        MARTJ_CSV,
+        PREDICTIONS_CSV,
+        README_WC2026,
+        TEMPERATURE_CALIBRATOR,
+        TOURNAMENT_PROBS_CSV,
+    )
+    csv_path = MARTJ_CSV
+    cache_path = ELO_TIMELINE_JSON
 
     print("Cargando datos...", flush=True)
     timeline = precompute_and_cache(csv_path, cache_path)
@@ -335,7 +357,7 @@ def main() -> None:
     print("Entrenando calibrador (Temperature scaling LOO)...", flush=True)
     calibrator = train_temperature_scaler()
     print(f"  T_optimo: {calibrator.T_:.3f} (T<1 = comprimir, T>1 = expandir)")
-    cal_path = Path(r"C:\dev\predictor-mundial\data\processed\temperature_calibrator.json")
+    cal_path = TEMPERATURE_CALIBRATOR
     cal_path.parent.mkdir(parents=True, exist_ok=True)
     calibrator.save(cal_path)
     print(f"  Guardado en {cal_path}")
@@ -425,22 +447,20 @@ def main() -> None:
         sim_elapsed=mc_result["elapsed"],
         bracket_analysis=bracket_analysis,
     )
-    readme_path = Path(r"C:\dev\predictor-mundial\WC2026_README.md")
+    readme_path = README_WC2026
     # Usar UTF-8 sin BOM para compatibilidad maxima
     readme_path.write_bytes(readme.encode("utf-8"))
     print(f"README guardado en {readme_path}")
 
     # También guardar CSV con predicciones
-    csv_out = Path(r"C:\dev\predictor-mundial\wc2026_predictions.csv")
+    csv_out = PREDICTIONS_CSV
     pred_df[["group", "date", "home", "away", "played", "home_score", "away_score",
              "predicted_score", "p_h", "p_d", "p_a"]].to_csv(csv_out, index=False)
     print(f"CSV guardado en {csv_out}")
 
     # Guardar CSV con probabilidades del torneo
-    tournament_stats.to_csv(
-        r"C:\dev\predictor-mundial\wc2026_tournament_probs.csv", index=False
-    )
-    print("Tournament probs guardado en wc2026_tournament_probs.csv")
+    tournament_stats.to_csv(TOURNAMENT_PROBS_CSV, index=False)
+    print(f"Tournament probs guardado en {TOURNAMENT_PROBS_CSV}")
 
 
 if __name__ == "__main__":

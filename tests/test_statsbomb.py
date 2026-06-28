@@ -49,7 +49,6 @@ def test_statsbomb_curacao_normalization() -> None:
 
 def test_statsbomb_coverage_in_dataset() -> None:
     """La funcion de cobertura debe contar partidos correctamente."""
-    import pandas as pd
     from src.data.historical import load_martj42_csv
     df = load_martj42_csv("data/raw/martj42_results.csv")
     cov = statsbomb_coverage(df)

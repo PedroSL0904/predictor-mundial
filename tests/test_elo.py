@@ -4,17 +4,12 @@ from __future__ import annotations
 import math
 
 import pandas as pd
-import pytest
 
 from src.data.elo import (
-    BASE_K,
-    ORIGINAL_ELO,
     EloRatingSystem,
-    current_top_n,
 )
 from src.features.strengths import (
     _approx_xg_from_elo,
-    build_elo_lookup_at,
     compute_weighted_strengths,
 )
 

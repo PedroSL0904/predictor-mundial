@@ -10,7 +10,6 @@ import time
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 import pytest
 
 from src.data.elo_timeline import precompute_and_cache

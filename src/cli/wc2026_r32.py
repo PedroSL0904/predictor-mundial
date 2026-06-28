@@ -6,7 +6,6 @@ Uso:
 from __future__ import annotations
 
 import time
-from pathlib import Path
 
 import pandas as pd
 
@@ -25,9 +24,16 @@ from src.simulation.wc2026_simulate import TournamentSimulator
 
 
 def main() -> None:
-    csv_path = Path(r"C:\dev\predictor-mundial\data\raw\martj42_results.csv")
-    cache_path = Path(r"C:\dev\predictor-mundial\data\processed\elo_timeline.json")
-    cal_path = Path(r"C:\dev\predictor-mundial\data\processed\temperature_calibrator.json")
+    from src.paths import (
+        ELO_TIMELINE_JSON,
+        MARTJ_CSV,
+        R32_PREDICTIONS_CSV,
+        README_R32,
+        TEMPERATURE_CALIBRATOR,
+    )
+    csv_path = MARTJ_CSV
+    cache_path = ELO_TIMELINE_JSON
+    cal_path = TEMPERATURE_CALIBRATOR
 
     print("Cargando datos...", flush=True)
     timeline = precompute_and_cache(csv_path, cache_path)
@@ -90,7 +96,7 @@ def main() -> None:
             "most_likely": f"{m.most_likely[0]}-{m.most_likely[1]}",
         })
     df_out = pd.DataFrame(rows)
-    out_csv = Path(r"C:\dev\predictor-mundial\wc2026_r32_predictions.csv")
+    out_csv = R32_PREDICTIONS_CSV
     df_out.to_csv(out_csv, index=False)
     print(f"\nGuardado en {out_csv}")
 
@@ -119,7 +125,7 @@ def main() -> None:
         format_r32_table(matches),
         "",
     ])
-    out_md = Path(r"C:\dev\predictor-mundial\WC2026_R32.md")
+    out_md = README_R32
     out_md.write_text("\n".join(lines), encoding="utf-8")
     print(f"Markdown guardado en {out_md}")
 
