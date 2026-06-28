@@ -14,11 +14,7 @@ que las features dominen la señal principal del strength historico.
 """
 from __future__ import annotations
 
-import math
-
-import numpy as np
 import pandas as pd
-
 
 MAX_ADJUSTMENT = 0.10  # ±10% maximo ajuste por feature
 MIN_H2H_MATCHES = 3    # minimo de H2H para que la feature aplique

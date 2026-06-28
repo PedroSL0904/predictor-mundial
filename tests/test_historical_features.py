@@ -1,7 +1,6 @@
 """Tests de features historicas (H2H, momentum, WC history)."""
 from __future__ import annotations
 
-import numpy as np
 import pandas as pd
 import pytest
 
