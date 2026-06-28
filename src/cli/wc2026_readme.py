@@ -322,27 +322,33 @@ def compute_metrics(predictions_df: pd.DataFrame) -> dict:
     }
 
 
-def main() -> None:
-    from src.paths import (
-        ELO_TIMELINE_JSON,
-        MARTJ_CSV,
-        PREDICTIONS_CSV,
-        README_WC2026,
-        TEMPERATURE_CALIBRATOR,
-        TOURNAMENT_PROBS_CSV,
-    )
-    csv_path = MARTJ_CSV
-    cache_path = ELO_TIMELINE_JSON
+def _compute_as_of(fixtures: pd.DataFrame) -> str:
+    """Calcula la fecha de corte para entrenar y predecir.
+
+    Usa el dia siguiente al ultimo partido FT para que el modelo aproveche
+    los resultados del Mundial ya jugados al predecir partidos futuros.
+    """
+    if fixtures["played"].any():
+        last_played = pd.to_datetime(fixtures[fixtures["played"]]["date"]).max()
+        return (last_played + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
+    return "2026-06-10"
+
+
+def _load_data():
+    """Carga CSV, timeline de Elo y StrengthsCache."""
+    from src.paths import ELO_TIMELINE_JSON, MARTJ_CSV
 
     logger.info("Cargando datos...")
-    timeline = precompute_and_cache(csv_path, cache_path)
-    df = load_martj42_csv(csv_path)
+    timeline = precompute_and_cache(MARTJ_CSV, ELO_TIMELINE_JSON)
+    df = load_martj42_csv(MARTJ_CSV)
     cache = StrengthsCache(df, timeline)
+    return df, timeline, cache
 
-    logger.info("Generando fixture WC 2026...")
-    fixtures = generate_group_fixtures()
 
-    # Entrenar calibrador con backtest historico (2014/2018/2022 LOO)
+def _train_calibrator() -> TemperatureScaler:
+    """Entrena y guarda el calibrador de temperature scaling via LOO."""
+    from src.paths import TEMPERATURE_CALIBRATOR
+
     logger.info("Entrenando calibrador (Temperature scaling LOO)...")
     calibrator = train_temperature_scaler()
     logger.info(f"  T_optimo: {calibrator.T_:.3f} (T<1 = comprimir, T>1 = expandir)")
@@ -350,37 +356,37 @@ def main() -> None:
     cal_path.parent.mkdir(parents=True, exist_ok=True)
     calibrator.save(cal_path)
     logger.info(f"  Guardado en {cal_path}")
+    return calibrator
 
-    # Predecir cada partido
-    # Usamos como fecha de corte la fecha del ULTIMO partido FT (o 2 dias
-    # atras) para que el modelo aproveche los resultados del Mundial ya
-    # jugados al predecir partidos futuros. Esto es valido: refleja el
-    # "conocimiento disponible" al momento de predecir.
-    if fixtures["played"].any():
-        last_played = pd.to_datetime(
-            fixtures[fixtures["played"]]["date"]
-        ).max()
-        # Usar el dia siguiente al ultimo partido FT
-        AS_OF = (last_played + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
-    else:
-        AS_OF = "2026-06-10"
-    logger.info(f"Prediciendo {len(fixtures)} partidos (as_of={AS_OF})...")
-    injuries_dict = load_injuries()
+
+def _predict_all_matches(
+    fixtures: pd.DataFrame,
+    df: pd.DataFrame,
+    timeline: dict,
+    cache: StrengthsCache,
+    as_of: str,
+    calibrator: TemperatureScaler,
+    injuries_dict: dict,
+) -> pd.DataFrame:
+    """Predice todos los partidos de fase de grupos. Retorna DataFrame con probs."""
+    logger.info(f"Prediciendo {len(fixtures)} partidos (as_of={as_of})...")
     if injuries_dict:
         n_out = sum(len(ti.out) for ti in injuries_dict.values())
         logger.info(f"  Lesionados: {len(injuries_dict)} equipos, {n_out} jugadores out")
+
     rows = []
     t0 = time.time()
+    total = len(fixtures)
     for i, (_, fx) in enumerate(fixtures.iterrows()):
         if i % 10 == 0:
-            logger.info(f"  [{i}/{len(fixtures)}]")
+            logger.info(f"  [{i}/{total}]")
         match_date = fx["date"] if fx["played"] else (fx["date"] or "2026-06-15")
         try:
             pred = predict_match(
                 df, timeline, cache,
                 fx["home_martj"], fx["away_martj"],
                 match_date,
-                as_of=AS_OF,
+                as_of=as_of,
                 calibrator=calibrator,
                 injuries=injuries_dict,
             )
@@ -388,32 +394,34 @@ def main() -> None:
             logger.info(f"Error prediciendo {fx['home']} vs {fx['away']}: {e}")
             pred = {"p_h": np.nan, "p_d": np.nan, "p_a": np.nan,
                     "predicted_score": "?", "top_scores": [], "degraded": True}
-
-        rows.append({
-            **fx.to_dict(),
-            **pred,
-        })
+        rows.append({**fx.to_dict(), **pred})
 
     pred_df = pd.DataFrame(rows)
     elapsed = time.time() - t0
     logger.info(f"Predicciones listas en {elapsed:.1f}s")
+    return pred_df
 
-    # Métricas
-    metrics = compute_metrics(pred_df)
-    if metrics:
-        logger.info(f"Métricas: Brier={metrics['brier']:.4f}, "
-              f"Sign={metrics['sign_accuracy']:.1%}, n={metrics['n_played']}")
 
-    # Simulacion Monte Carlo del torneo completo
-    logger.info("Corriendo 1000 simulaciones Monte Carlo del torneo...")
+def _run_simulations(
+    df: pd.DataFrame,
+    timeline: dict,
+    cache: StrengthsCache,
+    fixtures: pd.DataFrame,
+    as_of: str,
+    calibrator: TemperatureScaler,
+    injuries: dict,
+) -> dict:
+    """Corre Monte Carlo del torneo + analisis de llave."""
+    from src.simulation.bracket_analysis import analyze_bracket
     from src.simulation.wc2026_simulate import TournamentSimulator, monte_carlo
-    injuries = load_injuries()
+
+    logger.info("Corriendo 1000 simulaciones Monte Carlo del torneo...")
     if injuries:
         n_teams = len(injuries)
         n_out = sum(len(ti.out) for ti in injuries.values())
         logger.info(f"  Lesionados cargados: {n_teams} equipos, {n_out} jugadores out")
     sim = TournamentSimulator(
-        df, timeline, cache, as_of=AS_OF,
+        df, timeline, cache, as_of=as_of,
         calibrator=calibrator,
         injuries=injuries,
     )
@@ -422,34 +430,81 @@ def main() -> None:
     logger.info(f"  Monte Carlo en {mc_result['elapsed']:.1f}s")
     logger.info(f"  Top 3: {tournament_stats.head(3)['team'].tolist()}")
 
-    # Analisis de llave completa (reusar las simulaciones ya corridas seria ideal
-    # pero analyze_bracket corre sus propias simulaciones; usamos la misma cantidad
-    # que el MC del torneo para mantener consistencia en el README)
     logger.info(f"Analizando llave completa ({mc_result['n_simulations']} simulaciones)...")
-    from src.simulation.bracket_analysis import analyze_bracket
-    bracket_analysis = analyze_bracket(sim, fixtures, n_simulations=mc_result["n_simulations"])
+    bracket_analysis = analyze_bracket(
+        sim, fixtures, n_simulations=mc_result["n_simulations"]
+    )
+    return {
+        "mc_result": mc_result,
+        "tournament_stats": tournament_stats,
+        "bracket_analysis": bracket_analysis,
+    }
 
-    # Generar README
+
+def _save_outputs(
+    pred_df: pd.DataFrame,
+    tournament_stats: pd.DataFrame,
+    metrics: dict,
+    mc_result: dict,
+    bracket_analysis: dict,
+) -> None:
+    """Genera y guarda README + CSVs."""
+    from src.paths import (
+        PREDICTIONS_CSV,
+        README_WC2026,
+        TOURNAMENT_PROBS_CSV,
+    )
+
     readme = render_readme(
         pred_df, metrics, tournament_stats,
         n_simulations=mc_result["n_simulations"],
         sim_elapsed=mc_result["elapsed"],
         bracket_analysis=bracket_analysis,
     )
-    readme_path = README_WC2026
-    # Usar UTF-8 sin BOM para compatibilidad maxima
-    readme_path.write_bytes(readme.encode("utf-8"))
-    logger.info(f"README guardado en {readme_path}")
+    # UTF-8 sin BOM para compatibilidad maxima
+    README_WC2026.write_bytes(readme.encode("utf-8"))
+    logger.info(f"README guardado en {README_WC2026}")
 
-    # También guardar CSV con predicciones
-    csv_out = PREDICTIONS_CSV
     pred_df[["group", "date", "home", "away", "played", "home_score", "away_score",
-             "predicted_score", "p_h", "p_d", "p_a"]].to_csv(csv_out, index=False)
-    logger.info(f"CSV guardado en {csv_out}")
+             "predicted_score", "p_h", "p_d", "p_a"]].to_csv(PREDICTIONS_CSV, index=False)
+    logger.info(f"CSV guardado en {PREDICTIONS_CSV}")
 
-    # Guardar CSV con probabilidades del torneo
     tournament_stats.to_csv(TOURNAMENT_PROBS_CSV, index=False)
     logger.info(f"Tournament probs guardado en {TOURNAMENT_PROBS_CSV}")
+
+
+def main() -> None:
+    """Pipeline principal: load → train → predict → simulate → save."""
+    logger.info("Generando fixture WC 2026...")
+    fixtures = generate_group_fixtures()
+
+    df, timeline, cache = _load_data()
+    calibrator = _train_calibrator()
+    as_of = _compute_as_of(fixtures)
+    injuries = load_injuries()
+
+    pred_df = _predict_all_matches(
+        fixtures, df, timeline, cache, as_of, calibrator, injuries,
+    )
+
+    metrics = compute_metrics(pred_df)
+    if metrics:
+        logger.info(
+            f"Métricas: Brier={metrics['brier']:.4f}, "
+            f"Sign={metrics['sign_accuracy']:.1%}, n={metrics['n_played']}"
+        )
+
+    sim_outputs = _run_simulations(
+        df, timeline, cache, fixtures, as_of, calibrator, injuries,
+    )
+
+    _save_outputs(
+        pred_df,
+        sim_outputs["tournament_stats"],
+        metrics,
+        sim_outputs["mc_result"],
+        sim_outputs["bracket_analysis"],
+    )
 
 
 if __name__ == "__main__":
