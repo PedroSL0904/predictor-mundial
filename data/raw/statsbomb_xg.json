@@ -2356,5 +2356,473 @@
     "away_xg": 0.977,
     "home_score": 2,
     "away_score": 0
+  },
+  "3922240": {
+    "home_team": "Egypt",
+    "away_team": "Congo DR",
+    "date": "2024-01-28",
+    "home_xg": 8.424,
+    "away_xg": 8.627,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3920399": {
+    "home_team": "Cape Verde Islands",
+    "away_team": "Mozambique",
+    "date": "2024-01-19",
+    "home_xg": 0.599,
+    "away_xg": 0.331,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3920413": {
+    "home_team": "Gambia",
+    "away_team": "Cameroon",
+    "date": "2024-01-23",
+    "home_xg": 1.296,
+    "away_xg": 1.367,
+    "home_score": 2,
+    "away_score": 3
+  },
+  "3920400": {
+    "home_team": "Senegal",
+    "away_team": "Cameroon",
+    "date": "2024-01-19",
+    "home_xg": 1.231,
+    "away_xg": 0.249,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "3920409": {
+    "home_team": "Guinea-Bissau",
+    "away_team": "Nigeria",
+    "date": "2024-01-22",
+    "home_xg": 0.351,
+    "away_xg": 0.971,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3920417": {
+    "home_team": "Namibia",
+    "away_team": "Mali",
+    "date": "2024-01-24",
+    "home_xg": 0.656,
+    "away_xg": 0.681,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3920395": {
+    "home_team": "Congo DR",
+    "away_team": "Zambia",
+    "date": "2024-01-17",
+    "home_xg": 2.682,
+    "away_xg": 0.096,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3920407": {
+    "home_team": "South Africa",
+    "away_team": "Namibia",
+    "date": "2024-01-21",
+    "home_xg": 2.216,
+    "away_xg": 0.569,
+    "home_score": 4,
+    "away_score": 0
+  },
+  "3920412": {
+    "home_team": "Guinea",
+    "away_team": "Senegal",
+    "date": "2024-01-23",
+    "home_xg": 0.553,
+    "away_xg": 0.943,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3920415": {
+    "home_team": "Mauritania",
+    "away_team": "Algeria",
+    "date": "2024-01-23",
+    "home_xg": 1.328,
+    "away_xg": 1.186,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3920404": {
+    "home_team": "Tunisia",
+    "away_team": "Mali",
+    "date": "2024-01-20",
+    "home_xg": 0.53,
+    "away_xg": 0.846,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3920389": {
+    "home_team": "Cameroon",
+    "away_team": "Guinea",
+    "date": "2024-01-15",
+    "home_xg": 0.879,
+    "away_xg": 0.71,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3920393": {
+    "home_team": "Tunisia",
+    "away_team": "Namibia",
+    "date": "2024-01-16",
+    "home_xg": 0.871,
+    "away_xg": 1.61,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3920403": {
+    "home_team": "Mauritania",
+    "away_team": "Angola",
+    "date": "2024-01-20",
+    "home_xg": 1.111,
+    "away_xg": 2.044,
+    "home_score": 2,
+    "away_score": 3
+  },
+  "3920394": {
+    "home_team": "Morocco",
+    "away_team": "Tanzania",
+    "date": "2024-01-17",
+    "home_xg": 2.3,
+    "away_xg": 0.012,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3920402": {
+    "home_team": "Algeria",
+    "away_team": "Burkina Faso",
+    "date": "2024-01-20",
+    "home_xg": 1.998,
+    "away_xg": 1.259,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "3920414": {
+    "home_team": "Angola",
+    "away_team": "Burkina Faso",
+    "date": "2024-01-23",
+    "home_xg": 0.884,
+    "away_xg": 0.995,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3920405": {
+    "home_team": "Morocco",
+    "away_team": "Congo DR",
+    "date": "2024-01-21",
+    "home_xg": 1.055,
+    "away_xg": 2.31,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3920416": {
+    "home_team": "South Africa",
+    "away_team": "Tunisia",
+    "date": "2024-01-24",
+    "home_xg": 0.52,
+    "away_xg": 1.018,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3922658": {
+    "home_team": "Cape Verde Islands",
+    "away_team": "South Africa",
+    "date": "2024-02-03",
+    "home_xg": 5.427,
+    "away_xg": 4.231,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3920386": {
+    "home_team": "Nigeria",
+    "away_team": "Equatorial Guinea",
+    "date": "2024-01-14",
+    "home_xg": 2.687,
+    "away_xg": 0.332,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3920408": {
+    "home_team": "Equatorial Guinea",
+    "away_team": "C\u00f4te d'Ivoire",
+    "date": "2024-01-22",
+    "home_xg": 1.093,
+    "away_xg": 2.069,
+    "home_score": 4,
+    "away_score": 0
+  },
+  "3920397": {
+    "home_team": "Equatorial Guinea",
+    "away_team": "Guinea-Bissau",
+    "date": "2024-01-18",
+    "home_xg": 1.777,
+    "away_xg": 1.034,
+    "home_score": 4,
+    "away_score": 2
+  },
+  "3920410": {
+    "home_team": "Mozambique",
+    "away_team": "Ghana",
+    "date": "2024-01-22",
+    "home_xg": 1.54,
+    "away_xg": 1.843,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "3923881": {
+    "home_team": "Nigeria",
+    "away_team": "C\u00f4te d'Ivoire",
+    "date": "2024-02-11",
+    "home_xg": 0.258,
+    "away_xg": 1.414,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3923880": {
+    "home_team": "South Africa",
+    "away_team": "Congo DR",
+    "date": "2024-02-10",
+    "home_xg": 5.751,
+    "away_xg": 7.166,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3922838": {
+    "home_team": "C\u00f4te d'Ivoire",
+    "away_team": "Congo DR",
+    "date": "2024-02-07",
+    "home_xg": 0.85,
+    "away_xg": 0.826,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3922837": {
+    "home_team": "Nigeria",
+    "away_team": "South Africa",
+    "date": "2024-02-07",
+    "home_xg": 5.409,
+    "away_xg": 4.892,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3922242": {
+    "home_team": "Senegal",
+    "away_team": "C\u00f4te d'Ivoire",
+    "date": "2024-01-29",
+    "home_xg": 5.235,
+    "away_xg": 5.038,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3922239": {
+    "home_team": "Equatorial Guinea",
+    "away_team": "Guinea",
+    "date": "2024-01-28",
+    "home_xg": 0.956,
+    "away_xg": 0.557,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3922659": {
+    "home_team": "Mali",
+    "away_team": "C\u00f4te d'Ivoire",
+    "date": "2024-02-03",
+    "home_xg": 1.317,
+    "away_xg": 0.837,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3922244": {
+    "home_team": "Mali",
+    "away_team": "Burkina Faso",
+    "date": "2024-01-30",
+    "home_xg": 0.666,
+    "away_xg": 1.46,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3922356": {
+    "home_team": "Congo DR",
+    "away_team": "Guinea",
+    "date": "2024-02-02",
+    "home_xg": 1.653,
+    "away_xg": 1.135,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "3922321": {
+    "home_team": "Nigeria",
+    "away_team": "Angola",
+    "date": "2024-02-02",
+    "home_xg": 1.462,
+    "away_xg": 0.955,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3922237": {
+    "home_team": "Angola",
+    "away_team": "Namibia",
+    "date": "2024-01-27",
+    "home_xg": 1.585,
+    "away_xg": 0.871,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3922243": {
+    "home_team": "Morocco",
+    "away_team": "South Africa",
+    "date": "2024-01-30",
+    "home_xg": 2.09,
+    "away_xg": 0.241,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3922241": {
+    "home_team": "Cape Verde Islands",
+    "away_team": "Mauritania",
+    "date": "2024-01-29",
+    "home_xg": 1.572,
+    "away_xg": 0.777,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3922238": {
+    "home_team": "Nigeria",
+    "away_team": "Cameroon",
+    "date": "2024-01-27",
+    "home_xg": 1.31,
+    "away_xg": 0.301,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3920396": {
+    "home_team": "Egypt",
+    "away_team": "Ghana",
+    "date": "2024-01-18",
+    "home_xg": 1.204,
+    "away_xg": 0.426,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "3920385": {
+    "home_team": "Egypt",
+    "away_team": "Mozambique",
+    "date": "2024-01-14",
+    "home_xg": 1.929,
+    "away_xg": 0.728,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "3920387": {
+    "home_team": "Ghana",
+    "away_team": "Cape Verde Islands",
+    "date": "2024-01-14",
+    "home_xg": 1.438,
+    "away_xg": 2.72,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3920419": {
+    "home_team": "Zambia",
+    "away_team": "Morocco",
+    "date": "2024-01-24",
+    "home_xg": 0.44,
+    "away_xg": 2.421,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3920418": {
+    "home_team": "Tanzania",
+    "away_team": "Congo DR",
+    "date": "2024-01-24",
+    "home_xg": 0.059,
+    "away_xg": 0.659,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3920411": {
+    "home_team": "Cape Verde Islands",
+    "away_team": "Egypt",
+    "date": "2024-01-22",
+    "home_xg": 0.407,
+    "away_xg": 1.764,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "3920406": {
+    "home_team": "Zambia",
+    "away_team": "Tanzania",
+    "date": "2024-01-21",
+    "home_xg": 0.797,
+    "away_xg": 0.39,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3920401": {
+    "home_team": "Guinea",
+    "away_team": "Gambia",
+    "date": "2024-01-19",
+    "home_xg": 2.439,
+    "away_xg": 0.254,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3920398": {
+    "home_team": "C\u00f4te d'Ivoire",
+    "away_team": "Nigeria",
+    "date": "2024-01-18",
+    "home_xg": 0.607,
+    "away_xg": 1.576,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3920392": {
+    "home_team": "Burkina Faso",
+    "away_team": "Mauritania",
+    "date": "2024-01-16",
+    "home_xg": 1.137,
+    "away_xg": 0.516,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3920391": {
+    "home_team": "Mali",
+    "away_team": "South Africa",
+    "date": "2024-01-16",
+    "home_xg": 2.342,
+    "away_xg": 1.39,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3920390": {
+    "home_team": "Algeria",
+    "away_team": "Angola",
+    "date": "2024-01-15",
+    "home_xg": 0.697,
+    "away_xg": 1.197,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3920388": {
+    "home_team": "Senegal",
+    "away_team": "Gambia",
+    "date": "2024-01-15",
+    "home_xg": 1.721,
+    "away_xg": 1.008,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3920384": {
+    "home_team": "C\u00f4te d'Ivoire",
+    "away_team": "Guinea-Bissau",
+    "date": "2024-01-13",
+    "home_xg": 0.707,
+    "away_xg": 0.53,
+    "home_score": 2,
+    "away_score": 0
   }
 }

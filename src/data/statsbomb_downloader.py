@@ -37,11 +37,12 @@ STATSBOMB_BASE = "https://raw.githubusercontent.com/statsbomb/open-data/master/d
 STATS_FILE = RAW_DIR / "statsbomb_xg.json"
 
 DEFAULT_COMPETITIONS = [
-    (43, 3),    # FIFA World Cup 2018
-    (43, 106),  # FIFA World Cup 2022
-    (55, 43),   # UEFA Euro 2020
-    (55, 282),  # UEFA Euro 2024
+    (43, 3),     # FIFA World Cup 2018
+    (43, 106),   # FIFA World Cup 2022
+    (55, 43),    # UEFA Euro 2020
+    (55, 282),   # UEFA Euro 2024
     (223, 282),  # Copa America 2024
+    (1267, 107), # African Cup of Nations 2023
 ]
 
 

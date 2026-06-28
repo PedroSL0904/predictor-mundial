@@ -33,7 +33,7 @@ def _normalize_team(name: str) -> str:
     """Normaliza nombres StatsBomb -> nombres de martj42/international_results.
 
     StatsBomb usa los nombres FIFA oficiales. martj42 también, pero hay
-    algunas diferencias (espacios, tildes).
+    algunas diferencias (espacios, tildes, nombres largos).
     """
     replacements = {
         "Curaçao": "Curaçao",
@@ -43,8 +43,14 @@ def _normalize_team(name: str) -> str:
         "USA": "United States",
         "Côte d'Ivoire": "Ivory Coast",
         "Cote d'Ivoire": "Ivory Coast",
+        "Cöte d'Ivoire": "Ivory Coast",
         "Czechia": "Czech Republic",
         "Bosnia and Herzegovina": "Bosnia & Herzegovina",
+        "Cape Verde Islands": "Cape Verde",
+        "Cape Verde": "Cape Verde",
+        "DR Congo": "DR Congo",
+        "Congo DR": "DR Congo",
+        "Democratic Republic of Congo": "DR Congo",
     }
     return replacements.get(name, name)
 
