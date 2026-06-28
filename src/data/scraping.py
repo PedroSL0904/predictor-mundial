@@ -27,7 +27,10 @@ from typing import Any
 import requests
 from bs4 import BeautifulSoup
 
+from src.logging_config import get_logger
 from src.paths import PROCESSED_DIR
+
+logger = get_logger(__name__)
 
 # Configuracion
 USER_AGENT = "predictor-mundial/1.0 (https://github.com/PedroSL0904/predictor-mundial)"
@@ -126,7 +129,7 @@ def _wikipedia_search_team(team: str) -> str | None:
         if results:
             return results[0]["title"]
     except Exception as e:
-        print(f"  Wikipedia search error for {team}: {e}")
+        logger.info(f"  Wikipedia search error for {team}: {e}")
     return None
 
 
@@ -275,13 +278,13 @@ def _fetch_rss(url: str) -> list[NewsItem]:
         r = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=15)
         r.raise_for_status()
     except Exception as e:
-        print(f"  RSS fetch error for {url}: {e}")
+        logger.info(f"  RSS fetch error for {url}: {e}")
         return []
     items: list[NewsItem] = []
     try:
         root = ET.fromstring(r.text)
     except ET.ParseError as e:
-        print(f"  RSS parse error for {url}: {e}")
+        logger.info(f"  RSS parse error for {url}: {e}")
         return []
     # Soportar RSS 2.0 (channel/item) y Atom (feed/entry)
     channel = root.find("channel")

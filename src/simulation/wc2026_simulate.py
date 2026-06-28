@@ -25,6 +25,7 @@ from src.data.team_names import OLO_TO_MARTJ
 from src.data.wc2026_fixture import GROUPS, generate_group_fixtures
 from src.features.recent_form import blend_recent_with_historical, compute_recent_form
 from src.features.strengths_cache import StrengthsCache
+from src.logging_config import get_logger
 from src.models import PoissonGoalModel, TeamStrength
 from src.simulation.wc2026_bracket import (
     FINAL,
@@ -35,6 +36,8 @@ from src.simulation.wc2026_bracket import (
     SlotKind,
     assign_third_place_slots,
 )
+
+logger = get_logger(__name__)
 
 
 def _olo_to_martj(name: str) -> str:
@@ -368,7 +371,7 @@ def monte_carlo(
 
         if (i + 1) % 100 == 0:
             elapsed = time.time() - t0
-            print(f"  [{i+1}/{n_simulations}] {elapsed:.1f}s ({elapsed/(i+1)*n_simulations:.0f}s est.)", flush=True)
+            logger.info(f"  [{i+1}/{n_simulations}] {elapsed:.1f}s ({elapsed/(i+1)*n_simulations:.0f}s est.)")
 
     elapsed = time.time() - t0
 
@@ -403,7 +406,7 @@ def main():
     cache_path = ELO_TIMELINE_JSON
     cal_path = TEMPERATURE_CALIBRATOR
 
-    print("Cargando datos...", flush=True)
+    logger.info("Cargando datos...")
     timeline = precompute_and_cache(csv_path, cache_path)
     df = load_martj42_csv(csv_path)
 
@@ -412,30 +415,30 @@ def main():
     if cal_path.exists():
         from src.models.calibration import TemperatureScaler
         calibrator = TemperatureScaler.load(cal_path)
-        print(f"  Calibrador: T={calibrator.T_:.3f}")
+        logger.info(f"  Calibrador: T={calibrator.T_:.3f}")
     else:
-        print("  Calibrador: no encontrado (sin calibrar)")
+        logger.info("  Calibrador: no encontrado (sin calibrar)")
 
-    print("Construyendo simulador...", flush=True)
+    logger.info("Construyendo simulador...")
     sim = TournamentSimulator(
         df, timeline, StrengthsCache(df, timeline),
         calibrator=calibrator,
     )
-    print("  Cache de predicciones listo")
+    logger.info("  Cache de predicciones listo")
 
     fixtures = generate_group_fixtures()
-    print(f"Fixture: {len(fixtures)} ({fixtures['played'].sum()} FT)")
+    logger.info(f"Fixture: {len(fixtures)} ({fixtures['played'].sum()} FT)")
 
-    print("\nCorriendo 1000 simulaciones Monte Carlo...", flush=True)
+    logger.info("\nCorriendo 1000 simulaciones Monte Carlo...")
     result = monte_carlo(sim, fixtures, n_simulations=1000)
 
     stats = result["stats"]
-    print(f"\nCompletado en {result['elapsed']:.1f}s")
-    print("\nTop 20 equipos por probabilidad de campeon:\n")
-    print(stats.head(20).to_string(index=False))
+    logger.info(f"\nCompletado en {result['elapsed']:.1f}s")
+    logger.info("\nTop 20 equipos por probabilidad de campeon:\n")
+    logger.info(stats.head(20).to_string(index=False))
 
     stats.to_csv(TOURNAMENT_PROBS_CSV, index=False)
-    print(f"\nGuardado en {TOURNAMENT_PROBS_CSV}")
+    logger.info(f"\nGuardado en {TOURNAMENT_PROBS_CSV}")
 
 
 if __name__ == "__main__":

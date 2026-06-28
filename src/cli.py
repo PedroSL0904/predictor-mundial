@@ -14,7 +14,10 @@ from src.data.historical import (
     load_martj42_csv,
     normalize_team_name,
 )
+from src.logging_config import get_logger
 from src.models import PoissonGoalModel, TeamStrength
+
+logger = get_logger(__name__)
 
 app = typer.Typer(help="Predictor de fútbol basado en xG + cuotas")
 console = Console()
@@ -55,7 +58,7 @@ def predict(
         f"{pred.most_likely_score[0]}-{pred.most_likely_score[1]} "
         f"({pred.most_likely_score_prob:.1%})",
     )
-    console.print(table)
+    console.logger.info(table)
 
 
 _DEFAULT_DATA_PATH = Path("data/raw/martj42_results.csv")
@@ -75,7 +78,7 @@ def wc_match(
 ) -> None:
     """Predice un partido del Mundial 2026 con datos reales."""
     if not data_path.exists():
-        console.print(f"[red]No existe {data_path}. Ejecutá el download primero.[/red]")
+        console.logger.info(f"[red]No existe {data_path}. Ejecutá el download primero.[/red]")
         raise typer.Exit(1)
 
     df = load_martj42_csv(data_path)
@@ -90,7 +93,7 @@ def wc_match(
     a = strengths[strengths["team"] == away_norm]
 
     if h.empty or a.empty:
-        console.print(f"[red]No hay datos para {home_norm} o {away_norm}[/red]")
+        console.logger.info(f"[red]No hay datos para {home_norm} o {away_norm}[/red]")
         raise typer.Exit(1)
 
     home_team = TeamStrength(
@@ -106,7 +109,7 @@ def wc_match(
         matches=int(a["matches"].iloc[0]),
     )
 
-    console.print(f"[bold]Usando {home_team.matches} partidos para {home_norm}, "
+    console.logger.info(f"[bold]Usando {home_team.matches} partidos para {home_norm}, "
                   f"{away_team.matches} para {away_norm}[/bold]\n")
 
     predict(
@@ -131,7 +134,7 @@ def backtest() -> None:
 @app.command()
 def demo() -> None:
     """Predice un partido de ejemplo (Germany vs Curacao estilo WC 2026)."""
-    console.print("[bold]Demo: Germany vs Curacao (Mundial 2026)[/bold]\n")
+    console.logger.info("[bold]Demo: Germany vs Curacao (Mundial 2026)[/bold]\n")
     predict(
         home_attack=2.10,
         home_defense=0.85,
@@ -148,7 +151,7 @@ def demo() -> None:
 def config_show() -> None:
     """Muestra la configuracion cargada."""
     settings = get_settings()
-    console.print(settings.model_dump_json(indent=2))
+    console.logger.info(settings.model_dump_json(indent=2))
 
 
 if __name__ == "__main__":

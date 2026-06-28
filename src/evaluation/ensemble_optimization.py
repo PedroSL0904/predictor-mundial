@@ -32,7 +32,10 @@ from src.features.recent_form import (
     compute_recent_form,
 )
 from src.features.strengths_cache import StrengthsCache
+from src.logging_config import get_logger
 from src.models import BivariatePoissonModel, PoissonGoalModel, SkellamModel, TeamStrength
+
+logger = get_logger(__name__)
 
 
 @dataclass
@@ -110,7 +113,7 @@ def collect_per_model_predictions(
     total = len(wc_sorted)
     for i, (_, match) in enumerate(wc_sorted.iterrows()):
         if verbose and i % 16 == 0:
-            print(f"    [{year} {i}/{total}]", end=" ", flush=True)
+            logger.info(f"    [{year} {i}/{total}]", end=" ")
         match_date = str(match["date"])[:10]
         home_norm = normalize_team_name(match["home_team"])
         away_norm = normalize_team_name(match["away_team"])
@@ -167,7 +170,7 @@ def collect_per_model_predictions(
         outs[-1] = {"H": 0, "D": 1, "A": 2}[outs[-1]]
 
     if verbose:
-        print("done", flush=True)
+        logger.info("done")
 
     return (
         np.array(probs_p),
@@ -226,18 +229,18 @@ def loo_optimize_ensemble(
     """
     # Precompute predictions para todos los años
     if verbose:
-        print("Precomputando predicciones por modelo y mundial...", flush=True)
+        logger.info("Precomputando predicciones por modelo y mundial...")
     preds_per_year: dict[int, tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]] = {}
     for y in years:
         t0 = time.time()
         if verbose:
-            print(f"  WC {y}:", end=" ", flush=True)
+            logger.info(f"  WC {y}:", end=" ")
         probs_p, probs_bp, probs_sk, outs = collect_per_model_predictions(
             df, y, cache, timeline, verbose=False
         )
         preds_per_year[y] = (probs_p, probs_bp, probs_sk, outs)
         if verbose:
-            print(f"{len(outs)} partidos en {time.time()-t0:.1f}s", flush=True)
+            logger.info(f"{len(outs)} partidos en {time.time()-t0:.1f}s")
 
     # LOO: para cada test_year, fit en train_years
     loo_weights: list[tuple[float, float, float]] = []
@@ -257,10 +260,7 @@ def loo_optimize_ensemble(
             step=step,
         )
         if verbose:
-            print(
-                f"  LOO test={test_year}: weights={weights} brier={brier:.4f}",
-                flush=True,
-            )
+            logger.info(f"  LOO test={test_year}: weights={weights} brier={brier:.4f}")
         loo_weights.append(weights)
         loo_briers.append(brier)
 
@@ -311,26 +311,24 @@ def main() -> None:
     """CLI: corre LOO + evalua en cada mundial."""
     csv_path = Path("data/raw/martj42_results.csv")
     cache_path = Path("data/processed/elo_timeline.parquet")
-    print("Cargando datos...", flush=True)
+    logger.info("Cargando datos...")
     timeline = precompute_and_cache(csv_path, cache_path)
     df = load_martj42_csv(csv_path)
     cache = StrengthsCache(df, timeline)
 
-    print("\n=== LOO 3 mundial ===", flush=True)
+    logger.info("\n=== LOO 3 mundial ===")
     t0 = time.time()
     weights = loo_optimize_ensemble(df, cache, timeline)
-    print(f"\nPesos finales (promedio LOO): {weights}", flush=True)
-    print(f"Total: {time.time()-t0:.1f}s\n", flush=True)
+    logger.info(f"\nPesos finales (promedio LOO): {weights}")
+    logger.info(f"Total: {time.time()-t0:.1f}s\n")
 
-    print("=== Evaluacion por mundial ===", flush=True)
+    logger.info("=== Evaluacion por mundial ===")
     for y in (2014, 2018, 2022):
         m = evaluate_ensemble_on_year(df, cache, timeline, weights, y)
-        print(
-            f"  WC {y}: brier_ens={m.get('brier_ensemble', 0):.4f} "
+        logger.info(f"  WC {y}: brier_ens={m.get('brier_ensemble', 0):.4f} "
             f"(P={m.get('brier_poisson_only', 0):.4f}, "
             f"BP={m.get('brier_bp_only', 0):.4f}, "
-            f"S={m.get('brier_skellam_only', 0):.4f})"
-        )
+            f"S={m.get('brier_skellam_only', 0):.4f})")
 
 
 if __name__ == "__main__":

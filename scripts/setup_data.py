@@ -18,7 +18,6 @@ from pathlib import Path
 
 import requests
 
-
 MARTJ42_URL = (
     "https://raw.githubusercontent.com/martj42/international_results/master/"
     "results.csv"

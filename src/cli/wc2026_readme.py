@@ -26,11 +26,14 @@ from src.data.injuries import load_injuries
 from src.data.wc2026_fixture import generate_group_fixtures
 from src.features.recent_form import blend_recent_with_historical, compute_recent_form
 from src.features.strengths_cache import StrengthsCache
+from src.logging_config import get_logger
 from src.models import PoissonGoalModel, TeamStrength
 from src.models.calibration import (
     TemperatureScaler,
     train_temperature_scaler,
 )
+
+logger = get_logger(__name__)
 
 
 def _injury_factors(injuries: dict | None, team_martj: str) -> tuple[float, float]:
@@ -331,22 +334,22 @@ def main() -> None:
     csv_path = MARTJ_CSV
     cache_path = ELO_TIMELINE_JSON
 
-    print("Cargando datos...", flush=True)
+    logger.info("Cargando datos...")
     timeline = precompute_and_cache(csv_path, cache_path)
     df = load_martj42_csv(csv_path)
     cache = StrengthsCache(df, timeline)
 
-    print("Generando fixture WC 2026...", flush=True)
+    logger.info("Generando fixture WC 2026...")
     fixtures = generate_group_fixtures()
 
     # Entrenar calibrador con backtest historico (2014/2018/2022 LOO)
-    print("Entrenando calibrador (Temperature scaling LOO)...", flush=True)
+    logger.info("Entrenando calibrador (Temperature scaling LOO)...")
     calibrator = train_temperature_scaler()
-    print(f"  T_optimo: {calibrator.T_:.3f} (T<1 = comprimir, T>1 = expandir)")
+    logger.info(f"  T_optimo: {calibrator.T_:.3f} (T<1 = comprimir, T>1 = expandir)")
     cal_path = TEMPERATURE_CALIBRATOR
     cal_path.parent.mkdir(parents=True, exist_ok=True)
     calibrator.save(cal_path)
-    print(f"  Guardado en {cal_path}")
+    logger.info(f"  Guardado en {cal_path}")
 
     # Predecir cada partido
     # Usamos como fecha de corte la fecha del ULTIMO partido FT (o 2 dias
@@ -361,16 +364,16 @@ def main() -> None:
         AS_OF = (last_played + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
     else:
         AS_OF = "2026-06-10"
-    print(f"Prediciendo {len(fixtures)} partidos (as_of={AS_OF})...", flush=True)
+    logger.info(f"Prediciendo {len(fixtures)} partidos (as_of={AS_OF})...")
     injuries_dict = load_injuries()
     if injuries_dict:
         n_out = sum(len(ti.out) for ti in injuries_dict.values())
-        print(f"  Lesionados: {len(injuries_dict)} equipos, {n_out} jugadores out", flush=True)
+        logger.info(f"  Lesionados: {len(injuries_dict)} equipos, {n_out} jugadores out")
     rows = []
     t0 = time.time()
     for i, (_, fx) in enumerate(fixtures.iterrows()):
         if i % 10 == 0:
-            print(f"  [{i}/{len(fixtures)}]", flush=True)
+            logger.info(f"  [{i}/{len(fixtures)}]")
         match_date = fx["date"] if fx["played"] else (fx["date"] or "2026-06-15")
         try:
             pred = predict_match(
@@ -382,7 +385,7 @@ def main() -> None:
                 injuries=injuries_dict,
             )
         except Exception as e:
-            print(f"Error prediciendo {fx['home']} vs {fx['away']}: {e}")
+            logger.info(f"Error prediciendo {fx['home']} vs {fx['away']}: {e}")
             pred = {"p_h": np.nan, "p_d": np.nan, "p_a": np.nan,
                     "predicted_score": "?", "top_scores": [], "degraded": True}
 
@@ -393,22 +396,22 @@ def main() -> None:
 
     pred_df = pd.DataFrame(rows)
     elapsed = time.time() - t0
-    print(f"Predicciones listas en {elapsed:.1f}s")
+    logger.info(f"Predicciones listas en {elapsed:.1f}s")
 
     # Métricas
     metrics = compute_metrics(pred_df)
     if metrics:
-        print(f"Métricas: Brier={metrics['brier']:.4f}, "
+        logger.info(f"Métricas: Brier={metrics['brier']:.4f}, "
               f"Sign={metrics['sign_accuracy']:.1%}, n={metrics['n_played']}")
 
     # Simulacion Monte Carlo del torneo completo
-    print("Corriendo 1000 simulaciones Monte Carlo del torneo...", flush=True)
+    logger.info("Corriendo 1000 simulaciones Monte Carlo del torneo...")
     from src.simulation.wc2026_simulate import TournamentSimulator, monte_carlo
     injuries = load_injuries()
     if injuries:
         n_teams = len(injuries)
         n_out = sum(len(ti.out) for ti in injuries.values())
-        print(f"  Lesionados cargados: {n_teams} equipos, {n_out} jugadores out")
+        logger.info(f"  Lesionados cargados: {n_teams} equipos, {n_out} jugadores out")
     sim = TournamentSimulator(
         df, timeline, cache, as_of=AS_OF,
         calibrator=calibrator,
@@ -416,13 +419,13 @@ def main() -> None:
     )
     mc_result = monte_carlo(sim, fixtures, n_simulations=1000)
     tournament_stats = mc_result["stats"]
-    print(f"  Monte Carlo en {mc_result['elapsed']:.1f}s")
-    print(f"  Top 3: {tournament_stats.head(3)['team'].tolist()}")
+    logger.info(f"  Monte Carlo en {mc_result['elapsed']:.1f}s")
+    logger.info(f"  Top 3: {tournament_stats.head(3)['team'].tolist()}")
 
     # Analisis de llave completa (reusar las simulaciones ya corridas seria ideal
     # pero analyze_bracket corre sus propias simulaciones; usamos la misma cantidad
     # que el MC del torneo para mantener consistencia en el README)
-    print(f"Analizando llave completa ({mc_result['n_simulations']} simulaciones)...", flush=True)
+    logger.info(f"Analizando llave completa ({mc_result['n_simulations']} simulaciones)...")
     from src.simulation.bracket_analysis import analyze_bracket
     bracket_analysis = analyze_bracket(sim, fixtures, n_simulations=mc_result["n_simulations"])
 
@@ -436,17 +439,17 @@ def main() -> None:
     readme_path = README_WC2026
     # Usar UTF-8 sin BOM para compatibilidad maxima
     readme_path.write_bytes(readme.encode("utf-8"))
-    print(f"README guardado en {readme_path}")
+    logger.info(f"README guardado en {readme_path}")
 
     # También guardar CSV con predicciones
     csv_out = PREDICTIONS_CSV
     pred_df[["group", "date", "home", "away", "played", "home_score", "away_score",
              "predicted_score", "p_h", "p_d", "p_a"]].to_csv(csv_out, index=False)
-    print(f"CSV guardado en {csv_out}")
+    logger.info(f"CSV guardado en {csv_out}")
 
     # Guardar CSV con probabilidades del torneo
     tournament_stats.to_csv(TOURNAMENT_PROBS_CSV, index=False)
-    print(f"Tournament probs guardado en {TOURNAMENT_PROBS_CSV}")
+    logger.info(f"Tournament probs guardado en {TOURNAMENT_PROBS_CSV}")
 
 
 if __name__ == "__main__":

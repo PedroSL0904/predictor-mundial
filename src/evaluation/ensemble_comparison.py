@@ -23,6 +23,9 @@ from src.evaluation.ensemble_optimization import (
     loo_optimize_ensemble,
 )
 from src.features.strengths_cache import StrengthsCache
+from src.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 def _sign_acc(probs: np.ndarray, outcomes: np.ndarray) -> float:
@@ -148,26 +151,26 @@ def format_markdown(report: dict) -> str:
 def main() -> None:
     csv_path = Path("data/raw/martj42_results.csv")
     cache_path = Path("data/processed/elo_timeline.parquet")
-    print("Cargando datos...", flush=True)
+    logger.info("Cargando datos...")
     timeline = precompute_and_cache(csv_path, cache_path)
     df = load_martj42_csv(csv_path)
     cache = StrengthsCache(df, timeline)
 
-    print("\n=== LOO 3 mundial ===", flush=True)
+    logger.info("\n=== LOO 3 mundial ===")
     t0 = time.time()
     weights = loo_optimize_ensemble(df, cache, timeline)
-    print(f"Pesos finales: {weights}", flush=True)
-    print(f"Tiempo: {time.time()-t0:.1f}s\n", flush=True)
+    logger.info(f"Pesos finales: {weights}")
+    logger.info(f"Tiempo: {time.time()-t0:.1f}s\n")
 
-    print("=== Comparativa Ensemble vs individuales ===", flush=True)
+    logger.info("=== Comparativa Ensemble vs individuales ===")
     report = build_comparison_report(df, cache, timeline, weights)
     md = format_markdown(report)
-    print(md, flush=True)
+    logger.info(md)
 
     out_path = Path("data/processed/ensemble_comparison.md")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(md, encoding="utf-8")
-    print(f"\nReporte guardado en {out_path}")
+    logger.info(f"\nReporte guardado en {out_path}")
 
 
 if __name__ == "__main__":

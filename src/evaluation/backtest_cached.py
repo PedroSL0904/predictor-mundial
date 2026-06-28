@@ -18,7 +18,10 @@ from src.features.recent_form import (
     compute_recent_form,
 )
 from src.features.strengths_cache import StrengthsCache
+from src.logging_config import get_logger
 from src.models import PoissonGoalModel, TeamStrength
+
+logger = get_logger(__name__)
 
 # Constantes y helpers para backtest de Mundiales
 WORLD_CUPS = {
@@ -115,7 +118,7 @@ def backtest_strategy_cached(
     total = len(wc_sorted)
     for i, (_, match) in enumerate(wc_sorted.iterrows()):
         if verbose and i % 10 == 0:
-            print(f"    [{i}/{total}]", end=" ", flush=True)
+            logger.info(f"    [{i}/{total}]", end=" ")
         match_date = str(match["date"])[:10]
         home_norm = normalize_team_name(match["home_team"])
         away_norm = normalize_team_name(match["away_team"])
@@ -180,7 +183,7 @@ def backtest_strategy_cached(
         actual_scores.append((int(match["home_goals"]), int(match["away_goals"])))
 
     if verbose:
-        print("done", flush=True)
+        logger.info("done")
     metrics = summarize(predictions, outcomes, predicted_scores, actual_scores)
     metrics["year"] = year
     metrics["strategy"] = strategy
@@ -191,51 +194,48 @@ def backtest_strategy_cached(
 def run_cached_comparison() -> pd.DataFrame:
     csv_path = Path("data/raw/martj42_results.csv")
     cache_path = Path("data/processed/elo_timeline.json")
-    print("Cargando/precomputando timeline de Elo...", flush=True)
+    logger.info("Cargando/precomputando timeline de Elo...")
     timeline = precompute_and_cache(csv_path, cache_path)
-    print(f"Timeline listo: {len(timeline)} fechas\n", flush=True)
+    logger.info(f"Timeline listo: {len(timeline)} fechas\n")
 
     df = load_martj42_csv(csv_path)
 
-    print("Construyendo StrengthsCache (una vez)...", flush=True)
+    logger.info("Construyendo StrengthsCache (una vez)...")
     import time
     t0 = time.time()
     cache = StrengthsCache(df, timeline)
-    print(f"Cache listo en {time.time()-t0:.1f}s\n", flush=True)
+    logger.info(f"Cache listo en {time.time()-t0:.1f}s\n")
 
     rows = []
     for year in [2014, 2018, 2022]:
-        print(f"=== WC {year} ===", flush=True)
+        logger.info(f"=== WC {year} ===")
         for strategy in ["baseline", "elo_weighted"]:
-            print(f"  {strategy}:", end=" ", flush=True)
+            logger.info(f"  {strategy}:", end=" ")
             m = backtest_strategy_cached(
                 df, year, timeline, cache, strategy=strategy
             )
             n = m.get("n", 0)
-            print(
-                f"n={n}, brier={m.get('brier', 0):.3f}, "
+            logger.info(f"n={n}, brier={m.get('brier', 0):.3f}, "
                 f"sign={m.get('sign_accuracy', 0):.1%}, "
-                f"exact={m.get('exact_score_accuracy', 0):.1%}",
-                flush=True,
-            )
+                f"exact={m.get('exact_score_accuracy', 0):.1%}")
             rows.append(m)
 
     df_res = pd.DataFrame(rows)
-    print()
-    print("=" * 80)
-    print("COMPARATIVA")
-    print("=" * 80)
+    logger.info()
+    logger.info("=" * 80)
+    logger.info("COMPARATIVA")
+    logger.info("=" * 80)
     cols = ["year", "strategy", "n", "brier", "rps", "log_loss", "sign_accuracy", "exact_score_accuracy"]
-    print(df_res[cols].to_string(index=False))
+    logger.info(df_res[cols].to_string(index=False))
 
-    print()
-    print("=" * 80)
-    print("PROMEDIOS POR ESTRATEGIA")
-    print("=" * 80)
+    logger.info()
+    logger.info("=" * 80)
+    logger.info("PROMEDIOS POR ESTRATEGIA")
+    logger.info("=" * 80)
     avg = df_res.groupby("strategy")[
         ["brier", "rps", "log_loss", "sign_accuracy", "exact_score_accuracy"]
     ].mean()
-    print(avg.round(4).to_string())
+    logger.info(avg.round(4).to_string())
     return df_res
 
 

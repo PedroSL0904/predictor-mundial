@@ -15,12 +15,15 @@ from src.data.injuries import load_injuries
 from src.data.team_names import OLO_TO_MARTJ
 from src.data.wc2026_fixture import generate_group_fixtures
 from src.features.strengths_cache import StrengthsCache
+from src.logging_config import get_logger
 from src.simulation.r32_predictions import (
     build_r32_matches,
     format_r32_table,
     format_standings_table,
 )
 from src.simulation.wc2026_simulate import TournamentSimulator
+
+logger = get_logger(__name__)
 
 
 def main() -> None:
@@ -35,7 +38,7 @@ def main() -> None:
     cache_path = ELO_TIMELINE_JSON
     cal_path = TEMPERATURE_CALIBRATOR
 
-    print("Cargando datos...", flush=True)
+    logger.info("Cargando datos...")
     timeline = precompute_and_cache(csv_path, cache_path)
     df = load_martj42_csv(csv_path)
 
@@ -43,7 +46,7 @@ def main() -> None:
     if cal_path.exists():
         from src.models.calibration import TemperatureScaler
         calibrator = TemperatureScaler.load(cal_path)
-        print(f"  Calibrador: T={calibrator.T_:.3f}")
+        logger.info(f"  Calibrador: T={calibrator.T_:.3f}")
 
     # as_of = un dia despues del ultimo partido FT
     fixtures_full = generate_group_fixtures()
@@ -51,14 +54,14 @@ def main() -> None:
         fixtures_full[fixtures_full["played"]]["date"]
     ).max()
     as_of = (last_played + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
-    print(f"  as_of = {as_of}")
+    logger.info(f"  as_of = {as_of}")
 
     sim = TournamentSimulator(
         df, timeline, StrengthsCache(df, timeline),
         as_of=as_of, calibrator=calibrator,
         injuries=load_injuries(),
     )
-    print("  Cache de predicciones listo")
+    logger.info("  Cache de predicciones listo")
 
     def predict_fn(home_olo: str, away_olo: str) -> dict:
         mp = sim.predict(home_olo, away_olo)
@@ -70,16 +73,16 @@ def main() -> None:
         }
 
     # Construir partidos R32
-    print("\nCalculando bracket R32...", flush=True)
+    logger.info("\nCalculando bracket R32...")
     matches, standings, top_8_thirds = build_r32_matches(
         fixtures_full, OLO_TO_MARTJ, predict_fn,
     )
 
     # Imprimir resultados
-    print(f"\n{'='*80}")
-    print(f"R32 DEL WC 2026 - {len(matches)} partidos")
-    print(f"{'='*80}\n")
-    print(format_r32_table(matches))
+    logger.info(f"\n{'='*80}")
+    logger.info(f"R32 DEL WC 2026 - {len(matches)} partidos")
+    logger.info(f"{'='*80}\n")
+    logger.info(format_r32_table(matches))
 
     # Guardar CSV
     rows = []
@@ -98,7 +101,7 @@ def main() -> None:
     df_out = pd.DataFrame(rows)
     out_csv = R32_PREDICTIONS_CSV
     df_out.to_csv(out_csv, index=False)
-    print(f"\nGuardado en {out_csv}")
+    logger.info(f"\nGuardado en {out_csv}")
 
     # Guardar grupo stage summary
     lines = [
@@ -127,7 +130,7 @@ def main() -> None:
     ])
     out_md = README_R32
     out_md.write_text("\n".join(lines), encoding="utf-8")
-    print(f"Markdown guardado en {out_md}")
+    logger.info(f"Markdown guardado en {out_md}")
 
 
 if __name__ == "__main__":

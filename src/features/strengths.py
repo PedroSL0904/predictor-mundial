@@ -24,6 +24,9 @@ import pandas as pd
 from pydantic import BaseModel
 
 from src.data.elo import ORIGINAL_ELO
+from src.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class WeightedTeamStrength(BaseModel):
@@ -117,7 +120,7 @@ def compute_weighted_strengths(
             # Log solo la primera vez por sesion
             import os
             if not os.environ.get("_XGBOMB_LOGGED"):
-                print(f"  xG real usado en {real_count}/{n} partidos previos", flush=True)
+                logger.info(f"  xG real usado en {real_count}/{n} partidos previos")
                 os.environ["_XGBOMB_LOGGED"] = "1"
 
     # Construir DataFrame con filas duplicadas (home y away por separado)

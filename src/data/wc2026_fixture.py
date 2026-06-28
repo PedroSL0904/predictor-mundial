@@ -12,6 +12,9 @@ from pathlib import Path
 import pandas as pd
 
 from src.data.team_names import OLO_TO_MARTJ
+from src.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 # 12 grupos, cada uno con 4 equipos
 GROUPS = {
@@ -87,9 +90,9 @@ def generate_group_fixtures(csv_path: Path | None = None) -> pd.DataFrame:
 
 if __name__ == "__main__":
     fx = generate_group_fixtures()
-    print(f"Total fixtures: {len(fx)}")
-    print(f"Played: {fx['played'].sum()}")
-    print(f"Pending: {(~fx['played']).sum()}")
-    print()
-    print("Ejemplo grupo A:")
-    print(fx[fx.group == "A"][["date", "home", "away", "home_score", "away_score", "played"]].to_string(index=False))
+    logger.info(f"Total fixtures: {len(fx)}")
+    logger.info(f"Played: {fx['played'].sum()}")
+    logger.info(f"Pending: {(~fx['played']).sum()}")
+    logger.info()
+    logger.info("Ejemplo grupo A:")
+    logger.info(fx[fx.group == "A"][["date", "home", "away", "home_score", "away_score", "played"]].to_string(index=False))

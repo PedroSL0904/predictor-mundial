@@ -20,7 +20,10 @@ from src.data.historical import load_martj42_csv, normalize_team_name
 from src.domain import outcome_from_score
 from src.evaluation.backtest_cached import get_world_cup_matches
 from src.features.strengths_cache import StrengthsCache
+from src.logging_config import get_logger
 from src.simulation.wc2026_simulate import TournamentSimulator
+
+logger = get_logger(__name__)
 
 
 def _brier(probs: np.ndarray, outcomes: np.ndarray) -> float:
@@ -109,7 +112,7 @@ def backtest_year(
 def main() -> None:
     csv_path = Path("data/raw/martj42_results.csv")
     cache_path = Path("data/processed/elo_timeline.parquet")
-    print("Cargando datos...", flush=True)
+    logger.info("Cargando datos...")
     timeline = precompute_and_cache(csv_path, cache_path)
     df = load_martj42_csv(csv_path)
 
@@ -117,15 +120,15 @@ def main() -> None:
     cache = StrengthsCache(df, timeline)
     rows: list[dict] = []
     for y in years:
-        print(f"=== WC {y} ===", flush=True)
+        logger.info(f"=== WC {y} ===")
         t0 = time.time()
         m_off = backtest_year(df, timeline, cache, y, enable_features=False)
         m_on = backtest_year(df, timeline, cache, y, enable_features=True)
         elapsed = time.time() - t0
-        print(f"  OFF: brier={m_off.get('brier', 0):.4f} sign={m_off.get('sign_acc', 0):.1%} "
-              f"n={m_off.get('n', 0)}", flush=True)
-        print(f"  ON:  brier={m_on.get('brier', 0):.4f} sign={m_on.get('sign_acc', 0):.1%} "
-              f"n={m_on.get('n', 0)}", flush=True)
+        logger.info(f"  OFF: brier={m_off.get('brier', 0):.4f} sign={m_off.get('sign_acc', 0):.1%} "
+              f"n={m_off.get('n', 0)}")
+        logger.info(f"  ON:  brier={m_on.get('brier', 0):.4f} sign={m_on.get('sign_acc', 0):.1%} "
+              f"n={m_on.get('n', 0)}")
         rows.append({"year": y, "off": m_off, "on": m_on, "elapsed": elapsed})
 
     # Formato Markdown
@@ -153,11 +156,11 @@ def main() -> None:
         lines.append(f"Mejora con features: {improvement:+.2f}%")
 
     md = "\n".join(lines)
-    print()
-    print(md.encode("ascii", "replace").decode("ascii"), flush=True)
+    logger.info()
+    logger.info(md.encode("ascii", "replace").decode("ascii"))
     out_path = Path("data/processed/features_backtest.md")
     out_path.write_text(md, encoding="utf-8")
-    print(f"\nReporte guardado en {out_path}")
+    logger.info(f"\nReporte guardado en {out_path}")
 
 
 if __name__ == "__main__":

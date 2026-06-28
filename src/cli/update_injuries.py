@@ -24,10 +24,13 @@ from src.data.injuries import (
 from src.data.team_names import OLO_TO_MARTJ
 from src.data.wc2026_fixture import generate_group_fixtures
 from src.llm.client import OpenCodeClient
+from src.logging_config import get_logger
 from src.simulation.r32_predictions import (
     compute_group_standings,
     get_top_8_thirds,
 )
+
+logger = get_logger(__name__)
 
 # Mapeo inverso: MARTJ -> OLO (usado en el fixture)
 MARTJ_TO_OLO = {v: k for k, v in OLO_TO_MARTJ.items()}
@@ -86,7 +89,7 @@ def discover_injuries(client: OpenCodeClient, qualified: list[str]) -> dict:
     """Pregunta al LLM sobre lesionados de los 32 equipos (1 llamada)."""
     teams_str = "\n".join(f"- {t}" for t in qualified)
     prompt = DISCOVERY_PROMPT.format(teams=teams_str)
-    print("  Llamada discovery: 32 equipos...", end=" ", flush=True)
+    logger.info("  Llamada discovery: 32 equipos...", end=" ")
     t0 = time.time()
     response = client.messages(
         prompt=prompt,
@@ -94,11 +97,11 @@ def discover_injuries(client: OpenCodeClient, qualified: list[str]) -> dict:
         max_tokens=4000,
         temperature=0.0,
     )
-    print(f"{time.time() - t0:.1f}s ({response.input_tokens}+{response.output_tokens} tokens)")
+    logger.info(f"{time.time() - t0:.1f}s ({response.input_tokens}+{response.output_tokens} tokens)")
     try:
         return extract_json(response.text)
     except Exception as e:
-        print(f"  ERROR discovery: {e}")
+        logger.info(f"  ERROR discovery: {e}")
         return {}
 
 
@@ -121,7 +124,7 @@ def enrich_team_injuries(
         )
         data = extract_json(response.text)
     except Exception as e:
-        print(f"  ERROR enrich {team}: {e}")
+        logger.info(f"  ERROR enrich {team}: {e}")
         return ti
 
     # Mezclar resultados: conservar jugadores que el LLM confirma,
@@ -170,18 +173,18 @@ def main() -> None:
 
     # Convertir a MARTJ names (usados en injuries.json) ej "USA" -> "United States"
     qualified = sorted(set(OLO_TO_MARTJ.get(t, t) for t in qualified_olo))
-    print(f"Equipos calificados a R32: {len(qualified)}")
+    logger.info(f"Equipos calificados a R32: {len(qualified)}")
 
     client = OpenCodeClient()
-    print(f"\nUsando modelo {client.model}")
+    logger.info(f"\nUsando modelo {client.model}")
     data = discover_injuries(client, qualified)
     if not data:
-        print("Sin datos del LLM, abortando")
+        logger.info("Sin datos del LLM, abortando")
         return
 
     # Cargar datos manuales existentes (FUENTE DE VERDAD para listas de jugadores)
     manual = load_injuries()
-    print(f"  Datos manuales existentes: {len(manual)} equipos")
+    logger.info(f"  Datos manuales existentes: {len(manual)} equipos")
 
     # Construir injuries final
     injuries: dict[str, TeamInjuries] = {}
@@ -274,7 +277,7 @@ def main() -> None:
             ))
 
     # Enriquecer position/importance con LLM para jugadores con datos faltantes
-    print("\nEnriqueciendo position/importance via LLM...")
+    logger.info("\nEnriqueciendo position/importance via LLM...")
     for team, ti in injuries.items():
         if ti.out or ti.doubtful:
             has_missing = any(
@@ -283,17 +286,17 @@ def main() -> None:
             )
             if has_missing:
                 injuries[team] = enrich_team_injuries(client, team, ti)
-                print(f"  {team}: {len(ti.out)} out, {len(ti.doubtful)} doubt")
+                logger.info(f"  {team}: {len(ti.out)} out, {len(ti.doubtful)} doubt")
             else:
-                print(f"  {team}: {len(ti.out)} out, {len(ti.doubtful)} doubt (completo)")
+                logger.info(f"  {team}: {len(ti.out)} out, {len(ti.doubtful)} doubt (completo)")
 
-    print(f"\nTotal equipos con datos: {len(injuries)}")
+    logger.info(f"\nTotal equipos con datos: {len(injuries)}")
     n_out = sum(len(ti.out) for ti in injuries.values())
     n_doubt = sum(len(ti.doubtful) for ti in injuries.values())
-    print(f"  {n_out} jugadores out, {n_doubt} doubtful")
+    logger.info(f"  {n_out} jugadores out, {n_doubt} doubtful")
 
     save_injuries(injuries, INJURIES_PATH)
-    print(f"\nGuardado en {INJURIES_PATH}")
+    logger.info(f"\nGuardado en {INJURIES_PATH}")
 
 
 if __name__ == "__main__":

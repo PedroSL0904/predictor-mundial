@@ -22,6 +22,9 @@ import pandas as pd
 
 from src.data.elo import EloRatingSystem
 from src.data.historical import load_martj42_csv
+from src.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 _PARQUET_CACHE_NAME = "elo_timeline.parquet"
 _JSON_CACHE_NAME = "elo_timeline.json"
@@ -46,7 +49,7 @@ def build_elo_timeline(df: pd.DataFrame) -> dict[str, dict[str, float]]:
         if i % 2000 == 0:
             pct = int(100 * i / total)
             if pct != last_pct:
-                print(f"  Elo timeline: {pct}% ({i}/{total} partidos)", flush=True)
+                logger.info(f"  Elo timeline: {pct}% ({i}/{total} partidos)")
                 last_pct = pct
         date_iso = str(row["date"])[:10]
         timeline[date_iso] = dict(elo.ratings)
@@ -140,7 +143,7 @@ def precompute_and_cache(
 
     json_path = parquet_path.parent / _JSON_CACHE_NAME
     if json_path.exists() and parquet_path.suffix == ".parquet":
-        print(f"Migrando {json_path.name} -> {parquet_path.name}...", flush=True)
+        logger.info(f"Migrando {json_path.name} -> {parquet_path.name}...")
         timeline = json.loads(json_path.read_text())
         _timeline_to_parquet(timeline, parquet_path)
         # Recargar desde Parquet para garantizar consistencia
@@ -163,10 +166,10 @@ if __name__ == "__main__":
     t0 = time.time()
     timeline = precompute_and_cache(csv_path)
     elapsed = time.time() - t0
-    print(f"Timeline con {len(timeline)} fechas únicas en {elapsed:.1f}s")
+    logger.info(f"Timeline con {len(timeline)} fechas únicas en {elapsed:.1f}s")
     parquet = Path("data/processed/elo_timeline.parquet")
     if parquet.exists():
-        print(f"Cache guardado en {parquet} ({parquet.stat().st_size / 1e6:.1f} MB)")
+        logger.info(f"Cache guardado en {parquet} ({parquet.stat().st_size / 1e6:.1f} MB)")
     keys = sorted(k for k in timeline.keys() if not k.startswith("__"))
-    print(f"Rango fechas: {keys[0]} a {keys[-1]}")
-    print(f"Equipos en última fecha: {len(timeline[keys[-1]])}")
+    logger.info(f"Rango fechas: {keys[0]} a {keys[-1]}")
+    logger.info(f"Equipos en última fecha: {len(timeline[keys[-1]])}")

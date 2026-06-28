@@ -26,7 +26,10 @@ from src.evaluation.backtest import (
 )
 from src.evaluation.backtest_elo import get_elo_at
 from src.evaluation.metrics import summarize
+from src.logging_config import get_logger
 from src.models import PoissonGoalModel, TeamStrength
+
+logger = get_logger(__name__)
 
 
 @dataclass
@@ -256,18 +259,18 @@ def run_grid_search() -> list[dict]:
     csv_path = Path("data/raw/martj42_results.csv")
     cache_path = Path("data/processed/elo_timeline.json")
 
-    print("Cargando timeline Elo...", flush=True)
+    logger.info("Cargando timeline Elo...")
     timeline = precompute_and_cache(csv_path, cache_path)
     df = load_martj42_csv(csv_path)
 
-    print("Precomputando datos para partidos de WC...", flush=True)
+    logger.info("Precomputando datos para partidos de WC...")
     t0 = time.time()
     all_precomputed = []
     for year in [2014, 2018, 2022]:
         wc = get_world_cup_matches(df, year)
-        print(f"  WC {year}: {len(wc)} partidos...", flush=True)
+        logger.info(f"  WC {year}: {len(wc)} partidos...")
         all_precomputed.extend(precompute_match_data(df, wc, timeline))
-    print(f"Precomputo completo en {time.time() - t0:.1f}s ({len(all_precomputed)} partidos)\n", flush=True)
+    logger.info(f"Precomputo completo en {time.time() - t0:.1f}s ({len(all_precomputed)} partidos)\n")
 
     # Hiperparámetros
     base = {
@@ -304,44 +307,35 @@ def run_grid_search() -> list[dict]:
             elapsed = time.time() - t0
             best = min((r["brier"] for r in results), default=1.0)
             eta = elapsed / (i + 1) * (len(samples) - i - 1)
-            print(
-                f"  [{i+1}/{len(samples)}] elapsed={elapsed:.1f}s eta={eta:.1f}s "
-                f"last_brier={m['brier']:.4f} best_brier={best:.4f}",
-                flush=True,
-            )
+            logger.info(f"  [{i+1}/{len(samples)}] elapsed={elapsed:.1f}s eta={eta:.1f}s "
+                f"last_brier={m['brier']:.4f} best_brier={best:.4f}")
 
     results.sort(key=lambda x: x["brier"])
     return results
 
 
 if __name__ == "__main__":
-    print("=" * 80, flush=True)
-    print("GRID SEARCH OPTIMIZADO", flush=True)
-    print("=" * 80, flush=True)
+    logger.info("=" * 80)
+    logger.info("GRID SEARCH OPTIMIZADO")
+    logger.info("=" * 80)
     results = run_grid_search()
 
-    print("\n" + "=" * 90, flush=True)
-    print("TOP 15 CONFIGURACIONES POR BRIER", flush=True)
-    print("=" * 90, flush=True)
-    print(
-        f"{'Brier':>7} {'RPS':>7} {'Sign':>6} {'Exact':>6} "
-        f"{'sigma':>6} {'rec':>5} {'shr':>4} {'dthr':>5} {'dstr':>5} {'einf':>5}",
-        flush=True,
-    )
+    logger.info("\n" + "=" * 90)
+    logger.info("TOP 15 CONFIGURACIONES POR BRIER")
+    logger.info("=" * 90)
+    logger.info(f"{'Brier':>7} {'RPS':>7} {'Sign':>6} {'Exact':>6} "
+        f"{'sigma':>6} {'rec':>5} {'shr':>4} {'dthr':>5} {'dstr':>5} {'einf':>5}")
     for r in results[:15]:
         p = r["params"]
-        print(
-            f"{r['brier']:7.4f} {r.get('rps', 0):7.4f} {r['sign_accuracy']*100:5.1f}% "
+        logger.info(f"{r['brier']:7.4f} {r.get('rps', 0):7.4f} {r['sign_accuracy']*100:5.1f}% "
             f"{r.get('exact_score_accuracy', 0)*100:5.1f}% "
             f"{p['elo_sigma']:6.0f} {p['recency_half_life_days']:5.0f} {p['shrinkage_matches']:4d} "
             f"{p['draw_penalty_threshold']:5.2f} {p['draw_penalty_strength']:5.2f} "
-            f"{p['elo_gap_inflation']:5.2f}",
-            flush=True,
-        )
+            f"{p['elo_gap_inflation']:5.2f}")
 
     # Guardar
     out_path = Path("data/processed/grid_search_results.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps([{k: v for k, v in r.items() if k != 'by_year'}
                                      for r in results], indent=2))
-    print(f"\nTop 1 params: {results[0]['params']}", flush=True)
+    logger.info(f"\nTop 1 params: {results[0]['params']}")

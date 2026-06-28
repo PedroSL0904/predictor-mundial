@@ -28,7 +28,10 @@ from pathlib import Path
 
 import requests
 
+from src.logging_config import get_logger
 from src.paths import RAW_DIR
+
+logger = get_logger(__name__)
 
 STATSBOMB_BASE = "https://raw.githubusercontent.com/statsbomb/open-data/master/data"
 STATS_FILE = RAW_DIR / "statsbomb_xg.json"
@@ -112,10 +115,10 @@ def download_competition_xg(
                               home_score, away_score}}.
     """
     if verbose:
-        print(f"Fetching competition {competition_id}/{season_id}...", flush=True)
+        logger.info(f"Fetching competition {competition_id}/{season_id}...")
     matches = fetch_competition_matches(competition_id, season_id)
     if verbose:
-        print(f"  {len(matches)} matches", flush=True)
+        logger.info(f"  {len(matches)} matches")
 
     result: dict[str, dict] = {}
     for i, m in enumerate(matches):
@@ -127,7 +130,7 @@ def download_competition_xg(
             events = fetch_match_events(match_id)
         except Exception as e:
             if verbose:
-                print(f"  [{i+1}/{len(matches)}] skip match {match_id}: {e}", flush=True)
+                logger.info(f"  [{i+1}/{len(matches)}] skip match {match_id}: {e}")
             continue
         h_xg, a_xg = extract_match_xg(events, home, away)
         # Scores: del metadata
@@ -147,7 +150,7 @@ def download_competition_xg(
             "away_score": a_score,
         }
         if verbose and (i + 1) % 10 == 0:
-            print(f"  [{i+1}/{len(matches)}] processed", flush=True)
+            logger.info(f"  [{i+1}/{len(matches)}] processed")
     return result
 
 
@@ -176,7 +179,7 @@ def main(
     for comp_id, season_id in competitions:
         new = download_competition_xg(comp_id, season_id)
         all_data.update(new)
-        print(f"  -> {len(new)} matches con xG", flush=True)
+        logger.info(f"  -> {len(new)} matches con xG")
 
     all_data = merge_with_existing(all_data, output_path)
 
@@ -184,8 +187,8 @@ def main(
     with open(output_path, "w") as f:
         json.dump(all_data, f, indent=2)
 
-    print(f"\nTotal matches con xG: {len(all_data)}")
-    print(f"Guardado en {output_path}")
+    logger.info(f"\nTotal matches con xG: {len(all_data)}")
+    logger.info(f"Guardado en {output_path}")
 
 
 if __name__ == "__main__":
