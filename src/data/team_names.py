@@ -23,7 +23,8 @@ TEAM_NAME_ALIASES: Final[dict[str, str]] = {
     "South Korea": "South Korea",  # identity
     "Czechia": "Czech Republic",
     "Ivory Coast": "Ivory Coast",  # identity
-    "Bosnia and Herzegovina": "Bosnia & Herzegovina",  # martj42 usa ampersand
+    "Bosnia and Herzegovina": "Bosnia and Herzegovina",  # martj42 usa "and" (no ampersand)
+    "Bosnia & Herzegovina": "Bosnia and Herzegovina",
     "Congo DR": "DR Congo",
     "Cape Verde": "Cape Verde",  # identity
     "Curacao": "Curaçao",  # con tilde
@@ -59,12 +60,6 @@ def denormalize(canonical: str) -> str:
     return canonical
 
 
-# Mapeo directo Oloraculo -> martj42 (subset de TEAM_NAME_ALIASES)
+# Mapeo directo Oloraculo -> martj42 (todos los aliases)
 # Mantener por compatibilidad con codigo existente que lo importa.
-OLO_TO_MARTJ: Final[dict[str, str]] = {
-    k: v for k, v in TEAM_NAME_ALIASES.items() if k != v
-}
-# Asegurar que "Ivory Coast" y "South Korea" y "Cape Verde" (identity) no esten
-OLO_TO_MARTJ.setdefault("Ivory Coast", "Ivory Coast")
-OLO_TO_MARTJ.setdefault("South Korea", "South Korea")
-OLO_TO_MARTJ.setdefault("Cape Verde", "Cape Verde")
+OLO_TO_MARTJ: Final[dict[str, str]] = dict(TEAM_NAME_ALIASES)
