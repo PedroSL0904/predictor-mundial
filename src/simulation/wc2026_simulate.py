@@ -61,6 +61,7 @@ class TournamentSimulator:
         as_of: str = "2026-06-10",
         calibrator = None,
         injuries: dict | None = None,
+        model: object | None = None,
     ):
         self.df = df
         self.timeline = timeline
@@ -97,14 +98,18 @@ class TournamentSimulator:
         # Elo lookup
         self.elo_lookup = get_elo_at(timeline, as_of)
 
-        # Modelo
-        self.model = PoissonGoalModel(
-            draw_penalty_threshold=settings.draw_penalty_threshold,
-            draw_penalty_strength=settings.draw_penalty_strength,
-            elo_gap_inflation=settings.elo_gap_inflation,
-            draw_boost=settings.draw_boost,
-            league_avg_multiplier=league_avg_multiplier,
-        )
+        # Modelo (Sprint A7: acepta cualquier modelo con .predict() interface.
+        # Default: PoissonGoalModel para backward compat.)
+        if model is None:
+            self.model = PoissonGoalModel(
+                draw_penalty_threshold=settings.draw_penalty_threshold,
+                draw_penalty_strength=settings.draw_penalty_strength,
+                elo_gap_inflation=settings.elo_gap_inflation,
+                draw_boost=settings.draw_boost,
+                league_avg_multiplier=league_avg_multiplier,
+            )
+        else:
+            self.model = model
 
         # Calibrador (Temperature scaling)
         self.calibrator = calibrator
