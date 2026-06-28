@@ -52,11 +52,13 @@ def predict_match(
     as_of: str | None = None,
     calibrator: TemperatureScaler | None = None,
     injuries: dict | None = None,
+    enable_historical_features: bool = True,
 ) -> dict:
     """Predice un partido. Retorna dict con p_h, p_d, p_a, predicted_score, top3_scores.
 
     as_of: fecha de corte para train y snapshot. Si None, usa match_date.
     injuries: dict[martj, TeamInjuries] para ajustar strengths por lesionados.
+    enable_historical_features: si True, aplica H2H + momentum + WC history.
     """
     settings = get_settings()
     if as_of is None:
@@ -94,6 +96,17 @@ def predict_match(
     # Ajustar por lesionados
     home_att_mult, home_def_mult = _injury_factors(injuries, home_martj)
     away_att_mult, away_def_mult = _injury_factors(injuries, away_martj)
+
+    # Ajustar por features historicas (H2H + momentum + WC history)
+    if enable_historical_features:
+        from src.features.historical_features import compute_match_features
+        h_att_hist, h_def_hist, a_att_hist, a_def_hist = compute_match_features(
+            df, home_martj, away_martj, as_of,
+        )
+        home_att_mult *= h_att_hist
+        home_def_mult *= h_def_hist
+        away_att_mult *= a_att_hist
+        away_def_mult *= a_def_hist
 
     home = TeamStrength(
         name=home_martj,

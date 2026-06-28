@@ -68,7 +68,10 @@ def test_predict_works_with_ensemble(loaded: tuple[pd.DataFrame, dict, Strengths
     """TournamentSimulator.predict() funciona con EnsembleModel."""
     df, timeline, cache = loaded
     ens = _build_ensemble()
-    sim = TournamentSimulator(df, timeline, cache, as_of="2026-06-10", model=ens)
+    sim = TournamentSimulator(
+        df, timeline, cache, as_of="2026-06-10", model=ens,
+        enable_historical_features=False,
+    )
     pred = sim.predict("Brazil", "Argentina")
     assert pred is not None
     total = pred.p_home + pred.p_draw + pred.p_away
@@ -78,10 +81,18 @@ def test_predict_works_with_ensemble(loaded: tuple[pd.DataFrame, dict, Strengths
 def test_predict_ensemble_matches_ensemble_only(
     loaded: tuple[pd.DataFrame, dict, StrengthsCache]
 ) -> None:
-    """Las probs del sim con ensemble deben coincidir con EnsembleModel directo."""
+    """Las probs del sim con ensemble deben coincidir con EnsembleModel directo.
+
+    Sprint A5b: las features historicas (H2H, momentum, WC history) se aplican
+    en el simulator, por lo que para comparar apples-to-apples con el ensemble
+    directo (que NO las aplica) desactivamos las features en el sim.
+    """
     df, timeline, cache = loaded
     ens = _build_ensemble()
-    sim = TournamentSimulator(df, timeline, cache, as_of="2026-06-10", model=ens)
+    sim = TournamentSimulator(
+        df, timeline, cache, as_of="2026-06-10", model=ens,
+        enable_historical_features=False,
+    )
 
     # Hacer una predicción via sim
     sim_pred = sim.predict("Germany", "Japan")
@@ -137,7 +148,10 @@ def test_pure_poisson_ensemble_backward_compat(
     """EnsembleModel([P, BP, S], weights=[1, 0, 0]) debe dar mismo resultado
     que TournamentSimulator default (Poisson puro)."""
     df, timeline, cache = loaded
-    sim_default = TournamentSimulator(df, timeline, cache, as_of="2026-06-10")
+    sim_default = TournamentSimulator(
+        df, timeline, cache, as_of="2026-06-10",
+        enable_historical_features=False,
+    )
     s = {
         "draw_boost": 0.10,
         "draw_penalty_threshold": 0.08,
@@ -154,7 +168,8 @@ def test_pure_poisson_ensemble_backward_compat(
         weights=[1.0, 0.0, 0.0],
     )
     sim_ensemble = TournamentSimulator(
-        df, timeline, cache, as_of="2026-06-10", model=pure_p_ensemble
+        df, timeline, cache, as_of="2026-06-10", model=pure_p_ensemble,
+        enable_historical_features=False,
     )
 
     p_default = sim_default.predict("Brazil", "Argentina")

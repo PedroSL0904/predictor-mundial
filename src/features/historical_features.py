@@ -235,3 +235,26 @@ def apply_all_adjustments(
         a_def *= a_def_w
 
     return h_att, h_def, a_att, a_def
+
+
+def compute_match_features(
+    df: pd.DataFrame,
+    home_team: str,
+    away_team: str,
+    as_of: str,
+    enable: bool = True,
+) -> tuple[float, float, float, float]:
+    """Wrapper one-liner para usar en predict pipelines.
+
+    Args:
+        df: DataFrame con todos los partidos.
+        home_team, away_team: nombres (martj).
+        as_of: fecha de corte.
+        enable: si False, devuelve (1, 1, 1, 1) (no adjustment).
+
+    Returns:
+        (home_att_mult, home_def_mult, away_att_mult, away_def_mult).
+    """
+    if not enable:
+        return 1.0, 1.0, 1.0, 1.0
+    return apply_all_adjustments(df, home_team, away_team, as_of)

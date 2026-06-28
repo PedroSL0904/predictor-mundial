@@ -62,6 +62,7 @@ class TournamentSimulator:
         calibrator = None,
         injuries: dict | None = None,
         model: object | None = None,
+        enable_historical_features: bool = True,
     ):
         self.df = df
         self.timeline = timeline
@@ -69,6 +70,7 @@ class TournamentSimulator:
         self.league_avg_multiplier = league_avg_multiplier
         self.as_of = as_of
         self.injuries = injuries or {}  # dict[martj_name, TeamInjuries]
+        self.enable_historical_features = enable_historical_features
 
         # Setup: precomputar strengths una vez
         settings = get_settings()
@@ -143,6 +145,19 @@ class TournamentSimulator:
         # Aplicar ajustes por lesionados
         home_attack_mult, home_def_mult = self._injury_factors(home_martj)
         away_attack_mult, away_def_mult = self._injury_factors(away_martj)
+
+        # Aplicar features historicas (H2H, momentum, WC history)
+        if self.enable_historical_features:
+            from src.features.historical_features import compute_match_features
+            h_att_hist, h_def_hist, a_att_hist, a_def_hist = compute_match_features(
+                self.df, home_martj, away_martj, self.as_of,
+            )
+        else:
+            h_att_hist = h_def_hist = a_att_hist = a_def_hist = 1.0
+        home_attack_mult *= h_att_hist
+        home_def_mult *= h_def_hist
+        away_attack_mult *= a_att_hist
+        away_def_mult *= a_def_hist
 
         home = TeamStrength(
             name=home_martj,
