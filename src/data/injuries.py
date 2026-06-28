@@ -22,7 +22,6 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
 INJURIES_PATH = Path(r"C:\dev\predictor-mundial\data\processed\injuries.json")
 
@@ -31,8 +30,8 @@ INJURIES_PATH = Path(r"C:\dev\predictor-mundial\data\processed\injuries.json")
 class PlayerStatus:
     name: str
     reason: str  # "injury", "suspension", "illness"
-    expected_return: Optional[str] = None
-    position: Optional[str] = None  # "GK", "DEF", "MID", "FWD"
+    expected_return: str | None = None
+    position: str | None = None  # "GK", "DEF", "MID", "FWD"
     importance: float = 0.0  # 0-1, derived from xG or minutes played
 
 

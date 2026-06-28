@@ -11,8 +11,8 @@ función inyectada para evitar acoplamiento con TournamentSimulator.
 """
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 import pandas as pd
 
@@ -138,13 +138,13 @@ def build_r32_matches(
     matches = []
     for tie in ROUND_OF_32:
         # Resolver slots
-        def resolve(slot):
+        def resolve(slot, _tie=tie):
             if slot.kind == SlotKind.GROUP_WINNER:
                 return group_winners[slot.group], _slot_to_label(slot)
             if slot.kind == SlotKind.GROUP_RUNNER_UP:
                 return group_runners_up[slot.group], _slot_to_label(slot)
             if slot.kind == SlotKind.GROUP_THIRD:
-                g = third_assignments[tie.id]
+                g = third_assignments[_tie.id]
                 return third_teams[g][0], _slot_to_label(slot)
             return "?", _slot_to_label(slot)
 
