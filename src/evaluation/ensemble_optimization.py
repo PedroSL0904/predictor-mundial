@@ -87,8 +87,14 @@ def collect_per_model_predictions(
     cache: StrengthsCache,
     timeline: dict[str, dict[str, float]],
     verbose: bool = True,
+    enable_historical_features: bool = False,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Para cada partido del mundial `year`, devuelve probs de los 3 modelos.
+
+    Args:
+        enable_historical_features: si True, aplica H2H + momentum + WC history
+            sobre los strengths antes de predecir. Default False para
+            backward compat con Sprint A4 (que optimizo sin features).
 
     Returns:
         (probs_poisson, probs_bp, probs_skellam, outcomes) cada uno (N, 3) y (N,).
@@ -105,6 +111,8 @@ def collect_per_model_predictions(
     first_date = str(wc_sorted["date"].iloc[0])[:10]
     cache.set_elo_snapshot(first_date)
 
+    from src.features.historical_features import compute_match_features
+
     probs_p: list[list[float]] = []
     probs_bp: list[list[float]] = []
     probs_sk: list[list[float]] = []
@@ -113,7 +121,7 @@ def collect_per_model_predictions(
     total = len(wc_sorted)
     for i, (_, match) in enumerate(wc_sorted.iterrows()):
         if verbose and i % 16 == 0:
-            logger.info(f"    [{year} {i}/{total}]", end=" ")
+            logger.info(f"    [{year} {i}/{total}]")
         match_date = str(match["date"])[:10]
         home_norm = normalize_team_name(match["home_team"])
         away_norm = normalize_team_name(match["away_team"])
@@ -140,15 +148,23 @@ def collect_per_model_predictions(
         if h.empty or a.empty:
             continue
 
+        # Aplicar features historicas (H2H, momentum, WC history) si esta habilitado
+        if enable_historical_features:
+            h_att_hist, h_def_hist, a_att_hist, a_def_hist = compute_match_features(
+                df, home_norm, away_norm, match_date, enable=True,
+            )
+        else:
+            h_att_hist = h_def_hist = a_att_hist = a_def_hist = 1.0
+
         home = TeamStrength(
             name=home_norm,
-            attack=float(h["attack"].iloc[0]),
-            defense_vulnerability=float(h["defense_vulnerability"].iloc[0]),
+            attack=float(h["attack"].iloc[0]) * h_att_hist,
+            defense_vulnerability=float(h["defense_vulnerability"].iloc[0]) * h_def_hist,
         )
         away = TeamStrength(
             name=away_norm,
-            attack=float(a["attack"].iloc[0]),
-            defense_vulnerability=float(a["defense_vulnerability"].iloc[0]),
+            attack=float(a["attack"].iloc[0]) * a_att_hist,
+            defense_vulnerability=float(a["defense_vulnerability"].iloc[0]) * a_def_hist,
         )
 
         elo_lookup = get_elo_at(timeline, match_date)
@@ -221,8 +237,13 @@ def loo_optimize_ensemble(
     years: tuple[int, ...] = (2014, 2018, 2022),
     step: float = 0.05,
     verbose: bool = True,
+    enable_historical_features: bool = False,
 ) -> EnsembleWeights:
     """LOO 3 mundial: para cada año, entrena con los otros 2 y promedia.
+
+    Args:
+        enable_historical_features: si True, las probs de cada modelo se
+            computan con H2H + momentum + WC history aplicadas. Sprint A4b.
 
     Returns:
         EnsembleWeights con los pesos finales y el brier promedio en train.
@@ -234,9 +255,10 @@ def loo_optimize_ensemble(
     for y in years:
         t0 = time.time()
         if verbose:
-            logger.info(f"  WC {y}:", end=" ")
+            logger.info(f"  WC {y}:")
         probs_p, probs_bp, probs_sk, outs = collect_per_model_predictions(
-            df, y, cache, timeline, verbose=False
+            df, y, cache, timeline, verbose=False,
+            enable_historical_features=enable_historical_features,
         )
         preds_per_year[y] = (probs_p, probs_bp, probs_sk, outs)
         if verbose:

@@ -118,7 +118,7 @@ def backtest_strategy_cached(
     total = len(wc_sorted)
     for i, (_, match) in enumerate(wc_sorted.iterrows()):
         if verbose and i % 10 == 0:
-            logger.info(f"    [{i}/{total}]", end=" ")
+            logger.info(f"    [{i}/{total}]")
         match_date = str(match["date"])[:10]
         home_norm = normalize_team_name(match["home_team"])
         away_norm = normalize_team_name(match["away_team"])
@@ -210,7 +210,7 @@ def run_cached_comparison() -> pd.DataFrame:
     for year in [2014, 2018, 2022]:
         logger.info(f"=== WC {year} ===")
         for strategy in ["baseline", "elo_weighted"]:
-            logger.info(f"  {strategy}:", end=" ")
+            logger.info(f"  {strategy}:")
             m = backtest_strategy_cached(
                 df, year, timeline, cache, strategy=strategy
             )
