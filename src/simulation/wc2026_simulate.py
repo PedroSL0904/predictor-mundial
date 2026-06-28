@@ -118,21 +118,23 @@ class TournamentSimulator:
 
         Returns:
             (attack_mult, defense_mult) donde 1.0 = sin ajuste.
+
+        Penalizaciones conservadoras (un solo jugador top no debe eliminar
+        mas del 20% del equipo, porque hay suplentes que cubren parcialmente):
+        - OUT: max 20% reduccion de attack, max 15% aumento de vulnerability
+        - DOUBTFUL: 50% del penalty de OUT
         """
         ti = self.injuries.get(team_martj)
         if ti is None or (not ti.out and not ti.doubtful):
             return 1.0, 1.0
 
-        # Out: aplica el penalty completo
-        out_attack = min(0.5, sum(p.importance for p in ti.out if p.position in ("FWD", "MID")) * 0.4)
-        out_defense = min(0.3, sum(p.importance for p in ti.out if p.position in ("DEF", "GK")) * 0.3)
+        out_attack = min(0.20, sum(p.importance for p in ti.out if p.position in ("FWD", "MID")) * 0.20)
+        out_defense = min(0.15, sum(p.importance for p in ti.out if p.position in ("DEF", "GK")) * 0.15)
+        dout_attack = min(0.10, sum(p.importance for p in ti.doubtful if p.position in ("FWD", "MID")) * 0.10)
+        dout_defense = min(0.08, sum(p.importance for p in ti.doubtful if p.position in ("DEF", "GK")) * 0.08)
 
-        # Doubtful: aplica el penalty a la mitad
-        dout_attack = min(0.25, sum(p.importance for p in ti.doubtful if p.position in ("FWD", "MID")) * 0.2)
-        dout_defense = min(0.15, sum(p.importance for p in ti.doubtful if p.position in ("DEF", "GK")) * 0.15)
-
-        attack_mult = max(0.5, 1.0 - out_attack - dout_attack)
-        defense_mult = min(1.5, 1.0 + out_defense + dout_defense)
+        attack_mult = max(0.7, 1.0 - out_attack - dout_attack)
+        defense_mult = min(1.3, 1.0 + out_defense + dout_defense)
         return attack_mult, defense_mult
 
     def predict(self, home_olo: str, away_olo: str) -> MatchPrediction:

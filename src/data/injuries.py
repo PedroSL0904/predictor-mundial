@@ -57,12 +57,17 @@ class TeamInjuries:
 
 
 def load_injuries(path: Path = INJURIES_PATH) -> dict[str, TeamInjuries]:
-    """Carga el archivo de lesionados. Si no existe, retorna dict vacío."""
+    """Carga el archivo de lesionados. Si no existe, retorna dict vacío.
+
+    Las claves que empiezan con _ (como _meta) se ignoran.
+    """
     if not path.exists():
         return {}
     data = json.loads(path.read_text(encoding="utf-8"))
     result = {}
     for team, info in data.items():
+        if team.startswith("_"):
+            continue
         ti = TeamInjuries(
             team=team,
             source=info.get("source", "manual"),
