@@ -111,7 +111,7 @@ class PoissonGoalModel:
         self.dispersion = dispersion
         self.draw_boost = (
             draw_boost
-            if draw_boost is not None and draw_boost > 0
+            if draw_boost is not None
             else settings.draw_boost
         )
 

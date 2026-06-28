@@ -94,7 +94,7 @@ class BivariatePoissonModel:
             else settings.elo_gap_inflation
         )
         self.draw_boost = (
-            draw_boost if draw_boost is not None and draw_boost > 0
+            draw_boost if draw_boost is not None
             else settings.draw_boost
         )
 
