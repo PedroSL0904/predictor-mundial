@@ -1150,5 +1150,1211 @@
     "away_xg": 0.974,
     "home_score": 2,
     "away_score": 1
+  },
+  "3788758": {
+    "home_team": "Ukraine",
+    "away_team": "North Macedonia",
+    "date": "2021-06-17",
+    "home_xg": 3.241,
+    "away_xg": 1.985,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3788773": {
+    "home_team": "Portugal",
+    "away_team": "France",
+    "date": "2021-06-23",
+    "home_xg": 2.042,
+    "away_xg": 1.507,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "3788765": {
+    "home_team": "Switzerland",
+    "away_team": "Turkey",
+    "date": "2021-06-20",
+    "home_xg": 1.984,
+    "away_xg": 1.245,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "3788761": {
+    "home_team": "Sweden",
+    "away_team": "Slovakia",
+    "date": "2021-06-18",
+    "home_xg": 1.584,
+    "away_xg": 0.553,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3788760": {
+    "home_team": "Croatia",
+    "away_team": "Czech Republic",
+    "date": "2021-06-18",
+    "home_xg": 0.99,
+    "away_xg": 1.913,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3795108": {
+    "home_team": "Switzerland",
+    "away_team": "Spain",
+    "date": "2021-07-02",
+    "home_xg": 3.958,
+    "away_xg": 6.928,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3794687": {
+    "home_team": "Belgium",
+    "away_team": "Portugal",
+    "date": "2021-06-27",
+    "home_xg": 0.224,
+    "away_xg": 1.215,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3794690": {
+    "home_team": "Netherlands",
+    "away_team": "Czech Republic",
+    "date": "2021-06-27",
+    "home_xg": 0.838,
+    "away_xg": 1.273,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3794685": {
+    "home_team": "Italy",
+    "away_team": "Austria",
+    "date": "2021-06-26",
+    "home_xg": 1.517,
+    "away_xg": 1.039,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3794692": {
+    "home_team": "Sweden",
+    "away_team": "Ukraine",
+    "date": "2021-06-29",
+    "home_xg": 0.912,
+    "away_xg": 1.344,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3794689": {
+    "home_team": "Wales",
+    "away_team": "Denmark",
+    "date": "2021-06-26",
+    "home_xg": 0.598,
+    "away_xg": 2.155,
+    "home_score": 0,
+    "away_score": 4
+  },
+  "3795107": {
+    "home_team": "Belgium",
+    "away_team": "Italy",
+    "date": "2021-07-02",
+    "home_xg": 1.803,
+    "away_xg": 1.143,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3795187": {
+    "home_team": "Ukraine",
+    "away_team": "England",
+    "date": "2021-07-03",
+    "home_xg": 0.338,
+    "away_xg": 1.216,
+    "home_score": 0,
+    "away_score": 4
+  },
+  "3795220": {
+    "home_team": "Italy",
+    "away_team": "Spain",
+    "date": "2021-07-06",
+    "home_xg": 4.316,
+    "away_xg": 4.536,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3794686": {
+    "home_team": "Croatia",
+    "away_team": "Spain",
+    "date": "2021-06-28",
+    "home_xg": 2.788,
+    "away_xg": 2.78,
+    "home_score": 3,
+    "away_score": 5
+  },
+  "3788763": {
+    "home_team": "Hungary",
+    "away_team": "France",
+    "date": "2021-06-19",
+    "home_xg": 0.473,
+    "away_xg": 1.69,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3795506": {
+    "home_team": "Italy",
+    "away_team": "England",
+    "date": "2021-07-11",
+    "home_xg": 5.999,
+    "away_xg": 4.344,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3788769": {
+    "home_team": "Russia",
+    "away_team": "Denmark",
+    "date": "2021-06-21",
+    "home_xg": 1.091,
+    "away_xg": 2.33,
+    "home_score": 1,
+    "away_score": 4
+  },
+  "3788766": {
+    "home_team": "Italy",
+    "away_team": "Wales",
+    "date": "2021-06-20",
+    "home_xg": 1.669,
+    "away_xg": 0.241,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3788764": {
+    "home_team": "Portugal",
+    "away_team": "Germany",
+    "date": "2021-06-19",
+    "home_xg": 1.936,
+    "away_xg": 2.131,
+    "home_score": 2,
+    "away_score": 4
+  },
+  "3788755": {
+    "home_team": "Turkey",
+    "away_team": "Wales",
+    "date": "2021-06-16",
+    "home_xg": 1.31,
+    "away_xg": 2.874,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3788754": {
+    "home_team": "Italy",
+    "away_team": "Switzerland",
+    "date": "2021-06-16",
+    "home_xg": 1.706,
+    "away_xg": 0.334,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3788762": {
+    "home_team": "Spain",
+    "away_team": "Poland",
+    "date": "2021-06-19",
+    "home_xg": 2.615,
+    "away_xg": 0.552,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3788747": {
+    "home_team": "Austria",
+    "away_team": "North Macedonia",
+    "date": "2021-06-13",
+    "home_xg": 1.441,
+    "away_xg": 0.84,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "3788741": {
+    "home_team": "Turkey",
+    "away_team": "Italy",
+    "date": "2021-06-11",
+    "home_xg": 0.151,
+    "away_xg": 1.591,
+    "home_score": 0,
+    "away_score": 3
+  },
+  "3795109": {
+    "home_team": "Czech Republic",
+    "away_team": "Denmark",
+    "date": "2021-07-03",
+    "home_xg": 1.162,
+    "away_xg": 1.212,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3788770": {
+    "home_team": "North Macedonia",
+    "away_team": "Netherlands",
+    "date": "2021-06-21",
+    "home_xg": 0.744,
+    "away_xg": 3.22,
+    "home_score": 0,
+    "away_score": 3
+  },
+  "3794688": {
+    "home_team": "England",
+    "away_team": "Germany",
+    "date": "2021-06-29",
+    "home_xg": 1.164,
+    "away_xg": 1.059,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3788774": {
+    "home_team": "Germany",
+    "away_team": "Hungary",
+    "date": "2021-06-23",
+    "home_xg": 2.098,
+    "away_xg": 0.737,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "3788771": {
+    "home_team": "Croatia",
+    "away_team": "Scotland",
+    "date": "2021-06-22",
+    "home_xg": 0.781,
+    "away_xg": 1.111,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "3788772": {
+    "home_team": "Czech Republic",
+    "away_team": "England",
+    "date": "2021-06-22",
+    "home_xg": 0.393,
+    "away_xg": 0.642,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3788768": {
+    "home_team": "Finland",
+    "away_team": "Belgium",
+    "date": "2021-06-21",
+    "home_xg": 0.24,
+    "away_xg": 1.14,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3788767": {
+    "home_team": "Ukraine",
+    "away_team": "Austria",
+    "date": "2021-06-21",
+    "home_xg": 0.41,
+    "away_xg": 1.494,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3788753": {
+    "home_team": "Finland",
+    "away_team": "Russia",
+    "date": "2021-06-16",
+    "home_xg": 0.965,
+    "away_xg": 1.259,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3788759": {
+    "home_team": "England",
+    "away_team": "Scotland",
+    "date": "2021-06-18",
+    "home_xg": 0.854,
+    "away_xg": 0.735,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3788757": {
+    "home_team": "Denmark",
+    "away_team": "Belgium",
+    "date": "2021-06-17",
+    "home_xg": 1.623,
+    "away_xg": 1.052,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3788745": {
+    "home_team": "England",
+    "away_team": "Croatia",
+    "date": "2021-06-13",
+    "home_xg": 0.707,
+    "away_xg": 0.34,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3795221": {
+    "home_team": "England",
+    "away_team": "Denmark",
+    "date": "2021-07-07",
+    "home_xg": 3.05,
+    "away_xg": 0.376,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3788746": {
+    "home_team": "Netherlands",
+    "away_team": "Ukraine",
+    "date": "2021-06-13",
+    "home_xg": 1.43,
+    "away_xg": 0.594,
+    "home_score": 3,
+    "away_score": 2
+  },
+  "3794691": {
+    "home_team": "France",
+    "away_team": "Switzerland",
+    "date": "2021-06-28",
+    "home_xg": 6.563,
+    "away_xg": 5.772,
+    "home_score": 3,
+    "away_score": 3
+  },
+  "3788756": {
+    "home_team": "Netherlands",
+    "away_team": "Austria",
+    "date": "2021-06-17",
+    "home_xg": 3.338,
+    "away_xg": 0.398,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3788749": {
+    "home_team": "Poland",
+    "away_team": "Slovakia",
+    "date": "2021-06-14",
+    "home_xg": 1.389,
+    "away_xg": 0.354,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3788750": {
+    "home_team": "Spain",
+    "away_team": "Sweden",
+    "date": "2021-06-14",
+    "home_xg": 1.928,
+    "away_xg": 0.816,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3788748": {
+    "home_team": "Scotland",
+    "away_team": "Czech Republic",
+    "date": "2021-06-14",
+    "home_xg": 1.733,
+    "away_xg": 0.811,
+    "home_score": 0,
+    "away_score": 2
+  },
+  "3788751": {
+    "home_team": "France",
+    "away_team": "Germany",
+    "date": "2021-06-15",
+    "home_xg": 0.446,
+    "away_xg": 0.825,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3788752": {
+    "home_team": "Hungary",
+    "away_team": "Portugal",
+    "date": "2021-06-15",
+    "home_xg": 0.198,
+    "away_xg": 2.681,
+    "home_score": 0,
+    "away_score": 3
+  },
+  "3788742": {
+    "home_team": "Denmark",
+    "away_team": "Finland",
+    "date": "2021-06-12",
+    "home_xg": 1.953,
+    "away_xg": 0.288,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3788775": {
+    "home_team": "Slovakia",
+    "away_team": "Spain",
+    "date": "2021-06-23",
+    "home_xg": 0.093,
+    "away_xg": 3.223,
+    "home_score": 0,
+    "away_score": 5
+  },
+  "3788776": {
+    "home_team": "Sweden",
+    "away_team": "Poland",
+    "date": "2021-06-23",
+    "home_xg": 1.042,
+    "away_xg": 1.661,
+    "home_score": 3,
+    "away_score": 2
+  },
+  "3788743": {
+    "home_team": "Belgium",
+    "away_team": "Russia",
+    "date": "2021-06-12",
+    "home_xg": 1.393,
+    "away_xg": 0.257,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3788744": {
+    "home_team": "Wales",
+    "away_team": "Switzerland",
+    "date": "2021-06-12",
+    "home_xg": 0.576,
+    "away_xg": 1.56,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3930166": {
+    "home_team": "Portugal",
+    "away_team": "Czech Republic",
+    "date": "2024-06-18",
+    "home_xg": 1.838,
+    "away_xg": 0.315,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3930159": {
+    "home_team": "Hungary",
+    "away_team": "Switzerland",
+    "date": "2024-06-15",
+    "home_xg": 1.103,
+    "away_xg": 2.096,
+    "home_score": 1,
+    "away_score": 3
+  },
+  "3930163": {
+    "home_team": "Serbia",
+    "away_team": "England",
+    "date": "2024-06-16",
+    "home_xg": 0.249,
+    "away_xg": 0.559,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3930181": {
+    "home_team": "England",
+    "away_team": "Slovenia",
+    "date": "2024-06-25",
+    "home_xg": 0.756,
+    "away_xg": 0.165,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3930178": {
+    "home_team": "Croatia",
+    "away_team": "Italy",
+    "date": "2024-06-24",
+    "home_xg": 1.483,
+    "away_xg": 0.985,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3930160": {
+    "home_team": "Spain",
+    "away_team": "Croatia",
+    "date": "2024-06-15",
+    "home_xg": 1.567,
+    "away_xg": 2.482,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3930170": {
+    "home_team": "Slovenia",
+    "away_team": "Serbia",
+    "date": "2024-06-20",
+    "home_xg": 1.552,
+    "away_xg": 1.461,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3938643": {
+    "home_team": "France",
+    "away_team": "Poland",
+    "date": "2024-06-25",
+    "home_xg": 1.891,
+    "away_xg": 1.179,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3938641": {
+    "home_team": "Poland",
+    "away_team": "Austria",
+    "date": "2024-06-21",
+    "home_xg": 1.438,
+    "away_xg": 1.822,
+    "home_score": 1,
+    "away_score": 3
+  },
+  "3938642": {
+    "home_team": "Georgia",
+    "away_team": "Czech Republic",
+    "date": "2024-06-22",
+    "home_xg": 1.18,
+    "away_xg": 2.865,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3938639": {
+    "home_team": "Turkey",
+    "away_team": "Georgia",
+    "date": "2024-06-18",
+    "home_xg": 2.403,
+    "away_xg": 1.579,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "3938638": {
+    "home_team": "Romania",
+    "away_team": "Ukraine",
+    "date": "2024-06-17",
+    "home_xg": 1.121,
+    "away_xg": 0.543,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3938640": {
+    "home_team": "Slovakia",
+    "away_team": "Ukraine",
+    "date": "2024-06-21",
+    "home_xg": 0.746,
+    "away_xg": 1.732,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3938637": {
+    "home_team": "Poland",
+    "away_team": "Netherlands",
+    "date": "2024-06-16",
+    "home_xg": 0.909,
+    "away_xg": 1.313,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3938644": {
+    "home_team": "Georgia",
+    "away_team": "Portugal",
+    "date": "2024-06-26",
+    "home_xg": 1.345,
+    "away_xg": 2.356,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3941019": {
+    "home_team": "France",
+    "away_team": "Belgium",
+    "date": "2024-07-01",
+    "home_xg": 1.262,
+    "away_xg": 0.363,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3942227": {
+    "home_team": "England",
+    "away_team": "Switzerland",
+    "date": "2024-07-06",
+    "home_xg": 4.455,
+    "away_xg": 4.335,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3930174": {
+    "home_team": "Turkey",
+    "away_team": "Portugal",
+    "date": "2024-06-22",
+    "home_xg": 0.779,
+    "away_xg": 1.901,
+    "home_score": 0,
+    "away_score": 3
+  },
+  "3930162": {
+    "home_team": "Slovenia",
+    "away_team": "Denmark",
+    "date": "2024-06-16",
+    "home_xg": 0.966,
+    "away_xg": 1.511,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3930176": {
+    "home_team": "Switzerland",
+    "away_team": "Germany",
+    "date": "2024-06-23",
+    "home_xg": 0.28,
+    "away_xg": 1.542,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3930169": {
+    "home_team": "Scotland",
+    "away_team": "Switzerland",
+    "date": "2024-06-19",
+    "home_xg": 0.772,
+    "away_xg": 0.99,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3942819": {
+    "home_team": "Netherlands",
+    "away_team": "England",
+    "date": "2024-07-10",
+    "home_xg": 0.412,
+    "away_xg": 1.237,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3943043": {
+    "home_team": "Spain",
+    "away_team": "England",
+    "date": "2024-07-14",
+    "home_xg": 1.792,
+    "away_xg": 0.726,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3942752": {
+    "home_team": "Spain",
+    "away_team": "France",
+    "date": "2024-07-09",
+    "home_xg": 0.422,
+    "away_xg": 0.851,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3942382": {
+    "home_team": "Netherlands",
+    "away_team": "Turkey",
+    "date": "2024-07-06",
+    "home_xg": 0.719,
+    "away_xg": 1.182,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3942349": {
+    "home_team": "Portugal",
+    "away_team": "France",
+    "date": "2024-07-05",
+    "home_xg": 4.543,
+    "away_xg": 4.985,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3930180": {
+    "home_team": "Netherlands",
+    "away_team": "Austria",
+    "date": "2024-06-25",
+    "home_xg": 1.51,
+    "away_xg": 1.058,
+    "home_score": 2,
+    "away_score": 3
+  },
+  "3930171": {
+    "home_team": "Denmark",
+    "away_team": "England",
+    "date": "2024-06-20",
+    "home_xg": 0.733,
+    "away_xg": 1.173,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3942226": {
+    "home_team": "Spain",
+    "away_team": "Germany",
+    "date": "2024-07-05",
+    "home_xg": 1.534,
+    "away_xg": 1.629,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3938645": {
+    "home_team": "Ukraine",
+    "away_team": "Belgium",
+    "date": "2024-06-26",
+    "home_xg": 0.709,
+    "away_xg": 0.634,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3930184": {
+    "home_team": "Czech Republic",
+    "away_team": "Turkey",
+    "date": "2024-06-26",
+    "home_xg": 1.41,
+    "away_xg": 1.218,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3941022": {
+    "home_team": "Austria",
+    "away_team": "Turkey",
+    "date": "2024-07-02",
+    "home_xg": 2.487,
+    "away_xg": 0.883,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3941021": {
+    "home_team": "Romania",
+    "away_team": "Netherlands",
+    "date": "2024-07-02",
+    "home_xg": 0.268,
+    "away_xg": 2.626,
+    "home_score": 0,
+    "away_score": 3
+  },
+  "3941020": {
+    "home_team": "Portugal",
+    "away_team": "Slovenia",
+    "date": "2024-07-01",
+    "home_xg": 4.072,
+    "away_xg": 3.066,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3941018": {
+    "home_team": "Spain",
+    "away_team": "Georgia",
+    "date": "2024-06-30",
+    "home_xg": 2.765,
+    "away_xg": 0.113,
+    "home_score": 4,
+    "away_score": 1
+  },
+  "3941017": {
+    "home_team": "England",
+    "away_team": "Slovakia",
+    "date": "2024-06-30",
+    "home_xg": 1.587,
+    "away_xg": 1.548,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3930182": {
+    "home_team": "Denmark",
+    "away_team": "Serbia",
+    "date": "2024-06-25",
+    "home_xg": 0.552,
+    "away_xg": 0.324,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3930179": {
+    "home_team": "Albania",
+    "away_team": "Spain",
+    "date": "2024-06-24",
+    "home_xg": 0.503,
+    "away_xg": 0.952,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3940983": {
+    "home_team": "Germany",
+    "away_team": "Denmark",
+    "date": "2024-06-29",
+    "home_xg": 2.227,
+    "away_xg": 1.073,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3940878": {
+    "home_team": "Switzerland",
+    "away_team": "Italy",
+    "date": "2024-06-29",
+    "home_xg": 0.782,
+    "away_xg": 0.726,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3930177": {
+    "home_team": "Scotland",
+    "away_team": "Hungary",
+    "date": "2024-06-23",
+    "home_xg": 0.184,
+    "away_xg": 1.001,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3930173": {
+    "home_team": "Netherlands",
+    "away_team": "France",
+    "date": "2024-06-21",
+    "home_xg": 0.738,
+    "away_xg": 1.218,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3930172": {
+    "home_team": "Spain",
+    "away_team": "Italy",
+    "date": "2024-06-20",
+    "home_xg": 1.534,
+    "away_xg": 0.143,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3930167": {
+    "home_team": "Croatia",
+    "away_team": "Albania",
+    "date": "2024-06-19",
+    "home_xg": 1.859,
+    "away_xg": 1.326,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "3930168": {
+    "home_team": "Germany",
+    "away_team": "Hungary",
+    "date": "2024-06-19",
+    "home_xg": 1.484,
+    "away_xg": 1.228,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3930165": {
+    "home_team": "Austria",
+    "away_team": "France",
+    "date": "2024-06-17",
+    "home_xg": 0.748,
+    "away_xg": 1.905,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3930164": {
+    "home_team": "Belgium",
+    "away_team": "Slovakia",
+    "date": "2024-06-17",
+    "home_xg": 1.75,
+    "away_xg": 0.711,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3930161": {
+    "home_team": "Italy",
+    "away_team": "Albania",
+    "date": "2024-06-15",
+    "home_xg": 1.45,
+    "away_xg": 0.355,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3930183": {
+    "home_team": "Slovakia",
+    "away_team": "Romania",
+    "date": "2024-06-26",
+    "home_xg": 0.845,
+    "away_xg": 1.122,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3930175": {
+    "home_team": "Belgium",
+    "away_team": "Romania",
+    "date": "2024-06-22",
+    "home_xg": 1.646,
+    "away_xg": 1.246,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3930158": {
+    "home_team": "Germany",
+    "away_team": "Scotland",
+    "date": "2024-06-14",
+    "home_xg": 1.845,
+    "away_xg": 0.061,
+    "home_score": 5,
+    "away_score": 1
+  },
+  "3939991": {
+    "home_team": "Brazil",
+    "away_team": "Colombia",
+    "date": "2024-07-03",
+    "home_xg": 0.306,
+    "away_xg": 1.503,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3939987": {
+    "home_team": "Jamaica",
+    "away_team": "Venezuela",
+    "date": "2024-07-01",
+    "home_xg": 0.668,
+    "away_xg": 1.714,
+    "home_score": 0,
+    "away_score": 3
+  },
+  "3939982": {
+    "home_team": "Uruguay",
+    "away_team": "Bolivia",
+    "date": "2024-06-28",
+    "home_xg": 2.321,
+    "away_xg": 0.051,
+    "home_score": 5,
+    "away_score": 0
+  },
+  "3939970": {
+    "home_team": "Peru",
+    "away_team": "Chile",
+    "date": "2024-06-22",
+    "home_xg": 0.677,
+    "away_xg": 1.025,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3939980": {
+    "home_team": "Ecuador",
+    "away_team": "Jamaica",
+    "date": "2024-06-26",
+    "home_xg": 2.366,
+    "away_xg": 0.935,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "3939977": {
+    "home_team": "Chile",
+    "away_team": "Argentina",
+    "date": "2024-06-26",
+    "home_xg": 0.131,
+    "away_xg": 2.784,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3939975": {
+    "home_team": "Colombia",
+    "away_team": "Paraguay",
+    "date": "2024-06-24",
+    "home_xg": 0.622,
+    "away_xg": 0.828,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3939974": {
+    "home_team": "United States",
+    "away_team": "Bolivia",
+    "date": "2024-06-23",
+    "home_xg": 2.405,
+    "away_xg": 0.15,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3939986": {
+    "home_team": "Argentina",
+    "away_team": "Peru",
+    "date": "2024-06-30",
+    "home_xg": 2.106,
+    "away_xg": 0.167,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3939971": {
+    "home_team": "Mexico",
+    "away_team": "Jamaica",
+    "date": "2024-06-23",
+    "home_xg": 1.136,
+    "away_xg": 0.506,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3939979": {
+    "home_team": "Venezuela",
+    "away_team": "Mexico",
+    "date": "2024-06-27",
+    "home_xg": 1.139,
+    "away_xg": 2.384,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3939988": {
+    "home_team": "Mexico",
+    "away_team": "Ecuador",
+    "date": "2024-07-01",
+    "home_xg": 0.938,
+    "away_xg": 0.306,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3939990": {
+    "home_team": "United States",
+    "away_team": "Uruguay",
+    "date": "2024-07-02",
+    "home_xg": 0.471,
+    "away_xg": 1.272,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3939983": {
+    "home_team": "Paraguay",
+    "away_team": "Brazil",
+    "date": "2024-06-29",
+    "home_xg": 0.692,
+    "away_xg": 3.748,
+    "home_score": 1,
+    "away_score": 4
+  },
+  "3939972": {
+    "home_team": "Ecuador",
+    "away_team": "Venezuela",
+    "date": "2024-06-22",
+    "home_xg": 0.736,
+    "away_xg": 1.585,
+    "home_score": 1,
+    "away_score": 2
+  },
+  "3939978": {
+    "home_team": "Peru",
+    "away_team": "Canada",
+    "date": "2024-06-25",
+    "home_xg": 0.576,
+    "away_xg": 0.909,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3939976": {
+    "home_team": "Brazil",
+    "away_team": "Costa Rica",
+    "date": "2024-06-25",
+    "home_xg": 1.621,
+    "away_xg": 0.037,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3939992": {
+    "home_team": "Costa Rica",
+    "away_team": "Paraguay",
+    "date": "2024-07-03",
+    "home_xg": 0.272,
+    "away_xg": 1.44,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3942416": {
+    "home_team": "Colombia",
+    "away_team": "Panama",
+    "date": "2024-07-06",
+    "home_xg": 2.18,
+    "away_xg": 0.61,
+    "home_score": 5,
+    "away_score": 0
+  },
+  "3943077": {
+    "home_team": "Argentina",
+    "away_team": "Colombia",
+    "date": "2024-07-15",
+    "home_xg": 1.083,
+    "away_xg": 0.972,
+    "home_score": 1,
+    "away_score": 0
+  },
+  "3943076": {
+    "home_team": "Canada",
+    "away_team": "Uruguay",
+    "date": "2024-07-14",
+    "home_xg": 6.205,
+    "away_xg": 4.65,
+    "home_score": 2,
+    "away_score": 2
+  },
+  "3942852": {
+    "home_team": "Uruguay",
+    "away_team": "Colombia",
+    "date": "2024-07-11",
+    "home_xg": 0.755,
+    "away_xg": 1.172,
+    "home_score": 0,
+    "away_score": 1
+  },
+  "3942785": {
+    "home_team": "Argentina",
+    "away_team": "Canada",
+    "date": "2024-07-10",
+    "home_xg": 1.754,
+    "away_xg": 0.718,
+    "home_score": 2,
+    "away_score": 0
+  },
+  "3942415": {
+    "home_team": "Uruguay",
+    "away_team": "Brazil",
+    "date": "2024-07-07",
+    "home_xg": 4.547,
+    "away_xg": 3.81,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3939973": {
+    "home_team": "Uruguay",
+    "away_team": "Panama",
+    "date": "2024-06-24",
+    "home_xg": 1.361,
+    "away_xg": 0.541,
+    "home_score": 3,
+    "away_score": 1
+  },
+  "3942229": {
+    "home_team": "Venezuela",
+    "away_team": "Canada",
+    "date": "2024-07-06",
+    "home_xg": 5.623,
+    "away_xg": 6.052,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3942228": {
+    "home_team": "Argentina",
+    "away_team": "Ecuador",
+    "date": "2024-07-05",
+    "home_xg": 4.776,
+    "away_xg": 4.523,
+    "home_score": 1,
+    "away_score": 1
+  },
+  "3939985": {
+    "home_team": "Canada",
+    "away_team": "Chile",
+    "date": "2024-06-30",
+    "home_xg": 0.699,
+    "away_xg": 0.454,
+    "home_score": 0,
+    "away_score": 0
+  },
+  "3939984": {
+    "home_team": "Colombia",
+    "away_team": "Costa Rica",
+    "date": "2024-06-28",
+    "home_xg": 2.902,
+    "away_xg": 0.165,
+    "home_score": 3,
+    "away_score": 0
+  },
+  "3939981": {
+    "home_team": "Panama",
+    "away_team": "United States",
+    "date": "2024-06-27",
+    "home_xg": 0.731,
+    "away_xg": 0.914,
+    "home_score": 2,
+    "away_score": 1
+  },
+  "3939989": {
+    "home_team": "Bolivia",
+    "away_team": "Panama",
+    "date": "2024-07-02",
+    "home_xg": 0.793,
+    "away_xg": 1.341,
+    "home_score": 1,
+    "away_score": 3
+  },
+  "3939969": {
+    "home_team": "Argentina",
+    "away_team": "Canada",
+    "date": "2024-06-21",
+    "home_xg": 3.538,
+    "away_xg": 0.977,
+    "home_score": 2,
+    "away_score": 0
   }
 }
