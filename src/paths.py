@@ -40,6 +40,8 @@ PREDICTIONS_HISTORY: Path = PROCESSED_DIR / "predictions_history.csv"
 # Output en raiz del proyecto
 README_WC2026: Path = PROJECT_ROOT / "WC2026_README.md"
 README_R32: Path = PROJECT_ROOT / "WC2026_R32.md"
+README_R16: Path = PROJECT_ROOT / "WC2026_R16.md"
 PREDICTIONS_CSV: Path = PROJECT_ROOT / "wc2026_predictions.csv"
 TOURNAMENT_PROBS_CSV: Path = PROJECT_ROOT / "wc2026_tournament_probs.csv"
 R32_PREDICTIONS_CSV: Path = PROJECT_ROOT / "wc2026_r32_predictions.csv"
+R16_PREDICTIONS_CSV: Path = PROJECT_ROOT / "wc2026_r16_predictions.csv"

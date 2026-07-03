@@ -87,13 +87,18 @@ class StrengthsCache:
         self._state = np.zeros((self.n_teams, 6), dtype=np.float64)
         self._pos = 0
         self._elo_snapshot: dict[str, float] = {}
+        self._snapshot_as_of: str | None = None
 
     def set_elo_snapshot(self, as_of: str) -> None:
         """Define el snapshot de Elo a usar. Recalcula xG y pesos de Elo.
 
+        Idempotente: si el snapshot ya esta cargado para el mismo `as_of`,
+        no reconstruye (evita el costo de 30s por llamada en scripts batch).
         Llamar una vez por Mundial (mismo elo_lookup para todos los partidos).
-        Resetea el state.
         """
+        if self._snapshot_as_of == as_of and self._elo_snapshot:
+            return
+        self._snapshot_as_of = as_of
         self._elo_snapshot = get_elo_at(self.timeline, as_of)
         he = np.array([self._elo_snapshot.get(t, ORIGINAL_ELO) for t in self.home_teams])
         ae = np.array([self._elo_snapshot.get(t, ORIGINAL_ELO) for t in self.away_teams])

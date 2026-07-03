@@ -226,8 +226,19 @@ def simulate_tournament(
     sim: TournamentSimulator,
     fixtures: pd.DataFrame,
     rng: np.random.Generator,
+    r32_actual_winners: dict[int, str] | None = None,
 ) -> dict:
-    """Simula UNA corrida. Retorna dict con campeon, finalists, etc."""
+    """Simula UNA corrida. Retorna dict con campeon, finalists, etc.
+
+    Args:
+        sim: TournamentSimulator con as_of y strengths precomputados.
+        fixtures: DataFrame de partidos de grupo (72 filas).
+        rng: numpy random generator.
+        r32_actual_winners: dict[tie_id, team_name] con los winners REALES del
+            R32 (tie_id 73-88). Si se proporciona, NO simula R32: usa estos
+            winners directamente y arranca el Monte Carlo desde R16.
+            Si es None, simula R32 aleatoriamente (modo "what-if").
+    """
     # --- FASE DE GRUPOS ---
     group_results: dict[str, list] = {g: [] for g in GROUPS}
     for _, fx in fixtures.iterrows():
@@ -310,8 +321,18 @@ def simulate_tournament(
         away = resolve_slot(tie.away)
         return sim.sample_knockout_match(home, away, rng)
 
-    for tie in ROUND_OF_32:
-        winners[tie.id] = play_tie(tie)
+    # --- R32: usar winners reales si se proporcionan ---
+    if r32_actual_winners:
+        # Asignar winners reales (R32 ya se jugo, no simulamos)
+        for tie in ROUND_OF_32:
+            if tie.id in r32_actual_winners:
+                winners[tie.id] = r32_actual_winners[tie.id]
+            else:
+                # TBD (e.g., P87 o P88 no jugados) - simular
+                winners[tie.id] = play_tie(tie)
+    else:
+        for tie in ROUND_OF_32:
+            winners[tie.id] = play_tie(tie)
     for tie in ROUND_OF_16:
         winners[tie.id] = play_tie(tie)
     for tie in QUARTER_FINALS:
@@ -335,6 +356,7 @@ def monte_carlo(
     sim: TournamentSimulator,
     fixtures: pd.DataFrame,
     n_simulations: int = 1000,
+    r32_actual_winners: dict[int, str] | None = None,
 ) -> dict:
     champion_counts: Counter = Counter()
     reach_r32: Counter = Counter()
@@ -346,7 +368,7 @@ def monte_carlo(
     t0 = time.time()
     for i in range(n_simulations):
         rng = np.random.default_rng(42 + i)
-        result = simulate_tournament(sim, fixtures, rng)
+        result = simulate_tournament(sim, fixtures, rng, r32_actual_winners=r32_actual_winners)
         if "error" in result:
             continue
         champion_counts[result["champion"]] += 1
@@ -393,6 +415,79 @@ def monte_carlo(
         "elapsed": elapsed,
         "n_simulations": n_simulations,
     }
+
+
+def extract_r32_actual_winners(
+    df: pd.DataFrame,
+    olo_to_martj: dict[str, str] | None = None,
+) -> dict[int, str]:
+    """Extrae winners reales del R32 del CSV.
+
+    Para cada partido con date entre 2026-07-01 y 2026-07-08 en
+    tournament "FIFA World Cup" y con resultado, determina el winner
+    y lo mapea a (tie_id, team_name_olo).
+
+    Args:
+        df: DataFrame del CSV martj42.
+        olo_to_martj: opcional, mapping martj->olo (no usado actualmente,
+            los nombres en el CSV son martj y se usan directo).
+
+    Returns:
+        dict[tie_id (73-88), team_name (martj/olo)].
+        Solo incluye partidos jugados.
+    """
+
+    # Construir mapping: (home_martj, away_martj) -> tie_id
+    # Para esto, primero determinamos los matchups del R32 desde
+    # los standings de grupos (no del CSV, porque el CSV tiene los
+    # partidos pero no los tie_ids).
+    # El matchup depende de los standings finales, que ya conocemos.
+
+    # Por simplicidad, hardcodeamos los winners conocidos del WC 2026.
+    # Esto se actualiza manualmente a medida que se juegan los partidos.
+    # (Alternativa: derivar del bracket code, pero requiere resolver
+    # los standings primero.)
+
+    r32 = df[(df["date"] >= "2026-07-01") & (df["date"] <= "2026-07-08")
+             & (df["tournament"] == "FIFA World Cup")].copy()
+    r32 = r32.dropna(subset=["home_goals", "away_goals"])
+
+    if r32.empty:
+        return {}
+
+    # Mapping hardcoded de (home, away) -> tie_id
+    # Basado en el bracket FIFA y los standings finales del WC 2026.
+    # Si un partido nuevo se juega, agregar aqui.
+    KNOWN_MATCHUPS: dict[tuple[str, str], int] = {
+        ("South Africa", "Canada"): 73,
+        ("Germany", "Paraguay"): 74,
+        ("Netherlands", "Morocco"): 75,
+        ("Brazil", "Japan"): 76,
+        ("France", "Sweden"): 77,
+        ("Ivory Coast", "Norway"): 78,
+        ("Mexico", "Ecuador"): 79,
+        ("England", "DR Congo"): 80,
+        ("United States", "Bosnia and Herzegovina"): 81,
+        ("Belgium", "Senegal"): 82,
+        ("Portugal", "Croatia"): 83,
+        ("Spain", "Austria"): 84,
+        ("Switzerland", "Algeria"): 85,
+        ("Argentina", "Cape Verde"): 86,
+    }
+
+    winners: dict[int, str] = {}
+    for _, m in r32.iterrows():
+        key = (m["home_team"], m["away_team"])
+        tie_id = KNOWN_MATCHUPS.get(key)
+        if tie_id is None:
+            # Partido no esperado (o nuevo). Skipear.
+            continue
+        hg, ag = int(m["home_goals"]), int(m["away_goals"])
+        winner_martj = m["home_team"] if hg > ag else (
+            m["away_team"] if hg < ag else m["home_team"]  # empate: usar home por convencion
+        )
+        winners[tie_id] = winner_martj
+    return winners
 
 
 def main():

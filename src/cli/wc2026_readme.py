@@ -334,6 +334,19 @@ def _compute_as_of(fixtures: pd.DataFrame) -> str:
     return "2026-06-10"
 
 
+def _compute_as_of_from_csv(df: pd.DataFrame, default: str = "2026-06-10") -> str:
+    """Calcula as_of a partir del CSV completo (incluye R32, R16, etc).
+
+    Usa el dia siguiente al ultimo partido FT en el CSV, no solo los
+    partidos de fase de grupos.
+    """
+    played = df.dropna(subset=["home_goals", "away_goals"])
+    if played.empty:
+        return default
+    last = pd.to_datetime(played["date"]).max()
+    return (last + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
+
+
 def _load_data():
     """Carga CSV, timeline de Elo y StrengthsCache."""
     from src.paths import ELO_TIMELINE_JSON, MARTJ_CSV
@@ -413,19 +426,35 @@ def _run_simulations(
 ) -> dict:
     """Corre Monte Carlo del torneo + analisis de llave."""
     from src.simulation.bracket_analysis import analyze_bracket
-    from src.simulation.wc2026_simulate import TournamentSimulator, monte_carlo
+    from src.simulation.wc2026_simulate import (
+        TournamentSimulator,
+        extract_r32_actual_winners,
+        monte_carlo,
+    )
 
     logger.info("Corriendo 1000 simulaciones Monte Carlo del torneo...")
     if injuries:
         n_teams = len(injuries)
         n_out = sum(len(ti.out) for ti in injuries.values())
         logger.info(f"  Lesionados cargados: {n_teams} equipos, {n_out} jugadores out")
+
+    # Detectar R32 ya jugados: si hay resultados en el CSV post-2026-07-01,
+    # usarlos como winners reales (no simular R32 aleatoriamente).
+    r32_actual = extract_r32_actual_winners(df)
+    if r32_actual:
+        logger.info(f"  R32 jugados: {len(r32_actual)}/16 winners reales usados")
+    else:
+        logger.info("  R32 no han empezado: simulacion completa desde R32")
+
     sim = TournamentSimulator(
         df, timeline, cache, as_of=as_of,
         calibrator=calibrator,
         injuries=injuries,
     )
-    mc_result = monte_carlo(sim, fixtures, n_simulations=1000)
+    mc_result = monte_carlo(
+        sim, fixtures, n_simulations=1000,
+        r32_actual_winners=r32_actual if r32_actual else None,
+    )
     tournament_stats = mc_result["stats"]
     logger.info(f"  Monte Carlo en {mc_result['elapsed']:.1f}s")
     logger.info(f"  Top 3: {tournament_stats.head(3)['team'].tolist()}")
@@ -438,6 +467,7 @@ def _run_simulations(
         "mc_result": mc_result,
         "tournament_stats": tournament_stats,
         "bracket_analysis": bracket_analysis,
+        "r32_actual_winners": r32_actual,
     }
 
 

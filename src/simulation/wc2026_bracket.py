@@ -67,6 +67,7 @@ ROUND_OF_32 = [
 ]
 
 # R16 (8 partidos, IDs 89-96)
+# Per bracket oficial FIFA: W95 = SUI(W85) vs winner P87, W96 = ARG(W86) vs winner P88.
 ROUND_OF_16 = [
     BracketTie(89, _wo(74), _wo(77)),
     BracketTie(90, _wo(73), _wo(75)),
@@ -74,8 +75,8 @@ ROUND_OF_16 = [
     BracketTie(92, _wo(79), _wo(80)),
     BracketTie(93, _wo(83), _wo(84)),
     BracketTie(94, _wo(81), _wo(82)),
-    BracketTie(95, _wo(86), _wo(88)),
-    BracketTie(96, _wo(85), _wo(87)),
+    BracketTie(95, _wo(85), _wo(87)),
+    BracketTie(96, _wo(86), _wo(88)),
 ]
 
 # QF (4 partidos, IDs 97-100)
