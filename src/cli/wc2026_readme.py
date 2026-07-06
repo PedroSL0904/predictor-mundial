@@ -428,6 +428,7 @@ def _run_simulations(
     from src.simulation.bracket_analysis import analyze_bracket
     from src.simulation.wc2026_simulate import (
         TournamentSimulator,
+        extract_r16_actual_winners,
         extract_r32_actual_winners,
         monte_carlo,
     )
@@ -446,6 +447,13 @@ def _run_simulations(
     else:
         logger.info("  R32 no han empezado: simulacion completa desde R32")
 
+    # Idem para R16
+    r16_actual = extract_r16_actual_winners(df)
+    if r16_actual:
+        logger.info(f"  R16 jugados: {len(r16_actual)}/8 winners reales usados")
+    else:
+        logger.info("  R16 no han empezado: simulacion arranca en R32")
+
     sim = TournamentSimulator(
         df, timeline, cache, as_of=as_of,
         calibrator=calibrator,
@@ -454,6 +462,7 @@ def _run_simulations(
     mc_result = monte_carlo(
         sim, fixtures, n_simulations=1000,
         r32_actual_winners=r32_actual if r32_actual else None,
+        r16_actual_winners=r16_actual if r16_actual else None,
     )
     tournament_stats = mc_result["stats"]
     logger.info(f"  Monte Carlo en {mc_result['elapsed']:.1f}s")
@@ -468,6 +477,7 @@ def _run_simulations(
         "tournament_stats": tournament_stats,
         "bracket_analysis": bracket_analysis,
         "r32_actual_winners": r32_actual,
+        "r16_actual_winners": r16_actual,
     }
 
 

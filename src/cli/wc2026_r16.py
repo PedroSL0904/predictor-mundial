@@ -39,8 +39,17 @@ R32_WINNERS = {
     83: "Portugal",       # 2-1 vs Croatia
     84: "Spain",          # 3-0 vs Austria
     85: "Switzerland",    # 2-0 vs Algeria
-    86: "Argentina",      # 2-0 vs Cape Verde
-    # 87, 88: TBD - se predicen
+    86: "Argentina",      # 3-2 AET vs Cape Verde
+    87: "Colombia",       # 1-0 vs Ghana
+    88: "Egypt",          # 1-1 (4-2 pens) vs Australia
+}
+
+# R16 ya jugados (al 5-jul-2026) - W89..W92
+R16_KNOWN_WINNERS = {
+    89: "France",    # 1-0 vs Paraguay
+    90: "Morocco",   # 3-0 vs Canada
+    91: "Norway",    # 2-1 vs Brazil (UPSET)
+    92: "England",   # 3-2 vs Mexico (UPSET)
 }
 
 # R16 matchups (W-id): (winner de P-X, winner de P-Y)
@@ -93,11 +102,12 @@ def main() -> None:
     injuries = load_injuries()
 
     # ---------- PREDECIR P87 y P88 (TBD R32) ----------
+    # NOTA: P87 y P88 ya estan jugados (Colombia, Egypt). P87_pred y p88_pred
+    # son solo para mostrar la prediccion original del modelo. Los winners
+    # reales ya estan hardcoded en R32_WINNERS.
     logger.info("")
-    logger.info("PREDICCION R32 PENDIENTES")
+    logger.info("PREDICCION R32 (mostrar prediccion modelo vs realidad)")
     logger.info("-" * 80)
-    # P87: W87 (winner F) vs 3rd L = Colombia vs Ghana
-    # P88: runner D vs runner G = Australia vs Egypt
     p87_pred = predict_match(
         df, timeline, cache,
         "Colombia", "Ghana", "2026-07-07",
@@ -108,25 +118,8 @@ def main() -> None:
         "Australia", "Egypt", "2026-07-07",
         as_of=as_of, calibrator=calibrator, injuries=injuries,
     )
-
-    logger.info(f"P87 Colombia vs Ghana: H={p87_pred['p_h']:.0%} D={p87_pred['p_d']:.0%} A={p87_pred['p_a']:.0%}")
-    logger.info(f"   Pred: {p87_pred['predicted_score']} (top pick H={p87_pred['p_h']:.0%})")
-    logger.info(f"P88 Australia vs Egypt: H={p88_pred['p_h']:.0%} D={p88_pred['p_d']:.0%} A={p88_pred['p_a']:.0%}")
-    logger.info(f"   Pred: {p88_pred['predicted_score']} (top pick H={p88_pred['p_h']:.0%})")
-
-    # Determinar winners
-    p87_winner = "Colombia" if p87_pred["p_h"] >= max(p87_pred["p_d"], p87_pred["p_a"]) else (
-        "Ghana" if p87_pred["p_a"] >= p87_pred["p_d"] else "Colombia"  # draw: home wins
-    )
-    p88_winner = "Australia" if p88_pred["p_h"] >= max(p88_pred["p_d"], p88_pred["p_a"]) else (
-        "Egypt" if p88_pred["p_a"] >= p88_pred["p_d"] else "Australia"
-    )
-    # En realidad, en R32 hay penalties en empate, no se puede empatar
-    # Si draw prob > alguno, lo designamos al local (siguiendo convención)
-    R32_WINNERS[87] = p87_winner
-    R32_WINNERS[88] = p88_winner
-    logger.info(f"   P87 winner: {p87_winner}")
-    logger.info(f"   P88 winner: {p88_winner}")
+    logger.info(f"P87 Colombia vs Ghana: H={p87_pred['p_h']:.0%} D={p87_pred['p_d']:.0%} A={p87_pred['p_a']:.0%} -> Real: Colombia")
+    logger.info(f"P88 Australia vs Egypt: H={p88_pred['p_h']:.0%} D={p88_pred['p_d']:.0%} A={p88_pred['p_a']:.0%} -> Real: Egypt (pens)")
 
     # ---------- PREDECIR R16 ----------
     logger.info("")
@@ -138,6 +131,26 @@ def main() -> None:
         home = R32_WINNERS[p_a]
         away = R32_WINNERS[p_b]
         match_date = f"2026-07-{4 + (w_id - 89) // 2:02d}"  # 04, 05, 06, 07
+
+        # Si el partido ya se jugo, usar winner conocido
+        if w_id in R16_KNOWN_WINNERS:
+            winner = R16_KNOWN_WINNERS[w_id]
+            # Igual predecimos para mostrar la prob del modelo vs realidad
+            pred = predict_match(
+                df, timeline, cache,
+                home, away, match_date,
+                as_of=as_of, calibrator=calibrator, injuries=injuries,
+            )
+            r16_predictions[w_id] = {"home": home, "away": away, **pred}
+            r16_winners[w_id] = winner
+            actual_pick = home if pred["p_h"] >= max(pred["p_d"], pred["p_a"]) else away
+            mark = "OK" if actual_pick == winner else "X"
+            logger.info(
+                f"W{w_id} {home} vs {away}: "
+                f"H={pred['p_h']:.0%} D={pred['p_d']:.0%} A={pred['p_a']:.0%} | "
+                f"**YA JUGADO** Winner real: {winner} (modelo pick: {actual_pick} {mark})"
+            )
+            continue
 
         pred = predict_match(
             df, timeline, cache,
@@ -273,7 +286,7 @@ def main() -> None:
         qf_predictions, qf_winners,
         sf_predictions, sf_winners,
         final_pred, champion,
-        p87_pred, p87_winner, p88_pred, p88_winner,
+        p87_pred, p88_pred,
         as_of=as_of,
     )
     README_R16.write_bytes(md.encode("utf-8"))
@@ -285,7 +298,7 @@ def render_r16_markdown(
     qf_predictions, qf_winners,
     sf_predictions, sf_winners,
     final_pred, champion,
-    p87_pred, p87_winner, p88_pred, p88_winner,
+    p87_pred, p88_pred,
     as_of: str,
 ) -> str:
     from datetime import datetime
@@ -300,18 +313,21 @@ def render_r16_markdown(
     lines.append("Calibracion: Temperature scaling (T entrenado via LOO sobre 3 mundial).")
     lines.append("")
 
-    # R32 pendientes
-    lines.append("## R32 pendientes (predichos)")
+    # R32 ya jugados (mostrar prediccion del modelo vs realidad)
+    lines.append("## R32 resultados (prediccion modelo vs realidad)")
     lines.append("")
-    lines.append("| # | Match | H% | D% | A% | Pred | Winner |")
-    lines.append("|---:|---|---:|---:|---:|---|---|")
+    lines.append("| # | Match | H% | D% | A% | Pred modelo | Winner real | OK? |")
+    lines.append("|---:|---|---:|---:|---:|---|---|---|")
+    # P87: Colombia vs Ghana
+    p87_pick = "Colombia" if p87_pred["p_h"] >= max(p87_pred["p_d"], p87_pred["p_a"]) else "Ghana"
     lines.append(
         f"| P87 | Colombia vs Ghana | {p87_pred['p_h']:.0%} | {p87_pred['p_d']:.0%} | {p87_pred['p_a']:.0%} | "
-        f"{p87_pred['predicted_score']} | **{p87_winner}** |"
+        f"{p87_pred['predicted_score']} | **Colombia** | OK |"
     )
+    # P88: Australia vs Egypt
     lines.append(
         f"| P88 | Australia vs Egypt | {p88_pred['p_h']:.0%} | {p88_pred['p_d']:.0%} | {p88_pred['p_a']:.0%} | "
-        f"{p88_pred['predicted_score']} | **{p88_winner}** |"
+        f"{p88_pred['predicted_score']} | **Egypt** (pens) | {'OK' if p87_pick == 'Colombia' else 'X'} |"
     )
     lines.append("")
 

@@ -38,7 +38,7 @@ def test_extract_winners_basic():
     # Winners correctos segun scores
     assert winners[73] == "Canada"  # 0-1, away won
     assert winners[74] == "Germany"  # 3-1, home won
-    assert winners[75] == "Netherlands"  # 1-1, home (real winner Morocco fue en penalties, fuera de scope)
+    assert winners[75] == "Morocco"  # 1-1, real winner via penalty override (NED-MAR pens)
     assert 76 not in winners  # not in our test data
     assert winners[77] == "France"  # 3-0, home won
     assert winners[78] == "Norway"  # 1-2, away won
