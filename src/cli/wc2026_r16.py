@@ -44,12 +44,16 @@ R32_WINNERS = {
     88: "Egypt",          # 1-1 (4-2 pens) vs Australia
 }
 
-# R16 ya jugados (al 5-jul-2026) - W89..W92
+# R16 ya jugados (al 7-jul-2026) - W89..W96
 R16_KNOWN_WINNERS = {
-    89: "France",    # 1-0 vs Paraguay
-    90: "Morocco",   # 3-0 vs Canada
-    91: "Norway",    # 2-1 vs Brazil (UPSET)
-    92: "England",   # 3-2 vs Mexico (UPSET)
+    89: "France",    # 1-0 vs Paraguay (Sat 4/7)
+    90: "Morocco",   # 3-0 vs Canada (Sat 4/7)
+    91: "Norway",    # 2-1 vs Brazil (Sun 5/7, UPSET)
+    92: "England",   # 3-2 vs Mexico (Sun 5/7, UPSET)
+    93: "Spain",     # 1-0 vs Portugal (Mon 6/7)
+    94: "Belgium",   # 4-1 vs USA (Mon 6/7, UPSET)
+    95: "Switzerland",  # 0-0 Colombia, 4-3 pens (Tue 7/7)
+    96: "Argentina",  # 3-2 vs Egypt (Tue 7/7)
 }
 
 # R16 matchups (W-id): (winner de P-X, winner de P-Y)
